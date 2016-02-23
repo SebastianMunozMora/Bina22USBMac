@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item
+    android:id = "@+id/SetUp"
+    android:title = "Grabaciones"
+        app:showAsAction="always"
+        android:onClick="recordingsActivity"
+    />
+    <item
+        android:id = "@+id/ContactUs"
+        android:title = "ContactUs"
+        app:showAsAction="never"
+        />
+    <item
+        android:id = "@+id/AboutUs"
+        android:title = "AboutUs"
+        app:showAsAction="never"
+        />
+</menu>
