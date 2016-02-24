@@ -1,6 +1,7 @@
 package com.example.sebastin.bina2;
 
 
+import android.content.Intent;
 import android.media.audiofx.Visualizer;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -105,5 +106,9 @@ public class RecordingsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void convolutionActivity(MenuItem item) {
+        Intent intent = new Intent(this,ConvolutionActivity.class);
+        startActivity(intent);
     }
 }

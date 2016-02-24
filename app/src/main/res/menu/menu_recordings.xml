@@ -4,4 +4,10 @@
     tools:context="com.example.sebastin.bina2.RecordingsActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id = "@+id/SetUp"
+        android:title = "Convolucion"
+        app:showAsAction="always"
+        android:onClick="convolutionActivity"
+        />
 </menu>
