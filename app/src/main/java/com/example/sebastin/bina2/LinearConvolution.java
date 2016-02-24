@@ -37,7 +37,7 @@ public class LinearConvolution {
                 is.close();
             }
         }
-// leer impulso
+// leer impulso hola
         if (!dir.exists()) {
             dir.mkdir();
         }
