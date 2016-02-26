@@ -3,9 +3,11 @@ package com.example.sebastin.bina2;
 
 import android.content.Intent;
 import android.media.audiofx.Visualizer;
+import android.nfc.Tag;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +17,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.MediaController;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.Arrays;
 
 
 public class RecordingsActivity extends AppCompatActivity {
@@ -30,19 +33,33 @@ public class RecordingsActivity extends AppCompatActivity {
     public String format = ".wav";
     public File root = Environment.getExternalStorageDirectory();
     public File dir = new File(root.getAbsolutePath() + directory);
-    public String filelist[] = dir.list();
+    public String filelist[];
     public String listviewitems[] = {"No hay Grabaciones"};
     public long totalspace = dir.getTotalSpace();
     public int listcontrol = 0;
     public String filetoplay = "file";
     TextView text;
     public mPlayer mP = new mPlayer();
-    public Visualizer vs = new Visualizer(0);
+    public Visualizer vs = new Visualizer(1);
     public byte [] visbytes;
+    public int captureSizeRange[];
+    private static final String TAG = RecordingsActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
+        MediaController mC = new MediaController (this);
+//        mC.setMediaPlayer(mP.getInstance);
+        directory = "/BinaRecordings";
+        Bundle bundle = getIntent().getExtras();
+        directory = bundle.getString("RecordActivitydirectory");
+        directory = "/"+directory;
+        filename = "Grabacion";
+        format = ".wav";
+        root = Environment.getExternalStorageDirectory();
+        dir = new File(root.getAbsolutePath() + directory);
+        filelist = dir.list();
         text = (TextView)findViewById(R.id.textViewR);
         text.setText(""+totalspace);
         listView = (ListView) findViewById(R.id.listView);
@@ -61,11 +78,19 @@ public class RecordingsActivity extends AppCompatActivity {
                     reproduccion();
                 }
                 filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
+                vs.setEnabled(false);
+                captureSizeRange  = vs.getCaptureSizeRange();
                 reproduccion();
-                //vs.setEnabled(true);
-                //vs.getWaveForm(visbytes);
-                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + "is selected", Toast.LENGTH_SHORT).show();
-               // text.setText(filetoplay);
+//                Log.e(TAG, "" + Arrays.toString(captureSizeRange));
+//                vs.setCaptureSize (256);
+//                vs.setEnabled(true);
+//                vs.getWaveForm(visbytes);
+                if (mP.getState().equals(mPlayer.playerState.PLAYING)){
+                    Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " "+mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
+                }
+                else if (mP.getState().equals(mPlayer.playerState.STOPPED)){
+                    Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) +" "+mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
