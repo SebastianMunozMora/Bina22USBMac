@@ -5,7 +5,7 @@ package com.example.sebastin.bina2;
  */
 
 import android.media.MediaPlayer;
-
+import android.media.session.MediaController;
 
 
 public  class mPlayer {
@@ -44,5 +44,6 @@ public  class mPlayer {
     public  playerState getState(){
         return playerState;
     }
+    public MediaPlayer getMedia (){return Play;}
 
 }

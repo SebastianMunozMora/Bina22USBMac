@@ -3,6 +3,8 @@ package com.example.sebastin.bina2;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Collection;
+import java.util.Collections;
 
 
 import android.media.AudioFormat;
@@ -13,8 +15,8 @@ import android.util.Log;
 public class WavAudioRecorder{
 
     private final static int[] sampleRates = {44100, 22050, 11025, 8000};
-
-
+    public int maxV [];
+    public String data;
     public static WavAudioRecorder getInstance() {
         WavAudioRecorder result = null;
         int i=0;
@@ -96,6 +98,7 @@ public class WavAudioRecorder{
             }
             else {
                 int numOfBytes = audioRecorder.read(buffer, 0, buffer.length); // read audio data to buffer
+                 data = buffer.toString();
 //			Log.d(WavAudioRecorder.this.getClass().getName(), state + ":" + numOfBytes);
                 try {
                     randomAccessWriter.write(buffer);          // write audio data to file
@@ -335,6 +338,9 @@ public class WavAudioRecorder{
             Log.e(WavAudioRecorder.class.getName(), "stop() called on illegal state :)");
             state = State.ERROR;
         }
+    }
+    public String getData () {
+        return data;
     }
 
 

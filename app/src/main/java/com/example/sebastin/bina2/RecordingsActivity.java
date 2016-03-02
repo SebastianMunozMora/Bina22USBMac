@@ -1,12 +1,17 @@
 package com.example.sebastin.bina2;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.nfc.Tag;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,12 +24,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.MediaController;
 import org.w3c.dom.Text;
+import android.widget.MediaController.MediaPlayerControl;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 
 
-public class RecordingsActivity extends AppCompatActivity {
+public class RecordingsActivity extends Activity{
     public ListView listView;
     public ArrayAdapter arrayAdapter;
     public String []  android_versions = {"1","2","3"};
@@ -44,13 +57,24 @@ public class RecordingsActivity extends AppCompatActivity {
     public byte [] visbytes;
     public int captureSizeRange[];
     private static final String TAG = RecordingsActivity.class.getSimpleName();
+    public MediaController.MediaPlayerControl player;
+    public Visualizer.MeasurementPeakRms measurement = new Visualizer.MeasurementPeakRms();
+    public int pk;
+    public int rate = 15;
+    public Visualizer.OnDataCaptureListener listener;
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle bundle = msg.getData();
+            String string = bundle.getString("myKey");
+            text.setText(string);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
-        MediaController mC = new MediaController (this);
-//        mC.setMediaPlayer(mP.getInstance);
         directory = "/BinaRecordings";
         Bundle bundle = getIntent().getExtras();
         directory = bundle.getString("RecordActivitydirectory");
@@ -66,9 +90,20 @@ public class RecordingsActivity extends AppCompatActivity {
         listviewitems = filelist;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
         listView.setAdapter(arrayAdapter);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
+                        new DataPoint(0, 5),
+                        new DataPoint(1, 5),
+                        new DataPoint(2, 5),
+                        new DataPoint(3, 5),
+                        new DataPoint(4, 5),
+                        new DataPoint(5, 5)
+                });
+                GraphView graph = (GraphView) findViewById(R.id.graph);
+                graph.addSeries(series);
                 if (mP.getState().equals(mPlayer.playerState.STOPPED)){
                    listcontrol = 0;
                 }
@@ -78,19 +113,25 @@ public class RecordingsActivity extends AppCompatActivity {
                     reproduccion();
                 }
                 filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
-                vs.setEnabled(false);
-                captureSizeRange  = vs.getCaptureSizeRange();
                 reproduccion();
-//                Log.e(TAG, "" + Arrays.toString(captureSizeRange));
-//                vs.setCaptureSize (256);
-//                vs.setEnabled(true);
-//                vs.getWaveForm(visbytes);
                 if (mP.getState().equals(mPlayer.playerState.PLAYING)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " "+mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
                 }
                 else if (mP.getState().equals(mPlayer.playerState.STOPPED)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) +" "+mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                 }
+                vs.setEnabled(false);
+                captureSizeRange  = vs.getCaptureSizeRange();
+                vs.setCaptureSize(captureSizeRange[1]);
+                vs.setMeasurementMode(Visualizer.MEASUREMENT_MODE_PEAK_RMS);
+//                vs.setDataCaptureListener (Visualizer.OnDataCaptureListener listener, int rate, boolean waveform, boolean fft)
+                vs.setEnabled(true);
+                text.setText("" + pk);
+//                vs.getWaveForm(visbytes);
+//                peakRMS();
+                vs.setDataCaptureListener(listener,rate,true,false);
+//                pk = vs.getMeasurementPeakRms(measurement);
+//                peakRMS();
             }
         });
     }
@@ -110,6 +151,28 @@ public class RecordingsActivity extends AppCompatActivity {
         }
 
     }
+//    public void peakRMS()
+//    {
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                while (mP.getState().equals(mPlayer.playerState.PLAYING))
+//                    Message msg = handler.obtainMessage();
+//                Bundle bundle = new Bundle();
+//                SimpleDateFormat dateformat =
+//                        new SimpleDateFormat("HH:mm:ss MM/dd/yyyy",
+//                                Locale.US);
+//                String dateString =
+//                        dateformat.format(new Date());
+//                bundle.putString("myKey", dateString);
+//                msg.setData(bundle);
+//                handler.sendMessage(msg);
+//            }
+//            }
+//        };
+//        Thread mythread = new Thread(runnable);
+//        mythread.start();
+//    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,4 +199,5 @@ public class RecordingsActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ConvolutionActivity.class);
         startActivity(intent);
     }
+
 }
