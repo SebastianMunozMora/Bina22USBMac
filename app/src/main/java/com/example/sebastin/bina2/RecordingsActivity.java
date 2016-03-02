@@ -26,11 +26,15 @@ import android.widget.MediaController;
 import org.w3c.dom.Text;
 import android.widget.MediaController.MediaPlayerControl;
 
+import com.h6ah4i.android.media.IBasicMediaPlayer;
+import com.h6ah4i.android.media.IMediaPlayerFactory;
+import com.h6ah4i.android.media.opensl.OpenSLMediaPlayerFactory;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.io.File;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -62,14 +66,7 @@ public class RecordingsActivity extends Activity{
     public int pk;
     public int rate = 15;
     public Visualizer.OnDataCaptureListener listener;
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle bundle = msg.getData();
-            String string = bundle.getString("myKey");
-            text.setText(string);
-        }
-    };
+    public AudioRead aR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -113,6 +110,11 @@ public class RecordingsActivity extends Activity{
                     reproduccion();
                 }
                 filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
+                aR = new AudioRead();
+                aR.setAudioRead(filetoplay);
+                aR.getAudioMetaData();
+                byte[] bufar = aR.getbufAudioRead(0);
+                //FileChannel fc = aR.getByteAudioRead();
                 reproduccion();
                 if (mP.getState().equals(mPlayer.playerState.PLAYING)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " "+mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
@@ -120,18 +122,20 @@ public class RecordingsActivity extends Activity{
                 else if (mP.getState().equals(mPlayer.playerState.STOPPED)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) +" "+mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                 }
-                vs.setEnabled(false);
-                captureSizeRange  = vs.getCaptureSizeRange();
-                vs.setCaptureSize(captureSizeRange[1]);
-                vs.setMeasurementMode(Visualizer.MEASUREMENT_MODE_PEAK_RMS);
+               // vs.setEnabled(false);
+               // captureSizeRange  = vs.getCaptureSizeRange();
+               // vs.setCaptureSize(captureSizeRange[1]);
+               // vs.setMeasurementMode(Visualizer.MEASUREMENT_MODE_PEAK_RMS);
 //                vs.setDataCaptureListener (Visualizer.OnDataCaptureListener listener, int rate, boolean waveform, boolean fft)
-                vs.setEnabled(true);
+               // vs.setEnabled(true);
                 text.setText("" + pk);
 //                vs.getWaveForm(visbytes);
 //                peakRMS();
-                vs.setDataCaptureListener(listener,rate,true,false);
+               // vs.setDataCaptureListener(listener,rate,true,false);
 //                pk = vs.getMeasurementPeakRms(measurement);
 //                peakRMS();
+                // create
+
             }
         });
     }

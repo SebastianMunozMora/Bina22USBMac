@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 public class ProjectActivity extends AppCompatActivity {
     public String projectName;
+    public EditText projectText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -27,11 +28,14 @@ public class ProjectActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        EditText projectText;
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();
     }
+    public void setDirectory (View view){
+        projectName = projectText.getText().toString();
+    }
     public void recordActivity (View view){
+        projectName = projectText.getText().toString();
         Intent intent = new Intent(this,RecordActivity.class);
         intent.putExtra("ProjectActivitiyprojectName", projectName);
         startActivity(intent);

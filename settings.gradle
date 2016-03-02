@@ -1,1 +1,1 @@
-include ':app', ':androidplot-core', ':demoapp'
+include ':app'

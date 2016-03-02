@@ -58,7 +58,6 @@ public class RecordActivity extends AppCompatActivity {
         if (!dir.exists()) {
             dir.mkdir();
         }
-
         File file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
         editT = (EditText) findViewById(R.id.editText);
@@ -78,11 +77,7 @@ public class RecordActivity extends AppCompatActivity {
 }
     public void grabacion (View view)
     {
-        root = Environment.getExternalStorageDirectory();
         dir = new File(root.getAbsolutePath() + directory);
-        if (!dir.exists()) {
-            dir.mkdir();
-        }
         filename = editT.getText().toString();
         file = new File(dir, filename+format);
         if (file.exists()){
