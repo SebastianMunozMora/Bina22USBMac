@@ -32,6 +32,7 @@ import com.h6ah4i.android.media.opensl.OpenSLMediaPlayerFactory;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.File;
 import java.nio.channels.FileChannel;
@@ -67,6 +68,11 @@ public class RecordingsActivity extends Activity{
     public int rate = 15;
     public Visualizer.OnDataCaptureListener listener;
     public AudioRead aR;
+    public byte [] bufar;
+    public int bufOffSet = 0;
+    public byte [] myData;
+    public GraphView graph;
+    public float rmsValue = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -83,6 +89,7 @@ public class RecordingsActivity extends Activity{
         filelist = dir.list();
         text = (TextView)findViewById(R.id.textViewR);
         text.setText(""+totalspace);
+        graph = (GraphView) findViewById(R.id.graph);
         listView = (ListView) findViewById(R.id.listView);
         listviewitems = filelist;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
@@ -91,16 +98,7 @@ public class RecordingsActivity extends Activity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(0, 5),
-                        new DataPoint(1, 5),
-                        new DataPoint(2, 5),
-                        new DataPoint(3, 5),
-                        new DataPoint(4, 5),
-                        new DataPoint(5, 5)
-                });
-                GraphView graph = (GraphView) findViewById(R.id.graph);
-                graph.addSeries(series);
+
                 if (mP.getState().equals(mPlayer.playerState.STOPPED)){
                    listcontrol = 0;
                 }
@@ -113,7 +111,7 @@ public class RecordingsActivity extends Activity{
                 aR = new AudioRead();
                 aR.setAudioRead(filetoplay);
                 aR.getAudioMetaData();
-                byte[] bufar = aR.getbufAudioRead(0);
+                bufar = aR.getbufAudioRead(32000);
                 //FileChannel fc = aR.getByteAudioRead();
                 reproduccion();
                 if (mP.getState().equals(mPlayer.playerState.PLAYING)){
@@ -141,6 +139,7 @@ public class RecordingsActivity extends Activity{
     }
     public void reproduccion ()
     {
+        new Thread(new Task()).start();
         if (listcontrol == 0) {
             try {
                 mP.startPlayBack(filetoplay);
@@ -152,30 +151,35 @@ public class RecordingsActivity extends Activity{
         else if (listcontrol == 1){
             mP.stopPlayback();
             listcontrol = 0;
+            bufOffSet = 0;
         }
 
     }
-//    public void peakRMS()
-//    {
-//        Runnable runnable = new Runnable() {
-//            public void run() {
-//                while (mP.getState().equals(mPlayer.playerState.PLAYING))
-//                    Message msg = handler.obtainMessage();
-//                Bundle bundle = new Bundle();
-//                SimpleDateFormat dateformat =
-//                        new SimpleDateFormat("HH:mm:ss MM/dd/yyyy",
-//                                Locale.US);
-//                String dateString =
-//                        dateformat.format(new Date());
-//                bundle.putString("myKey", dateString);
-//                msg.setData(bundle);
-//                handler.sendMessage(msg);
-//            }
-//            }
-//        };
-//        Thread mythread = new Thread(runnable);
-//        mythread.start();
-//    }
+    public class Task implements Runnable {
+
+        @Override
+        public void run() {
+            bufOffSet = 0;
+            aR.setAudioRead(filetoplay);
+            //while (bufOffSet <= 10000) {
+                //myData = aR.getbufAudioRead(bufOffSet);
+                for (int i = 0; i <= 500; i++) {
+                    //final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
+                    //      new DataPoint(i, myData[i]),
+                    //});
+                    rmsValue = rmsValue+(bufar[i]*bufar[i]);
+                    bufOffSet =  i;
+                    text.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //graph.addSeries(series);
+                            text.setText(""+bufar[bufOffSet]);
+                        }
+                    });
+                    }
+            //}
+        }
+    }
 
 
     @Override

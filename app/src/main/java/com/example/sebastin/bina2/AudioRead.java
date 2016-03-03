@@ -46,7 +46,7 @@ public class AudioRead extends Application {
     public byte[] getbufAudioRead(int byteOffset){
         try {
             buf.skip(44+byteOffset);
-            buf.read(samples,byteOffset,500);
+            buf.read(samples,0,10000);
         } catch (IOException e) {
             e.printStackTrace();
         }
