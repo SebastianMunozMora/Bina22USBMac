@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:text="SELECCIONAR"
         android:id="@+id/button2"
+        android:onClick="projectSelect"
         android:layout_marginTop="50dp"
         android:layout_below="@+id/projectEditText"
         android:layout_centerHorizontal="true" />

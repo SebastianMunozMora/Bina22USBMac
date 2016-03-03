@@ -49,14 +49,13 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
         directory = "/BinaRecordings";
         Bundle bundle = getIntent().getExtras();
-        directory = bundle.getString("ProjectActivitiyprojectName");
-        directory = "/"+directory;
+        directory = directory+"/"+bundle.getString("ProjectActivitiyprojectName");
         filename = "Grabacion";
         format = ".wav";
         root = Environment.getExternalStorageDirectory();
         dir = new File(root.getAbsolutePath() + directory);
         if (!dir.exists()) {
-            dir.mkdir();
+            dir.mkdirs();
         }
         File file = new File(dir, filename+format);
         mRecordFilePath = file.toString();

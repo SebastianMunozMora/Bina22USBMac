@@ -78,10 +78,8 @@ public class RecordingsActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
-        directory = "/BinaRecordings";
         Bundle bundle = getIntent().getExtras();
         directory = bundle.getString("RecordActivitydirectory");
-        directory = "/"+directory;
         filename = "Grabacion";
         format = ".wav";
         root = Environment.getExternalStorageDirectory();
@@ -166,6 +164,7 @@ public class RecordingsActivity extends Activity{
                 for (int i = 0; i <= 500; i++) {
                     //final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
                     //      new DataPoint(i, myData[i]),
+                    
                     //});
                     rmsValue = rmsValue+(bufar[i]*bufar[i]);
                     bufOffSet =  i;
