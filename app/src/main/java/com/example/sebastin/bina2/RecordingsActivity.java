@@ -12,6 +12,9 @@ import android.os.Environment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +46,7 @@ import java.util.Locale;
 
 
 public class RecordingsActivity extends Activity{
+
     public ListView listView;
     public ArrayAdapter arrayAdapter;
     public String []  android_versions = {"1","2","3"};
@@ -73,9 +77,9 @@ public class RecordingsActivity extends Activity{
     public byte [] myData;
     public GraphView graph;
     public float rmsValue = 0;
+    public int itc = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
         Bundle bundle = getIntent().getExtras();
@@ -109,7 +113,8 @@ public class RecordingsActivity extends Activity{
                 aR = new AudioRead();
                 aR.setAudioRead(filetoplay);
                 aR.getAudioMetaData();
-                bufar = aR.getbufAudioRead(32000);
+                bufar = aR.getbufAudioRead(0);
+               // short[] bufarshort = new short  ()
                 //FileChannel fc = aR.getByteAudioRead();
                 reproduccion();
                 if (mP.getState().equals(mPlayer.playerState.PLAYING)){
@@ -153,21 +158,16 @@ public class RecordingsActivity extends Activity{
         }
 
     }
-    public class Task implements Runnable {
 
+
+
+    public class Task implements Runnable {
         @Override
         public void run() {
-            bufOffSet = 0;
-            aR.setAudioRead(filetoplay);
-            //while (bufOffSet <= 10000) {
-                //myData = aR.getbufAudioRead(bufOffSet);
-                for (int i = 0; i <= 500; i++) {
-                    //final LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[]{
-                    //      new DataPoint(i, myData[i]),
-                    
-                    //});
-                    rmsValue = rmsValue+(bufar[i]*bufar[i]);
-                    bufOffSet =  i;
+                while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
+                    aR.getbufAudioRead(itc);
+                    aR.getLeftData();
+                    aR.getRightData();
                     text.post(new Runnable() {
                         @Override
                         public void run() {
@@ -175,8 +175,8 @@ public class RecordingsActivity extends Activity{
                             text.setText(""+bufar[bufOffSet]);
                         }
                     });
+                    itc = itc+5000;
                     }
-            //}
         }
     }
 
