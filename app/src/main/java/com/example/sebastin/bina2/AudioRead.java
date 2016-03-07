@@ -57,15 +57,17 @@ public class AudioRead extends Application {
             e.printStackTrace();
         }
     }
-    public byte[] getbufAudioRead(int byteOffset){
+    public byte[] getbufAudioRead(long byteOffset){
         try {
             //randomAccessFile.seek(44+byteOffset);
-            buf.skip(byteOffset+44);
+            buf.skip(byteOffset*4+44);
             buf.read(samples, 0, 2*10000);
             out = new short[samples.length / 2]; // will drop last byte if odd number
             outl  = new short[samples.length / 4];
             outr  = new short[samples.length / 4];
             bb = ByteBuffer.wrap(samples);
+            il = 0;
+            ir = 0;
             for (int i = 0; i < out.length; i++) {
                 //try {
                 //out[i]=  Short.reverseBytes(randomAccessFile.readShort());

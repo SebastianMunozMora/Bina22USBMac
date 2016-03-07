@@ -12,9 +12,7 @@ import android.os.Environment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,13 +27,7 @@ import android.widget.MediaController;
 import org.w3c.dom.Text;
 import android.widget.MediaController.MediaPlayerControl;
 
-import com.h6ah4i.android.media.IBasicMediaPlayer;
-import com.h6ah4i.android.media.IMediaPlayerFactory;
-import com.h6ah4i.android.media.opensl.OpenSLMediaPlayerFactory;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+
 
 import java.io.File;
 import java.nio.channels.FileChannel;
@@ -75,9 +67,11 @@ public class RecordingsActivity extends Activity{
     public byte [] bufar;
     public int bufOffSet = 0;
     public byte [] myData;
-    public GraphView graph;
     public float rmsValue = 0;
-    public int itc = 0;
+    public long itc = 0;
+    public short [] leftBuffer = new short[5000];
+    public short [] rightBuffer = new short [5000];
+    public long ts = 600;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +85,6 @@ public class RecordingsActivity extends Activity{
         filelist = dir.list();
         text = (TextView)findViewById(R.id.textViewR);
         text.setText(""+totalspace);
-        graph = (GraphView) findViewById(R.id.graph);
         listView = (ListView) findViewById(R.id.listView);
         listviewitems = filelist;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
@@ -113,7 +106,7 @@ public class RecordingsActivity extends Activity{
                 aR = new AudioRead();
                 aR.setAudioRead(filetoplay);
                 aR.getAudioMetaData();
-                bufar = aR.getbufAudioRead(0);
+                //bufar = aR.getbufAudioRead(0);
                // short[] bufarshort = new short  ()
                 //FileChannel fc = aR.getByteAudioRead();
                 reproduccion();
@@ -142,10 +135,10 @@ public class RecordingsActivity extends Activity{
     }
     public void reproduccion ()
     {
-        new Thread(new Task()).start();
         if (listcontrol == 0) {
             try {
                 mP.startPlayBack(filetoplay);
+                new Thread(new Task()).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -164,19 +157,31 @@ public class RecordingsActivity extends Activity{
     public class Task implements Runnable {
         @Override
         public void run() {
-                while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
-                    aR.getbufAudioRead(itc);
-                    aR.getLeftData();
-                    aR.getRightData();
+            itc = 0;
+            try {
+                Thread.sleep(ts);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
+                    bufar=aR.getbufAudioRead(itc);
+                    leftBuffer = aR.getLeftData();
+                    rightBuffer = aR.getRightData();
+                try {
+                    Thread.sleep(113);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                     text.post(new Runnable() {
                         @Override
                         public void run() {
                             //graph.addSeries(series);
-                            text.setText(""+bufar[bufOffSet]);
+                            text.setText(""+ leftBuffer[4999]+ "   "+rightBuffer[4999]);
                         }
                     });
-                    itc = itc+5000;
-                    }
+                    itc += 44100;
+
+                }
         }
     }
 
