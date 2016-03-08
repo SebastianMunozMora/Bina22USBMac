@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="openslmediaplayer-0.6.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.h6ah4i.android/openslmediaplayer/0.6.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.h6ah4i.android/openslmediaplayer/0.6.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.h6ah4i.android/openslmediaplayer/0.6.0/209291b30e437feb3bc31bf362a16d8c5f7339b3/openslmediaplayer-0.6.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
