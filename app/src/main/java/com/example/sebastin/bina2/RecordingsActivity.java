@@ -4,6 +4,7 @@ package com.example.sebastin.bina2;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.DashPathEffect;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.nfc.Tag;
@@ -14,9 +15,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +31,17 @@ import org.w3c.dom.Text;
 import android.widget.MediaController.MediaPlayerControl;
 
 
+import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.CatmullRomInterpolator;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.PointLabelFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.File;
 import java.nio.channels.FileChannel;
@@ -71,7 +85,11 @@ public class RecordingsActivity extends Activity{
     public long itc = 0;
     public short [] leftBuffer = new short[5000];
     public short [] rightBuffer = new short [5000];
-    public long ts = 600;
+    private XYPlot plot;
+    public double leftRms = 0;
+    public double rigthRms = 0;
+    public LineGraphSeries<DataPoint> mSeries1;
+    GraphView graph;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +107,7 @@ public class RecordingsActivity extends Activity{
         listviewitems = filelist;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
         listView.setAdapter(arrayAdapter);
-
+        graph = (GraphView) findViewById(R.id.graph);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -158,15 +176,18 @@ public class RecordingsActivity extends Activity{
         @Override
         public void run() {
             itc = 0;
-            try {
-                Thread.sleep(ts);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
                     bufar=aR.getbufAudioRead(itc);
                     leftBuffer = aR.getLeftData();
                     rightBuffer = aR.getRightData();
+                    leftRms = aR.getLeftRMSvalue();
+                    rigthRms = aR.getRightRMSvalue();
+                final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
+                        new DataPoint(0, leftRms),
+                        new DataPoint(1, rigthRms)
+                });
+                series.setSpacing(50);
+//                    mSeries1 = new LineGraphSeries<DataPoint>(generateData());
                 try {
                     Thread.sleep(113);
                 } catch (InterruptedException e) {
@@ -175,16 +196,23 @@ public class RecordingsActivity extends Activity{
                     text.post(new Runnable() {
                         @Override
                         public void run() {
-                            //graph.addSeries(series);
-                            text.setText(""+ leftBuffer[4999]+ "   "+rightBuffer[4999]);
+                            graph.removeAllSeries();
+                            graph.addSeries(series);
+                            text.setText("" + leftRms + "   " + rigthRms + " " + itc);
                         }
                     });
-                    itc += 44100;
-
+                    itc += 5000;
                 }
         }
     }
-
+    private DataPoint[] generateData() {
+        DataPoint[] values = new DataPoint[5000];
+        for (int il = 0; il < 5000; il++) {
+            DataPoint v = new DataPoint(il, leftBuffer[il]);
+            values[il] = v;
+        }
+        return values;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
