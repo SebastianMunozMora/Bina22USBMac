@@ -88,6 +88,8 @@ public class RecordingsActivity extends Activity{
     private XYPlot plot;
     public double leftRms = 0;
     public double rightRms = 0;
+    double leftDbfs = 0;
+    double rightDbfs = 0;
     public LineGraphSeries<DataPoint> mSeries1;
     GraphView graph;
     @Override
@@ -115,8 +117,8 @@ public class RecordingsActivity extends Activity{
 
 // set manual Y bounds
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-40);
-        graph.getViewport().setMaxY(0);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(80);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,7 +133,7 @@ public class RecordingsActivity extends Activity{
                 }
                 filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
                 aR = new AudioRead();
-                aR.setAudioRead(filetoplay);
+                aR.setAudioRead(filetoplay,100);
                 aR.getAudioMetaData();
                 //bufar = aR.getbufAudioRead(0);
                // short[] bufarshort = new short  ()
@@ -186,31 +188,32 @@ public class RecordingsActivity extends Activity{
         public void run() {
             itc = 0;
             while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
-                    bufar=aR.getbufAudioRead(itc);
-                    leftBuffer = aR.getLeftData();
-                    rightBuffer = aR.getRightData();
-                    leftRms = aR.getLeftRMSvalue(5000);
-                    rightRms = aR.getRightRMSvalue(5000);
+                bufar=aR.getbufAudioRead(itc);
+                leftBuffer = aR.getLeftData();
+                rightBuffer = aR.getRightData();
+                leftRms = aR.getLeftRMSvalue();
+                rightRms = aR.getRightRMSvalue();
+                leftDbfs = Math.round(aR.getLeftDbfsValue());
+                rightDbfs = Math.round(aR.getRightDbfsValue());
                 final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(1, (20*Math.log10(leftRms/32768))),
-                        new DataPoint(2, (20*Math.log10(rightRms/32768)))
+                        new DataPoint(1,Math.abs(-80-leftDbfs)),
+                        new DataPoint(2,Math.abs(-80-rightDbfs))
                 });
                 series.setSpacing(50);
 //                    mSeries1 = new LineGraphSeries<DataPoint>(generateData());
                 try {
-                    Thread.sleep(113);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                     text.post(new Runnable() {
                         @Override
                         public void run() {
-                            graph.removeAllSeries();
-                            graph.addSeries(series);
-                            text.setText("" + (20*Math.log10(leftRms/32768)) + "   " + (20*Math.log10(rightRms/32768)));
+                            //graph.addSeries(series);
+                            text.setText("" +leftDbfs+ "   " + rightDbfs);
                         }
                     });
-                    itc += 5000;
+                    itc += aR.getNumberSamples();
                 }
         }
     }

@@ -59,6 +59,7 @@ public class RecordActivity extends AppCompatActivity {
     double micRightRms = 0;
     double micLeftMax = 0;
     double micRightMax = 0;
+    File filevs;
     GraphView graph;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +82,14 @@ public class RecordActivity extends AppCompatActivity {
         boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
         mRecorder = WavAudioRecorder.getInstance();
-//        File filevs = new File(dir, filename+"vis"+format);
-//        dir = new File(root.getAbsolutePath() + directory);
-//        mVisualizerFilePath = filevs.toString();
-//        micVis = WavAudioRecorder.getInstance();
-//        micVis.setOutputFile(mVisualizerFilePath);
-//        micVis.prepare();
-//        micVis.start();
+        filevs = new File(dir, filename+"vis"+format);
+        dir = new File(root.getAbsolutePath() + directory);
+        mVisualizerFilePath = filevs.toString();
+        micVis = WavAudioRecorder.getInstance();
+        micVis.setOutputFile(mVisualizerFilePath);
+        micVis.prepare();
+        micVis.start();
+        new Thread(new Task()).start();
         graph = (GraphView) findViewById(R.id.graph);
         // set manual X bounds
         graph.getViewport().setXAxisBoundsManual(true);
@@ -96,7 +98,7 @@ public class RecordActivity extends AppCompatActivity {
 
 // set manual Y bounds
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-40);
+        graph.getViewport().setMinY(-80);
         graph.getViewport().setMaxY(0);
 }
     public void grabacion (View view)
@@ -110,6 +112,8 @@ public class RecordActivity extends AppCompatActivity {
         file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
+            micVis.stop();
+            micVis.reset();
             mRecorder = WavAudioRecorder.getInstance();
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
@@ -124,6 +128,11 @@ public class RecordActivity extends AppCompatActivity {
         } else {
             mRecorder.stop();
             mRecorder.reset();
+            micVis = WavAudioRecorder.getInstance();
+            micVis.setOutputFile(mVisualizerFilePath);
+            micVis.prepare();
+            micVis.start();
+            new Thread(new Task()).start();
             boton.setText("Grabar");
         }
         texto.setText(""+mRecorder.getState());
@@ -149,7 +158,7 @@ public class RecordActivity extends AppCompatActivity {
     public class Task implements Runnable {
         @Override
         public void run() {
-            while(mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+            while(micVis.getState().equals(WavAudioRecorder.State.RECORDING )|| mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
                 micVisualizer();
                 final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
                         new DataPoint(1, (20*Math.log10(micLeftRms/32768))),
@@ -173,13 +182,18 @@ public class RecordActivity extends AppCompatActivity {
         }
     }
      public void micVisualizer (){
-         wavBuffer = mRecorder.getBuffer();
+         if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+             wavBuffer = mRecorder.getBuffer();
+         }
+         else{
+             wavBuffer = micVis.getBuffer();
+         }
          bb = ByteBuffer.wrap(wavBuffer);
              il = 0;
              ir = 0;
              for (int i = 0; i < micData.length; i++) {
-//                 micData[i] = Short.reverseBytes(bb.getShort());
-                 micData[i] = bb.getShort();
+                 micData[i] = Short.reverseBytes(bb.getShort());
+                 //micData[i] = bb.getShort();
                  if ((i % 2) == 0) {
                      // number is even
                      micLeftBuffer[il] = micData[i];
@@ -230,7 +244,16 @@ public class RecordActivity extends AppCompatActivity {
 
     public void recordingsActivity(MenuItem item) {
         Intent intent = new Intent(this,RecordingsActivity.class);
-        intent.putExtra("RecordActivitydirectory",directory );
+        intent.putExtra("RecordActivitydirectory", directory);
+        if (!micVis.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
+            micVis.stop();
+            mRecorder.release();
+        }
+        if (!mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
+            mRecorder.stop();
+            mRecorder.release();
+        }
+        filevs.delete();
         startActivity(intent);
     }
 }
