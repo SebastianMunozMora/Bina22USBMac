@@ -90,20 +90,20 @@ public class AudioRead extends Application {
 
         return outr;
     }
-    public double getLeftRMSvalue (){
+    public double getLeftRMSvalue (int nSamples){
         double rmsV = 0;
-        for (int i = 0;i <5000;i++){
+        for (int i = 0;i <nSamples;i++){
             rmsV = rmsV + Math.pow(outl[i],2);
         }
-        rmsV = (int) Math.sqrt(rmsV/5000);
+        rmsV = (int) Math.sqrt(rmsV/nSamples);
         return rmsV;
     }
-    public double getRightRMSvalue(){
+    public double getRightRMSvalue(int nSamples){
         double rmsV = 0;
-        for (int i = 0;i <5000;i++){
+        for (int i = 0;i <nSamples;i++){
             rmsV = rmsV + Math.pow(outr[i],2);
         }
-        rmsV = (int) Math.sqrt(rmsV/5000);
+        rmsV = (int) Math.sqrt(rmsV/nSamples);
         return rmsV;
     }
 

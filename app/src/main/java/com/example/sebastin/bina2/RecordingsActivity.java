@@ -87,7 +87,7 @@ public class RecordingsActivity extends Activity{
     public short [] rightBuffer = new short [5000];
     private XYPlot plot;
     public double leftRms = 0;
-    public double rigthRms = 0;
+    public double rightRms = 0;
     public LineGraphSeries<DataPoint> mSeries1;
     GraphView graph;
     @Override
@@ -108,6 +108,15 @@ public class RecordingsActivity extends Activity{
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
         listView.setAdapter(arrayAdapter);
         graph = (GraphView) findViewById(R.id.graph);
+        // set manual X bounds
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0.75);
+        graph.getViewport().setMaxX(2.25);
+
+// set manual Y bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-40);
+        graph.getViewport().setMaxY(0);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -180,11 +189,11 @@ public class RecordingsActivity extends Activity{
                     bufar=aR.getbufAudioRead(itc);
                     leftBuffer = aR.getLeftData();
                     rightBuffer = aR.getRightData();
-                    leftRms = aR.getLeftRMSvalue();
-                    rigthRms = aR.getRightRMSvalue();
+                    leftRms = aR.getLeftRMSvalue(5000);
+                    rightRms = aR.getRightRMSvalue(5000);
                 final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(0, leftRms),
-                        new DataPoint(1, rigthRms)
+                        new DataPoint(1, (20*Math.log10(leftRms/32768))),
+                        new DataPoint(2, (20*Math.log10(rightRms/32768)))
                 });
                 series.setSpacing(50);
 //                    mSeries1 = new LineGraphSeries<DataPoint>(generateData());
@@ -198,7 +207,7 @@ public class RecordingsActivity extends Activity{
                         public void run() {
                             graph.removeAllSeries();
                             graph.addSeries(series);
-                            text.setText("" + leftRms + "   " + rigthRms + " " + itc);
+                            text.setText("" + (20*Math.log10(leftRms/32768)) + "   " + (20*Math.log10(rightRms/32768)));
                         }
                     });
                     itc += 5000;

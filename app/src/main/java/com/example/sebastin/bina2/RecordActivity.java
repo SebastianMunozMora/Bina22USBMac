@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.util.Collections;
 
 import android.media.AudioRecord;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -35,13 +38,28 @@ public class RecordActivity extends AppCompatActivity {
             readMode;
     public mPlayer mP = new mPlayer();
     private WavAudioRecorder mRecorder;
+    private WavAudioRecorder micVis;
     public String mRecordFilePath;
     public String directory = "/BinaRecordings";
     public String filename = "Grabacion";
     public String format = ".wav";
+    String mVisualizerFilePath;
     public File root = Environment.getExternalStorageDirectory();
     public File dir = new File(root.getAbsolutePath() + directory);
     public File file;
+    byte [] wavBuffer = new byte[20000];
+    int r = 0;
+    ByteBuffer bb;
+    short[] micData = new short[10000];
+    short [] micLeftBuffer = new short [5000];
+    short[] micRightBuffer = new short [5000];
+    int il = 0;
+    int ir = 0;
+    double micLeftRms = 0;
+    double micRightRms = 0;
+    double micLeftMax = 0;
+    double micRightMax = 0;
+    GraphView graph;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -63,16 +81,23 @@ public class RecordActivity extends AppCompatActivity {
         boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
         mRecorder = WavAudioRecorder.getInstance();
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
+//        File filevs = new File(dir, filename+"vis"+format);
+//        dir = new File(root.getAbsolutePath() + directory);
+//        mVisualizerFilePath = filevs.toString();
+//        micVis = WavAudioRecorder.getInstance();
+//        micVis.setOutputFile(mVisualizerFilePath);
+//        micVis.prepare();
+//        micVis.start();
+        graph = (GraphView) findViewById(R.id.graph);
+        // set manual X bounds
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setMinX(0.75);
+        graph.getViewport().setMaxX(2.25);
 
+// set manual Y bounds
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(-40);
+        graph.getViewport().setMaxY(0);
 }
     public void grabacion (View view)
     {
@@ -89,6 +114,7 @@ public class RecordActivity extends AppCompatActivity {
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
             mRecorder.start();
+            new Thread(new Task()).start();
             boton.setText("Grabando");
         } else if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR)) {
             mRecorder.release();
@@ -120,6 +146,62 @@ public class RecordActivity extends AppCompatActivity {
         }
 
     }
+    public class Task implements Runnable {
+        @Override
+        public void run() {
+            while(mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+                micVisualizer();
+                final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
+                        new DataPoint(1, (20*Math.log10(micLeftRms/32768))),
+                        new DataPoint(2, (20*Math.log10(micRightRms/32768)))
+                });
+                series.setSpacing(50);
+                texto.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        graph.removeAllSeries();
+                        graph.addSeries(series);
+                        texto.setText("" + micLeftRms+" "+micRightRms);
+                    }
+                });
+                try {
+                    Thread.sleep(113);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+     public void micVisualizer (){
+         wavBuffer = mRecorder.getBuffer();
+         bb = ByteBuffer.wrap(wavBuffer);
+             il = 0;
+             ir = 0;
+             for (int i = 0; i < micData.length; i++) {
+//                 micData[i] = Short.reverseBytes(bb.getShort());
+                 micData[i] = bb.getShort();
+                 if ((i % 2) == 0) {
+                     // number is even
+                     micLeftBuffer[il] = micData[i];
+                     micLeftRms = micLeftRms + Math.pow(micLeftBuffer[il],2);
+                     if (micLeftBuffer[il] > micLeftMax) {
+                         micLeftMax = micLeftBuffer[il];
+                     }
+                     il++;
+                 }
+                 else {
+                     // number is odd
+                     micRightBuffer[ir] = micData[i];
+                     micRightRms = micRightRms + Math.pow(micRightBuffer[ir],2);
+                     if (micLeftBuffer[ir] > micRightMax) {
+                         micRightMax = micLeftBuffer[ir];
+                     }
+                     ir++;
+                 }
+             }
+         micRightRms = (int) Math.sqrt(micRightRms/(micRightBuffer.length));
+         micLeftRms = (int) Math.sqrt(micLeftRms/(micLeftBuffer.length));
+     }
 
 
     @Override

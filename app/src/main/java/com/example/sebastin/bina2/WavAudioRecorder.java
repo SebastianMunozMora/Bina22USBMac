@@ -87,9 +87,9 @@ public class WavAudioRecorder{
     public State getState() {
         return state;
     }
+    public byte[] getBuffer(){return buffer;}
 
-
-    private AudioRecord.OnRecordPositionUpdateListener updateListener = new AudioRecord.OnRecordPositionUpdateListener() {
+    private AudioRecord.OnRecordPositionUpdateListener  updateListener = new AudioRecord.OnRecordPositionUpdateListener() {
         //	periodic updates on the progress of the record head
         public void onPeriodicNotification(AudioRecord recorder) {
             if (State.STOPPED == state) {
