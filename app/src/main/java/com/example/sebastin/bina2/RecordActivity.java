@@ -31,7 +31,7 @@ public class RecordActivity extends AppCompatActivity {
     String message,PlayFilePath;
     Button boton,boton1;
     ListView listView;
-    public static TextView texto;
+    public static TextView texto,textLeftdB, textRightdB;
     AudioRecord audioRecord;
     boolean isRecording = false,isPlaying = false;
     int frequency, channelConfiguration, audioEncoding, bufferSize, offsetInShorts, sizeInShorts,
@@ -48,7 +48,6 @@ public class RecordActivity extends AppCompatActivity {
     public File dir = new File(root.getAbsolutePath() + directory);
     public File file;
     byte [] wavBuffer = new byte[20000];
-    int r = 0;
     ByteBuffer bb;
     short[] micData = new short[10000];
     short [] micLeftBuffer = new short [5000];
@@ -59,6 +58,8 @@ public class RecordActivity extends AppCompatActivity {
     double micRightRms = 0;
     double micLeftMax = 0;
     double micRightMax = 0;
+    double micLeftDbfs = 0;
+    double micRightDbfs = 0;
     File filevs;
     GraphView graph;
     @Override
@@ -66,6 +67,7 @@ public class RecordActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        LedMeter led = new LedMeter(this);
         directory = "/BinaRecordings";
         Bundle bundle = getIntent().getExtras();
         directory = directory+"/"+bundle.getString("ProjectActivitiyprojectName");
@@ -81,6 +83,8 @@ public class RecordActivity extends AppCompatActivity {
         editT = (EditText) findViewById(R.id.editText);
         boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
+        textLeftdB = (TextView)findViewById(R.id.textLeftdB);
+        textRightdB = (TextView)findViewById(R.id.textRightdB);
         mRecorder = WavAudioRecorder.getInstance();
         filevs = new File(dir, filename+"vis"+format);
         dir = new File(root.getAbsolutePath() + directory);
@@ -98,8 +102,8 @@ public class RecordActivity extends AppCompatActivity {
 
 // set manual Y bounds
         graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(-80);
-        graph.getViewport().setMaxY(0);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(80);
 }
     public void grabacion (View view)
     {
@@ -161,16 +165,23 @@ public class RecordActivity extends AppCompatActivity {
             while(micVis.getState().equals(WavAudioRecorder.State.RECORDING )|| mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
                 micVisualizer();
                 final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(1, (20*Math.log10(micLeftRms/32768))),
-                        new DataPoint(2, (20*Math.log10(micRightRms/32768)))
+                        new DataPoint(1, Math.abs(-80-Math.round(micLeftDbfs))),
+                        new DataPoint(2, Math.abs(-80-Math.round(micRightDbfs)))
                 });
                 series.setSpacing(50);
-                texto.post(new Runnable() {
+                textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
                         graph.removeAllSeries();
                         graph.addSeries(series);
-                        texto.setText("" + micLeftRms+" "+micRightRms);
+                        textLeftdB.setText(""+Math.abs(-80 - Math.round(micLeftDbfs)) + "dB Fs ");
+                    }
+                });
+                textRightdB.post(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        textRightdB.setText(""+Math.abs(-80-Math.round(micRightDbfs)) + "dB Fs ");
                     }
                 });
                 try {
@@ -207,14 +218,26 @@ public class RecordActivity extends AppCompatActivity {
                      // number is odd
                      micRightBuffer[ir] = micData[i];
                      micRightRms = micRightRms + Math.pow(micRightBuffer[ir],2);
-                     if (micLeftBuffer[ir] > micRightMax) {
-                         micRightMax = micLeftBuffer[ir];
+                     if (micRightBuffer[ir] > micRightMax) {
+                         micRightMax = micRightBuffer[ir];
                      }
                      ir++;
                  }
              }
          micRightRms = (int) Math.sqrt(micRightRms/(micRightBuffer.length));
          micLeftRms = (int) Math.sqrt(micLeftRms/(micLeftBuffer.length));
+         if (micLeftRms >= 0.001) {
+             micLeftDbfs = 10 * Math.log10(micLeftRms / 32768);
+         }
+         else{
+             micLeftDbfs = -80;
+         }
+         if (micRightRms >= 0.001) {
+             micRightDbfs = 10 * Math.log10(micRightRms / 32768);
+         }
+         else{
+             micRightDbfs = -80;
+         }
      }
 
 
