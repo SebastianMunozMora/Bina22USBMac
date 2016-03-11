@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -54,7 +55,18 @@
         android:id="@+id/textRightdB"
         android:layout_above="@+id/graph"
         android:layout_alignEnd="@+id/graph" />
-
-
-
+    <com.example.sebastin.bina2.LedMeter
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/button"
+        android:id="@+id/leftLedView" />
+    <com.example.sebastin.bina2.LedMeter
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/leftLedView"
+        android:id="@+id/rightLedView"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

@@ -60,14 +60,20 @@ public class RecordActivity extends AppCompatActivity {
     double micRightMax = 0;
     double micLeftDbfs = 0;
     double micRightDbfs = 0;
+    boolean [] ledState = new boolean[8];
     File filevs;
     GraphView graph;
+    LedMeter leftLedMeter;
+    LedMeter rightLedMeter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
-        LedMeter led = new LedMeter(this);
+        leftLedMeter = new LedMeter(this);
+        rightLedMeter = new LedMeter(this);
+        leftLedMeter = (LedMeter)findViewById(R.id.leftLedView);
+        rightLedMeter = (LedMeter)findViewById(R.id.rightLedView);
         directory = "/BinaRecordings";
         Bundle bundle = getIntent().getExtras();
         directory = directory+"/"+bundle.getString("ProjectActivitiyprojectName");
@@ -172,6 +178,7 @@ public class RecordActivity extends AppCompatActivity {
                 textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
+                        leftLedMeter.setLevel(Math.abs(-80-Math.round(micLeftDbfs)));
                         graph.removeAllSeries();
                         graph.addSeries(series);
                         textLeftdB.setText(""+Math.abs(-80 - Math.round(micLeftDbfs)) + "dB Fs ");

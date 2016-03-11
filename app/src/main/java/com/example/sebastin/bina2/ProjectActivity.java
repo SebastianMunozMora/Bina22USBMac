@@ -8,10 +8,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 
@@ -38,6 +40,7 @@ public class ProjectActivity extends AppCompatActivity {
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();
     }
+
     public void projectSelect (View view ){
         dir = new File(root.getAbsolutePath()+ directory);
         projectlist = dir.list();
