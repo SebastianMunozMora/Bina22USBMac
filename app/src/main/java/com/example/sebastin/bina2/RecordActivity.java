@@ -10,20 +10,16 @@ import android.view.MenuItem;
 
 import java.io.File;
 import java.nio.ByteBuffer;
-import java.util.Collections;
 
 import android.media.AudioRecord;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 
 public class RecordActivity extends AppCompatActivity {
@@ -62,7 +58,6 @@ public class RecordActivity extends AppCompatActivity {
     double micRightDbfs = 0;
     boolean [] ledState = new boolean[8];
     File filevs;
-    GraphView graph;
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
     @Override
@@ -100,16 +95,7 @@ public class RecordActivity extends AppCompatActivity {
         micVis.prepare();
         micVis.start();
         new Thread(new Task()).start();
-        graph = (GraphView) findViewById(R.id.graph);
-        // set manual X bounds
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0.75);
-        graph.getViewport().setMaxX(2.25);
 
-// set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(80);
 }
     public void grabacion (View view)
     {
@@ -178,17 +164,27 @@ public class RecordActivity extends AppCompatActivity {
                 textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
-                        leftLedMeter.setLevel(Math.abs(-80-Math.round(micLeftDbfs)));
-                        graph.removeAllSeries();
-                        graph.addSeries(series);
-                        textLeftdB.setText(""+Math.abs(-80 - Math.round(micLeftDbfs)) + "dB Fs ");
+                        //graph.removeAllSeries();
+                        //graph.addSeries(series);
+                        textLeftdB.setText("" + Math.abs(-80 - Math.round(micLeftDbfs)) + "dB Fs ");
                     }
                 });
                 textRightdB.post(new Runnable() {
                     @Override
                     public void run() {
-
                         textRightdB.setText(""+Math.abs(-80-Math.round(micRightDbfs)) + "dB Fs ");
+                    }
+                });
+                leftLedMeter.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        leftLedMeter.setLevel(Math.abs(-80 - Math.round(micLeftDbfs)), 80);
+                    }
+                });
+                rightLedMeter.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        rightLedMeter.setLevel(Math.abs(-80 - Math.round(micRightDbfs)), 80);
                     }
                 });
                 try {

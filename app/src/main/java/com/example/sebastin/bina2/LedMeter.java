@@ -25,55 +25,50 @@ public class LedMeter extends View {
     float ledBottom;
     float blockHeight;
     float ledHeight;
+    float mRackWidth;
+    float mRackHeight;
     Paint rackPaint,ledPaint;
     Rect rackRectangle,ledRectangle;
-    int numLed = 0;
-    int nl = 0;
-    int Level= 0;
-    boolean []ledState =new boolean[8];
-    boolean []levelState = new boolean[8];
+    int numLed = 8;
+    boolean []levelState;
     public LedMeter(Context context) {
         super(context);
+
         init(null,0);
 
     }
 
     public LedMeter(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(attrs,0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs,
+                R.styleable.LedMeter,
+                0, 0
+        );
+        mRackWidth = a.getDimension(R.styleable.LedMeter_ledWidth, 0.0f);
+        mRackHeight = a.getDimension(R.styleable.LedMeter_ledHeight,0.0f);
+        numLed = a.getInt(R.styleable.LedMeter_numLed,8);
+        init(attrs, 0);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        left = 0;
-        top = 0;
-        right  = canvas.getWidth()/3f;
-        bottom = canvas.getHeight()/3f;
-        blockHeight = bottom/8f;
-        ledHeight = blockHeight*(2f/3f);
-        ledLeft = left+blockHeight*(1f/3f);
-        ledRight = right-blockHeight*(1f/3f);
+        canvas.drawRect(left, top, right, bottom + blockHeight * (1f/ 3f), rackPaint);
         ledTop = top+blockHeight*(1f/3f);
-        ledBottom = ledTop+ledHeight;
-        canvas.drawRect(left,top,right,bottom+blockHeight*(1f/3f),rackPaint);
-        for (int i = 0;i <= 7;i++) {
-            canvas.drawRect(ledLeft,ledTop,ledRight, ledBottom, ledPaint);
-            ledTop += blockHeight;
-            ledBottom = ledTop+ledHeight;
+        for (int i = 0;i < numLed;i++) {
+            if (levelState[i]){
+                ledPaint.setColor(Color.GREEN);
+            }else{
+                ledPaint.setColor(Color.BLACK);
+            }
+            ledBottom = bottom - blockHeight*i;
+            ledTop = ledBottom-ledHeight;
+            canvas.drawRect(ledLeft, ledTop, ledRight, ledBottom, ledPaint);
         }
-        blockHeight = bottom/8f;
-        ledHeight = blockHeight*(2f/3f);
-        ledLeft = left+blockHeight*(1f/3f);
-        ledRight = right-blockHeight*(1f/3f);
-        ledTop = top+blockHeight*(1f/3f);
-        ledTop = ledTop+blockHeight*nl;
-        ledBottom = ledTop+ledHeight;
-        canvas.drawRect(ledLeft,ledTop,ledRight, ledBottom, ledPaint);
-
-
     }
     public void init(AttributeSet attributeSet, int defStyles){
+
         rackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         rackPaint.setColor(Color.GRAY);
         rackPaint.setStyle(Paint.Style.FILL);
@@ -84,58 +79,73 @@ public class LedMeter extends View {
         ledPaint.setColor(Color.BLACK);
         ledRectangle = new Rect();
         rackRectangle = new Rect();
-
+        left = 0;
+        top = 0;
+        right  =mRackWidth;
+        bottom = mRackHeight;
+        blockHeight = bottom/numLed;
+        ledHeight = blockHeight*(2f/3f);
+        ledLeft = left+blockHeight*(1f/3f);
+        ledRight = right-blockHeight*(1f/3f);
+        ledTop = top+blockHeight*(1f/3f);
+        ledBottom = ledTop+ledHeight;
+        levelState = new boolean[numLed];
+        setLevel(10,80);
     }
-    public void setLevel(long level) {
-        int a ;
-        LedSwitch ledSwitch = new LedSwitch(getContext());
-        for (int i = 0;i < 9;i++) {
-            a = 10*i;
-            if (level <= a) {
+    public void setLevel(long level,int max) {
+        for (int i = 0;i < numLed-1;i++) {
+            if (level <= (max/numLed)*i) {
                 for (int k = 0;k < i;k++){
                     levelState[k]= true;
                 }
-                for (int j = i; j < 8; j++) {
+                for (int j = i; j < numLed; j++) {
                     levelState[j] = false;
                 }
                 break;
             }
         }
-        for (int l = 0;l < 8;l++){
-            if (levelState[l] != ledState[l]){
-                ledState[l] = levelState[l];
-                //draw
+        invalidate();
+    }
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int desiredWidth = 100;
+        int desiredHeight = 100;
 
-                //ledSwitch.turn();
-            }
-            nl = l;
-            ledSwitch.turn();
-            invalidate();
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        int width;
+        int height;
+
+        //Measure Width
+        if (widthMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            width = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            width = Math.min(desiredWidth, widthSize);
+        } else {
+            //Be whatever you want
+            width = desiredWidth;
         }
 
+        //Measure Height
+        if (heightMode == MeasureSpec.EXACTLY) {
+            //Must be this size
+            height = heightSize;
+        } else if (heightMode == MeasureSpec.AT_MOST) {
+            //Can't be bigger than...
+            height = Math.min(desiredHeight, heightSize);
+        } else {
+            //Be whatever you want
+            height = desiredHeight;
+        }
 
+        //MUST CALL THIS
+        setMeasuredDimension(width, height);
     }
 
-
-    private class LedSwitch extends View{
-        @Override
-        protected void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            ledTop = ledTop+blockHeight*nl;
-            ledBottom = ledTop+ledHeight;
-            canvas.drawRect(ledLeft,ledTop,ledRight, ledBottom, ledPaint);
-        }
-
-        public LedSwitch(Context context) {
-            super(context);
-        }
-        public void turn (){
-            if (ledState[nl]) {
-                ledPaint.setColor(Color.GREEN);
-            }else {
-                ledPaint.setColor(Color.BLACK);
-            }
-        }
-    }
 }
 

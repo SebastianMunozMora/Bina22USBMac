@@ -4,6 +4,7 @@
     <shared>
       <config>
         <devices>
+          <device id="4.65in 720p (Galaxy Nexus)" />
           <device id="Nexus S" />
         </devices>
         <target>android-23</target>
@@ -39,17 +40,15 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4f92477-a334-40d5-b115-81eda8a9eb3c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
@@ -88,9 +87,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+              <caret line="69" column="64" selection-start-line="69" selection-start-column="64" selection-end-line="69" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#6073#6402#0" expanded="true" />
+                <element signature="e#6401#6402#0" expanded="true" />
+                <element signature="e#6438#6663#0" expanded="true" />
+                <element signature="e#6662#6663#0" expanded="true" />
+                <element signature="e#6700#6918#0" expanded="true" />
+                <element signature="e#6917#6918#0" expanded="true" />
+                <element signature="e#6956#7176#0" expanded="true" />
+                <element signature="e#7175#7176#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -99,12 +106,10 @@
       <file leaf-file-name="LedMeter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.57894737">
-              <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+            <state vertical-scroll-proportion="0.7104478">
+              <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3689#3690#0" expanded="true" />
-                <element signature="e#3727#3728#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,7 +119,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -122,19 +127,13 @@
       </file>
       <file leaf-file-name="activity_record.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="68" column="50" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
-              <folding>
-                <element signature="e#282#317#0" expanded="true" />
-                <element signature="e#343#378#0" expanded="true" />
-                <element signature="e#402#435#0" expanded="true" />
-                <element signature="e#462#495#0" expanded="true" />
-                <element signature="e#565#586#0" expanded="true" />
-              </folding>
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-31.068966">
+              <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
-          <provider selected="true" editor-type-id="android-designer">
+          <provider editor-type-id="android-designer">
             <state />
           </provider>
         </entry>
@@ -1762,10 +1761,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_recordings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/attrs.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java" />
       </list>
     </option>
@@ -1802,10 +1801,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scratches">
-        <subPane />
-      </pane>
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1846,40 +1841,8 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
+              <option name="myItemId" value="values" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Bina22USBMac" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Bina22USBMac" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bina2" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1904,7 +1867,11 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
+      <pane id="Scratches">
+        <subPane />
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2131,7 +2098,13 @@
       <option name="project" value="LOCAL" />
       <updated>1457572961995</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Inversion grafica">
+      <created>1457679562840</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1457679562840</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2155,7 +2128,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3321976" sideWeight="0.52420574" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3321976" sideWeight="0.47579426" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3321976" sideWeight="0.47579426" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.49394855" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.4969743" order="2" side_tool="false" content_ui="tabs" />
@@ -2169,7 +2142,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35264054" sideWeight="0.48033282" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35264054" sideWeight="0.48033282" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2199,88 +2172,28 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>180</line>
-          <properties />
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>90</line>
-          <properties />
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>95</line>
+          <line>98</line>
           <properties />
           <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>98</line>
+          <line>101</line>
           <properties />
           <option name="timeStamp" value="74" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>133</line>
+          <line>106</line>
           <properties />
-          <option name="timeStamp" value="82" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>135</line>
-          <properties />
-          <option name="timeStamp" value="83" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>111</line>
-          <properties />
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>108</line>
-          <properties />
-          <option name="timeStamp" value="89" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>112</line>
-          <properties />
-          <option name="timeStamp" value="91" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>125</line>
-          <properties />
-          <option name="timeStamp" value="94" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>57</line>
-          <properties />
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>62</line>
-          <properties />
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java</url>
-          <line>124</line>
-          <properties />
-          <option name="timeStamp" value="98" />
+          <option name="timeStamp" value="113" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="99" />
+      <option name="time" value="115" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2293,9 +2206,72 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6073#6402#0" expanded="true" />
+            <element signature="e#6401#6402#0" expanded="true" />
+            <element signature="e#6438#6663#0" expanded="true" />
+            <element signature="e#6662#6663#0" expanded="true" />
+            <element signature="e#6700#6918#0" expanded="true" />
+            <element signature="e#6917#6918#0" expanded="true" />
+            <element signature="e#6956#7176#0" expanded="true" />
+            <element signature="e#7175#7176#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="50" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/WavAudioRecorder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
           <caret line="68" column="49" selection-start-line="68" selection-start-column="49" selection-end-line="68" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6073#6402#0" expanded="true" />
+            <element signature="e#6401#6402#0" expanded="true" />
+            <element signature="e#6438#6663#0" expanded="true" />
+            <element signature="e#6662#6663#0" expanded="true" />
+            <element signature="e#6700#6918#0" expanded="true" />
+            <element signature="e#6917#6918#0" expanded="true" />
+            <element signature="e#6956#7176#0" expanded="true" />
+            <element signature="e#7175#7176#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2312,7 +2288,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2320,7 +2295,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="37" column="66" selection-start-line="37" selection-start-column="66" selection-end-line="37" selection-end-column="66" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2330,8 +2304,6 @@
           <caret line="27" column="36" selection-start-line="27" selection-start-column="36" selection-end-line="27" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3689#3690#0" expanded="true" />
-            <element signature="e#3727#3728#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2369,6 +2341,14 @@
           <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6073#6402#0" expanded="true" />
+            <element signature="e#6401#6402#0" expanded="true" />
+            <element signature="e#6438#6663#0" expanded="true" />
+            <element signature="e#6662#6663#0" expanded="true" />
+            <element signature="e#6700#6918#0" expanded="true" />
+            <element signature="e#6917#6918#0" expanded="true" />
+            <element signature="e#6956#7176#0" expanded="true" />
+            <element signature="e#7175#7176#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2421,7 +2401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2470,7 +2449,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2478,7 +2456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.5185184">
           <caret line="255" column="0" selection-start-line="255" selection-start-column="0" selection-end-line="255" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2524,7 +2501,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72131145">
           <caret line="340" column="0" selection-start-line="340" selection-start-column="0" selection-end-line="340" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2540,14 +2516,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../AppData/Local/Android/Sdk/sources/android-23/android/view/View.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33238637">
+          <caret line="14007" column="19" selection-start-line="14007" selection-start-column="19" selection-end-line="14007" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+    <entry file="file://$PROJECT_DIR$/../../AppData/Local/Android/Sdk/sources/android-23/android/view/LayoutInflater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.33238637">
+          <caret line="704" column="0" selection-start-line="704" selection-start-column="0" selection-end-line="704" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -2560,41 +2543,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="50" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
-          <folding>
-            <element signature="e#282#317#0" expanded="true" />
-            <element signature="e#343#378#0" expanded="true" />
-            <element signature="e#402#435#0" expanded="true" />
-            <element signature="e#462#495#0" expanded="true" />
-            <element signature="e#565#586#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+          <caret line="69" column="64" selection-start-line="69" selection-start-column="64" selection-end-line="69" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#6073#6402#0" expanded="true" />
+            <element signature="e#6401#6402#0" expanded="true" />
+            <element signature="e#6438#6663#0" expanded="true" />
+            <element signature="e#6662#6663#0" expanded="true" />
+            <element signature="e#6700#6918#0" expanded="true" />
+            <element signature="e#6917#6918#0" expanded="true" />
+            <element signature="e#6956#7176#0" expanded="true" />
+            <element signature="e#7175#7176#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/attrs.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-31.068966">
+          <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/LedMeter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.57894737">
-          <caret line="68" column="41" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+        <state vertical-scroll-proportion="0.7104478">
+          <caret line="59" column="31" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3689#3690#0" expanded="true" />
-            <element signature="e#3727#3728#0" expanded="true" />
           </folding>
         </state>
       </provider>
