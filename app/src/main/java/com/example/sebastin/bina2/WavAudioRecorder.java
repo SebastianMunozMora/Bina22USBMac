@@ -15,16 +15,16 @@ import android.util.Log;
 public class WavAudioRecorder{
 
     private final static int[] sampleRates = {44100, 22050, 11025, 8000};
-    public int maxV [];
+    private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_FLOAT};
     public String data;
-    public static WavAudioRecorder getInstance() {
+    public static WavAudioRecorder getInstance(int sampleRate,int bithDepth) {
         WavAudioRecorder result = null;
-        int i=0;
+        int i = 0;
         do {
             result = new WavAudioRecorder(AudioSource.MIC,
-                    sampleRates[i],
+                    sampleRates[sampleRate],
                     AudioFormat.CHANNEL_IN_STEREO,
-                    AudioFormat.ENCODING_PCM_16BIT);
+                    bitDepth[bithDepth]);
         } while((++i<sampleRates.length) & !(result.getState() == WavAudioRecorder.State.INITIALIZING));
         return result;
     }
@@ -126,7 +126,7 @@ public class WavAudioRecorder{
         try {
             if (audioFormat == AudioFormat.ENCODING_PCM_16BIT) {
                 mBitsPersample = 16;
-            } else {
+            } else if (audioFormat == AudioFormat.ENCODING_PCM_FLOAT) {
                 mBitsPersample = 8;
             }
 
@@ -142,7 +142,7 @@ public class WavAudioRecorder{
 
             mPeriodInFrames = sampleRate * TIMER_INTERVAL / 1000;		//?
             mBufferSize = mPeriodInFrames * 2  * nChannels * mBitsPersample / 8;		//?
-            if (mBufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)) {
+            if (audioFormat == AudioFormat.ENCODING_PCM_16BIT && mBufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)) {
                 // Check to make sure buffer size is not smaller than the smallest allowed one
                 mBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
                 // Set frame period and timer interval accordingly

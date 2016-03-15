@@ -109,16 +109,6 @@ public class RecordingsActivity extends Activity{
         listviewitems = filelist;
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
         listView.setAdapter(arrayAdapter);
-        graph = (GraphView) findViewById(R.id.graph);
-        // set manual X bounds
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setMinX(0.75);
-        graph.getViewport().setMaxX(2.25);
-
-// set manual Y bounds
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(80);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -134,10 +124,6 @@ public class RecordingsActivity extends Activity{
                 filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
                 aR = new AudioRead();
                 aR.setAudioRead(filetoplay,100);
-                aR.getAudioMetaData();
-                //bufar = aR.getbufAudioRead(0);
-               // short[] bufarshort = new short  ()
-                //FileChannel fc = aR.getByteAudioRead();
                 reproduccion();
                 if (mP.getState().equals(mPlayer.playerState.PLAYING)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " "+mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
@@ -145,20 +131,8 @@ public class RecordingsActivity extends Activity{
                 else if (mP.getState().equals(mPlayer.playerState.STOPPED)){
                     Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) +" "+mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                 }
-               // vs.setEnabled(false);
-               // captureSizeRange  = vs.getCaptureSizeRange();
-               // vs.setCaptureSize(captureSizeRange[1]);
-               // vs.setMeasurementMode(Visualizer.MEASUREMENT_MODE_PEAK_RMS);
-//                vs.setDataCaptureListener (Visualizer.OnDataCaptureListener listener, int rate, boolean waveform, boolean fft)
-               // vs.setEnabled(true);
                 text.setText("" + pk);
-//                vs.getWaveForm(visbytes);
-//                peakRMS();
-               // vs.setDataCaptureListener(listener,rate,true,false);
-//                pk = vs.getMeasurementPeakRms(measurement);
-//                peakRMS();
-                // create
-
+//
             }
         });
     }
@@ -216,14 +190,6 @@ public class RecordingsActivity extends Activity{
                     itc += aR.getNumberSamples();
                 }
         }
-    }
-    private DataPoint[] generateData() {
-        DataPoint[] values = new DataPoint[5000];
-        for (int il = 0; il < 5000; il++) {
-            DataPoint v = new DataPoint(il, leftBuffer[il]);
-            values[il] = v;
-        }
-        return values;
     }
 
     @Override

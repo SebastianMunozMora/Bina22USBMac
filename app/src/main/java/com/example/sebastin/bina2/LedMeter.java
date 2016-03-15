@@ -82,7 +82,7 @@ public class LedMeter extends View {
         left = 0;
         top = 0;
         right  =mRackWidth;
-        bottom = mRackHeight;
+        bottom = mRackHeight-mRackHeight*(1/10);
         blockHeight = bottom/numLed;
         ledHeight = blockHeight*(2f/3f);
         ledLeft = left+blockHeight*(1f/3f);
@@ -92,7 +92,7 @@ public class LedMeter extends View {
         levelState = new boolean[numLed];
         setLevel(10,80);
     }
-    public void setLevel(long level,int max) {
+    public void setLevel(double level,int max) {
         for (int i = 0;i < numLed-1;i++) {
             if (level <= (max/numLed)*i) {
                 for (int k = 0;k < i;k++){

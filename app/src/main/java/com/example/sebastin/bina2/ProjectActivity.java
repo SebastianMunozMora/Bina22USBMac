@@ -34,8 +34,6 @@ public class ProjectActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         root = Environment.getExternalStorageDirectory();
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();

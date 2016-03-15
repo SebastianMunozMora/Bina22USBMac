@@ -10,13 +10,15 @@ import android.view.MenuItem;
 
 import java.io.File;
 import java.nio.ByteBuffer;
-
-import android.media.AudioRecord;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -24,14 +26,8 @@ import com.jjoe64.graphview.series.DataPoint;
 
 public class RecordActivity extends AppCompatActivity {
     EditText editT;
-    String message,PlayFilePath;
-    Button boton,boton1;
-    ListView listView;
+    Button boton;
     public static TextView texto,textLeftdB, textRightdB;
-    AudioRecord audioRecord;
-    boolean isRecording = false,isPlaying = false;
-    int frequency, channelConfiguration, audioEncoding, bufferSize, offsetInShorts, sizeInShorts,
-            readMode;
     public mPlayer mP = new mPlayer();
     private WavAudioRecorder mRecorder;
     private WavAudioRecorder micVis;
@@ -43,11 +39,11 @@ public class RecordActivity extends AppCompatActivity {
     public File root = Environment.getExternalStorageDirectory();
     public File dir = new File(root.getAbsolutePath() + directory);
     public File file;
-    byte [] wavBuffer = new byte[20000];
+    byte [] wavBuffer = new byte[10000];
     ByteBuffer bb;
-    short[] micData = new short[10000];
-    short [] micLeftBuffer = new short [5000];
-    short[] micRightBuffer = new short [5000];
+    short[] micData = new short[wavBuffer.length/2];
+    short [] micLeftBuffer = new short [micData.length/2];
+    short[] micRightBuffer = new short [micData.length/2];
     int il = 0;
     int ir = 0;
     double micLeftRms = 0;
@@ -56,15 +52,86 @@ public class RecordActivity extends AppCompatActivity {
     double micRightMax = 0;
     double micLeftDbfs = 0;
     double micRightDbfs = 0;
-    boolean [] ledState = new boolean[8];
     File filevs;
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
+    TabHost th;
+    ArrayAdapter arrayAdapter;
+    ListView listView;
+    String listviewitems[] = {"No hay Grabaciones"};
+    int listcontrol = 0;
+    String filetoplay ="Grabacion";
+    AudioRead aR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        th = (TabHost)findViewById(R.id.tabHost);
+        //Record Tab
+        th.setup();
+        final TabHost.TabSpec tsRecord = th.newTabSpec("Grabar");
+        tsRecord.setIndicator("Grabar");
+        tsRecord.setContent(R.id.linearLayout);
+        th.addTab(tsRecord);
+        //Recordings Tab
+        th.setup();
+        final TabHost.TabSpec tsRecordings = th.newTabSpec("Grabaciones");
+        tsRecordings.setIndicator("Grabaciones");
+        tsRecordings.setContent(R.id.linearLayout2);
+        th.addTab(tsRecordings);
+        th.setOnTabChangedListener(new TabHost.OnTabChangeListener(){
+            @Override
+            public void onTabChanged(String tabId) {
+                if(tabId.equals(tsRecord.getTag())) {
+                    //destroy earth
+                    micVis = WavAudioRecorder.getInstance(0,0);
+                    micVis.setOutputFile(mVisualizerFilePath);
+                    micVis.prepare();
+                    micVis.start();
+                    new Thread(new RecTask()).start();
+                }
+                if(tabId.equals(tsRecordings.getTag())) {
+                    //destroy mars
+                    leftLedMeter.setLevel(0,80);
+                    rightLedMeter.setLevel(0,80);
+                    if (micVis.getState().equals(WavAudioRecorder.State.RECORDING)) {
+                        micVis.stop();
+                        mRecorder.release();
+                    }
+                    if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+                        mRecorder.stop();
+                        mRecorder.release();
+                    }
+                    filevs.delete();
+                    listView = (ListView) findViewById(R.id.listView);
+                    listviewitems = dir.list();
+                    arrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_expandable_list_item_1, listviewitems);
+                    listView.setAdapter(arrayAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView parent, View view, int position, long id) {
+                            if (mP.getState().equals(mPlayer.playerState.STOPPED)) {
+                                listcontrol = 0;
+                            }
+                            if (!filetoplay.equals(dir.toString() + "/" + parent.getItemAtPosition(position).toString()) && (mP.getState().equals(mPlayer.playerState.PLAYING))) {
+                                //cambio de grabacion si playing
+                                reproduccion();
+                            }
+                            filetoplay = dir.toString() + "/" + parent.getItemAtPosition(position).toString();
+                            aR = new AudioRead();
+                            aR.setAudioRead(filetoplay, 100);
+                            reproduccion();
+                            if (mP.getState().equals(mPlayer.playerState.PLAYING)) {
+                                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " " + mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
+                            } else if (mP.getState().equals(mPlayer.playerState.STOPPED)) {
+                                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " " + mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
+                            }
+//
+                        }
+                    });
+                }
+            }});
         leftLedMeter = new LedMeter(this);
         rightLedMeter = new LedMeter(this);
         leftLedMeter = (LedMeter)findViewById(R.id.leftLedView);
@@ -86,15 +153,15 @@ public class RecordActivity extends AppCompatActivity {
         texto = (TextView) findViewById(R.id.textView);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
-        mRecorder = WavAudioRecorder.getInstance();
+        mRecorder = WavAudioRecorder.getInstance(0,0);
         filevs = new File(dir, filename+"vis"+format);
         dir = new File(root.getAbsolutePath() + directory);
         mVisualizerFilePath = filevs.toString();
-        micVis = WavAudioRecorder.getInstance();
+        micVis = WavAudioRecorder.getInstance(0,0);
         micVis.setOutputFile(mVisualizerFilePath);
         micVis.prepare();
         micVis.start();
-        new Thread(new Task()).start();
+        new Thread(new RecTask()).start();
 
 }
     public void grabacion (View view)
@@ -110,81 +177,75 @@ public class RecordActivity extends AppCompatActivity {
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
             micVis.stop();
             micVis.reset();
-            mRecorder = WavAudioRecorder.getInstance();
+            mRecorder = WavAudioRecorder.getInstance(0,0);
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
             mRecorder.start();
-            new Thread(new Task()).start();
+            new Thread(new RecTask()).start();
             boton.setText("Grabando");
         } else if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR)) {
             mRecorder.release();
-            mRecorder = WavAudioRecorder.getInstance();
+            mRecorder = WavAudioRecorder.getInstance(0,0);
             mRecorder.setOutputFile(mRecordFilePath);
             boton.setText("Grabar");
         } else {
             mRecorder.stop();
             mRecorder.reset();
-            micVis = WavAudioRecorder.getInstance();
+            micVis = WavAudioRecorder.getInstance(0,0);
             micVis.setOutputFile(mVisualizerFilePath);
             micVis.prepare();
             micVis.start();
-            new Thread(new Task()).start();
+            new Thread(new RecTask()).start();
             boton.setText("Grabar");
         }
         texto.setText(""+mRecorder.getState());
     }
 
-    public void reproduccion (View view)
+    public void reproduccion ()
     {
-        if (boton1.getText().equals("Play")) {
-            PlayFilePath = mRecordFilePath;
+        if (listcontrol == 0) {
             try {
-                mP.startPlayBack(PlayFilePath);
+                mP.startPlayBack(filetoplay);
+               // new Thread(new Task()).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            boton1.setText("Stop");
+            listcontrol = 1;
         }
-        else if (boton1.getText().equals("Stop")){
+        else if (listcontrol == 1){
             mP.stopPlayback();
-            boton1.setText("Play");
+            listcontrol = 0;
         }
 
     }
-    public class Task implements Runnable {
+
+    public class RecTask implements Runnable {
         @Override
         public void run() {
             while(micVis.getState().equals(WavAudioRecorder.State.RECORDING )|| mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
                 micVisualizer();
-                final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(1, Math.abs(-80-Math.round(micLeftDbfs))),
-                        new DataPoint(2, Math.abs(-80-Math.round(micRightDbfs)))
-                });
-                series.setSpacing(50);
                 textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
-                        //graph.removeAllSeries();
-                        //graph.addSeries(series);
-                        textLeftdB.setText("" + Math.abs(-80 - Math.round(micLeftDbfs)) + "dB Fs ");
+                        textLeftdB.setText("" + Math.abs(-80 - micLeftDbfs) + "dB Fs ");
                     }
                 });
                 textRightdB.post(new Runnable() {
                     @Override
                     public void run() {
-                        textRightdB.setText(""+Math.abs(-80-Math.round(micRightDbfs)) + "dB Fs ");
+                        textRightdB.setText("" + Math.abs(-80 -micRightDbfs) + "dB Fs ");
                     }
                 });
                 leftLedMeter.post(new Runnable() {
                     @Override
                     public void run() {
-                        leftLedMeter.setLevel(Math.abs(-80 - Math.round(micLeftDbfs)), 80);
+                        leftLedMeter.setLevel(Math.abs(-80 - micLeftDbfs), 80);
                     }
                 });
                 rightLedMeter.post(new Runnable() {
                     @Override
                     public void run() {
-                        rightLedMeter.setLevel(Math.abs(-80 - Math.round(micRightDbfs)), 80);
+                        rightLedMeter.setLevel(Math.abs(-80 - micRightDbfs), 80);
                     }
                 });
                 try {
@@ -230,13 +291,13 @@ public class RecordActivity extends AppCompatActivity {
          micRightRms = (int) Math.sqrt(micRightRms/(micRightBuffer.length));
          micLeftRms = (int) Math.sqrt(micLeftRms/(micLeftBuffer.length));
          if (micLeftRms >= 0.001) {
-             micLeftDbfs = 10 * Math.log10(micLeftRms / 32768);
+             micLeftDbfs = Math.round(10 * Math.log10(micLeftRms / 32768));
          }
          else{
              micLeftDbfs = -80;
          }
          if (micRightRms >= 0.001) {
-             micRightDbfs = 10 * Math.log10(micRightRms / 32768);
+             micRightDbfs = Math.round(10 * Math.log10(micRightRms / 32768));
          }
          else{
              micRightDbfs = -80;
@@ -282,4 +343,6 @@ public class RecordActivity extends AppCompatActivity {
         filevs.delete();
         startActivity(intent);
     }
+
+
 }
