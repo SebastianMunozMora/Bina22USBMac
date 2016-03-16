@@ -2,10 +2,13 @@ package com.example.sebastin.bina2;
 
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.DashPathEffect;
+import android.media.AudioFormat;
 import android.media.MediaPlayer;
+import android.media.audiofx.BassBoost;
 import android.media.audiofx.Visualizer;
 import android.nfc.Tag;
 import android.os.Environment;
@@ -23,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,152 +50,88 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import java.io.File;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
-public class RecordingsActivity extends Activity{
+public class RecordingsActivity extends Activity {
 
-    public ListView listView;
-    public ArrayAdapter arrayAdapter;
-    public String []  android_versions = {"1","2","3"};
-    public String directory = "/BinaRecordings";
-    public String filename = "Grabacion";
-    public String format = ".wav";
-    public File root = Environment.getExternalStorageDirectory();
-    public File dir = new File(root.getAbsolutePath() + directory);
-    public String filelist[];
-    public String listviewitems[] = {"No hay Grabaciones"};
-    public long totalspace = dir.getTotalSpace();
-    public int listcontrol = 0;
-    public String filetoplay = "file";
-    TextView text;
-    public mPlayer mP = new mPlayer();
-    public Visualizer vs = new Visualizer(1);
-    public byte [] visbytes;
-    public int captureSizeRange[];
-    private static final String TAG = RecordingsActivity.class.getSimpleName();
-    public MediaController.MediaPlayerControl player;
-    public Visualizer.MeasurementPeakRms measurement = new Visualizer.MeasurementPeakRms();
-    public int pk;
-    public int rate = 15;
-    public Visualizer.OnDataCaptureListener listener;
-    public AudioRead aR;
-    public byte [] bufar;
-    public int bufOffSet = 0;
-    public byte [] myData;
-    public float rmsValue = 0;
-    public long itc = 0;
-    public short [] leftBuffer = new short[5000];
-    public short [] rightBuffer = new short [5000];
-    private XYPlot plot;
-    public double leftRms = 0;
-    public double rightRms = 0;
-    double leftDbfs = 0;
-    double rightDbfs = 0;
-    public LineGraphSeries<DataPoint> mSeries1;
-    GraphView graph;
+    ExpandableListView expandableListView;
+    Button backButton;
+    int[] samplesRate ={48000,44100, 22050, 11025, 8000};
+    int[] bitsPerSample ={16,8};
+    int currentSampleRate = 44100;
+    int currentBitsPerSample = 16;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
-        Bundle bundle = getIntent().getExtras();
-        directory = bundle.getString("RecordActivitydirectory");
-        filename = "Grabacion";
-        format = ".wav";
-        root = Environment.getExternalStorageDirectory();
-        dir = new File(root.getAbsolutePath() + directory);
-        filelist = dir.list();
-        text = (TextView)findViewById(R.id.textViewR);
-        text.setText(""+totalspace);
-        listView = (ListView) findViewById(R.id.listView);
-        listviewitems = filelist;
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listviewitems);
-        listView.setAdapter(arrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);
+        backButton = (Button)findViewById(R.id.home);
+        final List<String>headings = new ArrayList<String>();
+        final List<String>sampleRates = new ArrayList<String>();
+        List<String>bitDepths = new ArrayList<String>();
+        final HashMap<String,List<String>>childList = new HashMap<String,List<String>>();
+        final String headingItems[] = getResources().getStringArray(R.array.header_titles);
+        final String samplingRates[] = getResources().getStringArray(R.array.sampling_rates);
+        final String bitDepth[] = getResources().getStringArray(R.array.bit_depth);
+        for (String title: headingItems){
+            headings.add(title);
+        }
+        for (String title: samplingRates){
+            sampleRates.add(title);
+        }
+        for (String title: bitDepth){
+            bitDepths.add(title);
+        }
+        childList.put(headings.get(0),sampleRates);
+        childList.put(headings.get(1),bitDepths);
+        MyAdapter myAdapter = new MyAdapter(this,headings,childList);
+        expandableListView.setAdapter(myAdapter);
+        // Listview on child click listener
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
-                if (mP.getState().equals(mPlayer.playerState.STOPPED)){
-                   listcontrol = 0;
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                String currentChild = childList.get(headings.get(groupPosition)).get(childPosition);
+                String currentGroup = headings.get(groupPosition);
+                if (currentGroup.equals(headingItems[0])) {
+                    for (int i = 0; i < sampleRates.size(); i++) {
+                        if (currentChild.equals(samplingRates[i])) {
+                            SettingsClass.getInstance().setSampleRate(samplesRate[i]);
+                            break;
+                        }
+                    }
                 }
-                if (!filetoplay.equals(dir.toString()+"/"+parent.getItemAtPosition(position).toString()) && (mP.getState().equals(mPlayer.playerState.PLAYING)))
-                {
-                    //cambio de grabacion si playing
-                    reproduccion();
+                if (currentGroup.equals(headingItems[1])) {
+                    for (int i = 0; i < bitsPerSample.length; i++) {
+                        if (currentChild.equals(bitDepth[i])) {
+                            SettingsClass.getInstance().setBitDepth(bitsPerSample[i]);
+                            break;
+                        }
+                    }
                 }
-                filetoplay = dir.toString()+"/"+parent.getItemAtPosition(position).toString();
-                aR = new AudioRead();
-                aR.setAudioRead(filetoplay,100);
-                reproduccion();
-                if (mP.getState().equals(mPlayer.playerState.PLAYING)){
-                    Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " "+mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
-                }
-                else if (mP.getState().equals(mPlayer.playerState.STOPPED)){
-                    Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) +" "+mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
-                }
-                text.setText("" + pk);
-//
+                Toast.makeText(
+                        getApplicationContext(),
+                        currentGroup
+                                + " : "
+                                + currentChild, Toast.LENGTH_SHORT)
+                        .show();
+                return false;
             }
         });
     }
-    public void reproduccion ()
-    {
-        if (listcontrol == 0) {
-            try {
-                mP.startPlayBack(filetoplay);
-                new Thread(new Task()).start();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            listcontrol = 1;
-        }
-        else if (listcontrol == 1){
-            mP.stopPlayback();
-            listcontrol = 0;
-            bufOffSet = 0;
-        }
-
+    public int getCurrentSampleRate (){
+        return currentSampleRate;
     }
-
-
-
-    public class Task implements Runnable {
-        @Override
-        public void run() {
-            itc = 0;
-            while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
-                bufar=aR.getbufAudioRead(itc);
-                leftBuffer = aR.getLeftData();
-                rightBuffer = aR.getRightData();
-                leftRms = aR.getLeftRMSvalue();
-                rightRms = aR.getRightRMSvalue();
-                leftDbfs = Math.round(aR.getLeftDbfsValue());
-                rightDbfs = Math.round(aR.getRightDbfsValue());
-                final BarGraphSeries<DataPoint> series = new BarGraphSeries<DataPoint>(new DataPoint[] {
-                        new DataPoint(1,Math.abs(-80-leftDbfs)),
-                        new DataPoint(2,Math.abs(-80-rightDbfs))
-                });
-                series.setSpacing(50);
-//                    mSeries1 = new LineGraphSeries<DataPoint>(generateData());
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                    text.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            //graph.addSeries(series);
-                            text.setText("" +leftDbfs+ "   " + rightDbfs);
-                        }
-                    });
-                    itc += aR.getNumberSamples();
-                }
-        }
+    public int getCurrentBitsPerSample (){
+        return currentBitsPerSample;
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

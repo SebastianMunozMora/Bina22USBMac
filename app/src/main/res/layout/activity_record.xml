@@ -4,8 +4,8 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".RecordActivity">
-
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".RecordActivity"
+    android:background="#77a8f5">
 
     <TabHost
         android:layout_width="match_parent"
@@ -35,22 +35,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editText"
+                        android:text="Grabacion"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignStart="@+id/button"
+                        android:layout_gravity="center_horizontal" />
+
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Grabar"
                         android:id="@+id/button"
-                        android:onClick="grabacion"
+                        android:onClick="grabacionBoton"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="28dp" />
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/editText"
-                        android:hint="Grabacion"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/button"
-                        android:layout_gravity="center_horizontal" />
 
 
                 </LinearLayout>
@@ -133,4 +135,12 @@
         android:layout_alignParentStart="true"
         android:layout_below="@id/tabHost"
         android:layout_alignParentBottom="true" />
+
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronometer"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

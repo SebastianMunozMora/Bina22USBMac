@@ -3,6 +3,7 @@ package com.example.sebastin.bina2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,14 +15,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
 
 
 public class RecordActivity extends AppCompatActivity {
@@ -30,7 +30,6 @@ public class RecordActivity extends AppCompatActivity {
     public static TextView texto,textLeftdB, textRightdB;
     public mPlayer mP = new mPlayer();
     private WavAudioRecorder mRecorder;
-    private WavAudioRecorder micVis;
     public String mRecordFilePath;
     public String directory = "/BinaRecordings";
     public String filename = "Grabacion";
@@ -39,6 +38,7 @@ public class RecordActivity extends AppCompatActivity {
     public File root = Environment.getExternalStorageDirectory();
     public File dir = new File(root.getAbsolutePath() + directory);
     public File file;
+    double leftRms = 0,rightRms = 0,leftDbfs = 0,rightDbfs = 0;
     byte [] wavBuffer = new byte[10000];
     ByteBuffer bb;
     short[] micData = new short[wavBuffer.length/2];
@@ -46,18 +46,25 @@ public class RecordActivity extends AppCompatActivity {
     short[] micRightBuffer = new short [micData.length/2];
     int il = 0;
     int ir = 0;
+    int itc = 0;
+    int bitDepth = 16;
+    int sampleRate = 44100;
+    int sampleState = 0;
+    int bithState = 0;
     double micLeftRms = 0;
     double micRightRms = 0;
     double micLeftMax = 0;
     double micRightMax = 0;
     double micLeftDbfs = 0;
     double micRightDbfs = 0;
+    public byte [] bufar;
     File filevs;
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
     TabHost th;
     ArrayAdapter arrayAdapter;
     ListView listView;
+    Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"};
     int listcontrol = 0;
     String filetoplay ="Grabacion";
@@ -85,25 +92,16 @@ public class RecordActivity extends AppCompatActivity {
             public void onTabChanged(String tabId) {
                 if(tabId.equals(tsRecord.getTag())) {
                     //destroy earth
-                    micVis = WavAudioRecorder.getInstance(0,0);
-                    micVis.setOutputFile(mVisualizerFilePath);
-                    micVis.prepare();
-                    micVis.start();
-                    new Thread(new RecTask()).start();
+                    boton.setText("Grabar");
+                    timer.stop();
                 }
                 if(tabId.equals(tsRecordings.getTag())) {
                     //destroy mars
-                    leftLedMeter.setLevel(0,80);
-                    rightLedMeter.setLevel(0,80);
-                    if (micVis.getState().equals(WavAudioRecorder.State.RECORDING)) {
-                        micVis.stop();
-                        mRecorder.release();
-                    }
-                    if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
-                        mRecorder.stop();
-                        mRecorder.release();
-                    }
+                    stopRecording();
                     filevs.delete();
+                    timer.stop();
+                    leftLedMeter.setLevel(0, 80);
+                    rightLedMeter.setLevel(0,80);
                     listView = (ListView) findViewById(R.id.listView);
                     listviewitems = dir.list();
                     arrayAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_expandable_list_item_1, listviewitems);
@@ -157,56 +155,70 @@ public class RecordActivity extends AppCompatActivity {
         filevs = new File(dir, filename+"vis"+format);
         dir = new File(root.getAbsolutePath() + directory);
         mVisualizerFilePath = filevs.toString();
-        micVis = WavAudioRecorder.getInstance(0,0);
-        micVis.setOutputFile(mVisualizerFilePath);
-        micVis.prepare();
-        micVis.start();
-        new Thread(new RecTask()).start();
-
+        timer = (Chronometer)findViewById(R.id.chronometer);
 }
-    public void grabacion (View view)
-    {
+    public void grabacionBoton(View view){
+        if(boton.getText().equals("Grabar")){
+            boton.setText("Grabando");
+            startRecording();
+            timer.setBase(SystemClock.elapsedRealtime());
+            timer.start();
+            texto.setText("" + mRecorder.getState());
+        }else if(boton.getText().equals("Grabando")){
+            stopRecording();
+            boton.setText("Grabar");
+            timer.stop();
+            texto.setText("" + mRecorder.getState());
+        }
+    }
+    public void startRecording () {
         dir = new File(root.getAbsolutePath() + directory);
         filename = editT.getText().toString();
         file = new File(dir, filename+format);
-        if (file.exists()){
-//            file.delete();
-        }
-        file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
-            micVis.stop();
-            micVis.reset();
-            mRecorder = WavAudioRecorder.getInstance(0,0);
+            bitDepth = SettingsClass.getInstance().getBitDepth();
+            sampleRate = SettingsClass.getInstance().getSampleRate();
+            switch (bitDepth){
+                case 8:
+                    bithState = 1;
+                    break;
+                case 16:
+                    bithState = 0;
+                    break;
+            }
+            switch (sampleRate){
+                case 44100:
+                    sampleState = 1;
+                    break;
+                case 48000:
+                    sampleState = 0;
+                    break;
+            }
+            mRecorder = WavAudioRecorder.getInstance(sampleState, bithState);
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
             mRecorder.start();
             new Thread(new RecTask()).start();
-            boton.setText("Grabando");
-        } else if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR)) {
+        }
+    }
+    public void stopRecording(){
+        if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR) || mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
             mRecorder.release();
             mRecorder = WavAudioRecorder.getInstance(0,0);
             mRecorder.setOutputFile(mRecordFilePath);
-            boton.setText("Grabar");
-        } else {
-            mRecorder.stop();
-            mRecorder.reset();
-            micVis = WavAudioRecorder.getInstance(0,0);
-            micVis.setOutputFile(mVisualizerFilePath);
-            micVis.prepare();
-            micVis.start();
-            new Thread(new RecTask()).start();
-            boton.setText("Grabar");
         }
-        texto.setText(""+mRecorder.getState());
+
+
     }
 
-    public void reproduccion ()
-    {
+    public void reproduccion () {
         if (listcontrol == 0) {
             try {
                 mP.startPlayBack(filetoplay);
-               // new Thread(new Task()).start();
+                timer.setBase(SystemClock.elapsedRealtime());
+                timer.start();
+                new Thread(new PlayTask()).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -214,6 +226,7 @@ public class RecordActivity extends AppCompatActivity {
         }
         else if (listcontrol == 1){
             mP.stopPlayback();
+            timer.stop();
             listcontrol = 0;
         }
 
@@ -222,7 +235,7 @@ public class RecordActivity extends AppCompatActivity {
     public class RecTask implements Runnable {
         @Override
         public void run() {
-            while(micVis.getState().equals(WavAudioRecorder.State.RECORDING )|| mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+            while(mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
                 micVisualizer();
                 textLeftdB.post(new Runnable() {
                     @Override
@@ -233,7 +246,7 @@ public class RecordActivity extends AppCompatActivity {
                 textRightdB.post(new Runnable() {
                     @Override
                     public void run() {
-                        textRightdB.setText("" + Math.abs(-80 -micRightDbfs) + "dB Fs ");
+                        textRightdB.setText("" + Math.abs(-80 - micRightDbfs) + "dB Fs ");
                     }
                 });
                 leftLedMeter.post(new Runnable() {
@@ -249,20 +262,58 @@ public class RecordActivity extends AppCompatActivity {
                     }
                 });
                 try {
-                    Thread.sleep(113);
+                    Thread.sleep(0);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+    public class PlayTask implements Runnable {
+        @Override
+        public void run() {
+            itc = 0;
+            while(mP.getState().equals(mPlayer.playerState.PLAYING)) {
+                bufar = aR.getbufAudioRead(itc);
+                leftRms = aR.getLeftRMSvalue();
+                rightRms = aR.getRightRMSvalue();
+                leftDbfs = Math.round(aR.getLeftDbfsValue());
+                rightDbfs = Math.round(aR.getRightDbfsValue());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                leftLedMeter.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 120);
+                    }
+                });
+                rightLedMeter.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        rightLedMeter.setLevel(Math.abs(-80 - rightDbfs), 120);
+                    }
+                });
+                textLeftdB.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        textLeftdB.setText("" + leftDbfs);
+                    }
+                });
+                textRightdB.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        textRightdB.setText("" +rightDbfs);
+                    }
+                });
+                itc += aR.getNumberSamples();
+            }
+        }
+    }
      public void micVisualizer (){
-         if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
-             wavBuffer = mRecorder.getBuffer();
-         }
-         else{
-             wavBuffer = micVis.getBuffer();
-         }
+         wavBuffer = mRecorder.getBuffer();
          bb = ByteBuffer.wrap(wavBuffer);
              il = 0;
              ir = 0;
@@ -332,10 +383,6 @@ public class RecordActivity extends AppCompatActivity {
     public void recordingsActivity(MenuItem item) {
         Intent intent = new Intent(this,RecordingsActivity.class);
         intent.putExtra("RecordActivitydirectory", directory);
-        if (!micVis.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
-            micVis.stop();
-            mRecorder.release();
-        }
         if (!mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
             mRecorder.stop();
             mRecorder.release();

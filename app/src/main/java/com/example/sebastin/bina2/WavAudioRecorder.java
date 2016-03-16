@@ -14,8 +14,8 @@ import android.util.Log;
 
 public class WavAudioRecorder{
 
-    private final static int[] sampleRates = {44100, 22050, 11025, 8000};
-    private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_FLOAT};
+    private final static int[] sampleRates = {48000,44100, 22050, 11025, 8000};
+    private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
     public String data;
     public static WavAudioRecorder getInstance(int sampleRate,int bithDepth) {
         WavAudioRecorder result = null;
