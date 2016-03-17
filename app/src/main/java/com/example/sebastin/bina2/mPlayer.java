@@ -6,21 +6,32 @@ package com.example.sebastin.bina2;
 
 import android.media.MediaPlayer;
 import android.media.session.MediaController;
+import android.support.v7.app.AppCompatActivity;
+
+import java.io.IOException;
 
 
 public  class mPlayer {
-    public enum playerState  {PLAYING,STOPPED}
+    public enum playerState  {INITIALIZED,PLAYING,STOPPED,PAUSED}
     private playerState        playerState;
-    public static  MediaPlayer Play;
+    MediaPlayer Play;
+
     public mPlayer (){
-        playerState = playerState.STOPPED;
         Play = new MediaPlayer();
+
     }
-    public  void startPlayBack  (String filePath)throws Exception{
-        if (playerState == playerState.STOPPED) {
+    public void setFilePath(String filePath){
+        try {
             Play = new MediaPlayer();
+            Play.reset();
             Play.setDataSource(filePath);
             Play.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        playerState = playerState.INITIALIZED;
+    }
+    public  void startPlayBack  ()throws Exception{
             Play.start();
             Play.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -30,15 +41,17 @@ public  class mPlayer {
                 }
             });
             playerState = playerState.PLAYING;
-        }
+
+    }
+    public void pausePlayback (){
+        Play.pause();
+        playerState = playerState.PAUSED;
     }
     public void stopPlayback () {
-        if (Play != null && (playerState == playerState.PLAYING)) {
             Play.stop();
             Play.release();
             Play = null;
             playerState = playerState.STOPPED;
-        }
     }
 
     public  playerState getState(){

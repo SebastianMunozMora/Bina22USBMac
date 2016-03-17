@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -58,7 +59,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class RecordingsActivity extends Activity {
+public class RecordingsActivity extends AppCompatActivity {
 
     ExpandableListView expandableListView;
     Button backButton;

@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class MyAdapter extends BaseExpandableListAdapter {
     private List<String>header_titles;
     private HashMap<String,List<String>>child_titles;
     private Context ctx;
+    RadioGroup radioGroup;
     MyAdapter (Context ctx,List<String>header_titles,HashMap<String,List<String>>child_titles){
         this.ctx = ctx;
         this.header_titles = header_titles;
@@ -65,6 +68,7 @@ public class MyAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater)this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.parent_layout,null);
         }
+//        radioGroup = (RadioGroup)convertView.findViewById(R.id.childGroup);
         TextView textView= (TextView) convertView.findViewById(R.id.headingItem);
         textView.setTypeface(null, Typeface.BOLD);
         textView.setText(title);
@@ -74,12 +78,15 @@ public class MyAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         String title = (String)this.getChild(groupPosition,childPosition);
-        if (convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater)this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.child_layout,null);
+        if (convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) this.ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.child_layout, null);
         }
         TextView textView = (TextView)convertView.findViewById(R.id.childItem);
         textView.setText(title);
+//        RadioButton radioButton = (RadioButton) convertView.findViewById(R.id.childItem);
+//        radioButton.setText(title);
+//        radioGroup.addView(radioButton);
         return convertView;
     }
 

@@ -66,6 +66,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="100pt"
                         android:id="@+id/listView" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,9 +83,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         android:onClick="grabacion"
-        android:layout_alignBaseline="@+id/textLeftdB"
-        android:layout_alignBottom="@+id/textLeftdB"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/tabHost"
+        android:layout_alignStart="@+id/chronometer" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,9 +93,8 @@
         android:text="0 dB Fs"
         android:id="@+id/textLeftdB"
         android:layout_gravity="right"
-        android:layout_below="@+id/tabHost"
-        android:layout_toEndOf="@+id/leftLedView"
-        android:layout_marginTop="32dp" />
+        android:layout_below="@+id/textView"
+        android:layout_toEndOf="@+id/leftLedView" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -104,8 +103,7 @@
         android:text="0 dB Fs"
         android:id="@+id/textRightdB"
 
-        android:layout_alignBaseline="@+id/textLeftdB"
-        android:layout_alignBottom="@+id/textLeftdB"
+        android:layout_alignTop="@+id/textLeftdB"
         android:layout_toStartOf="@+id/rightLedView" />
     <com.example.sebastin.bina2.LedMeter
 
@@ -116,10 +114,8 @@
         custom:ledWidth="40dp"
         custom:numLed="20"
         android:id="@+id/rightLedView"
-        android:layout_below="@id/tabHost"
-        android:layout_alignTop="@+id/leftLedView"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentEnd="true" />
 
 
     <com.example.sebastin.bina2.LedMeter
@@ -132,15 +128,23 @@
         custom:numLed="20"
         android:id="@+id/leftLedView"
 
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tabHost"
-        android:layout_alignParentBottom="true" />
+        android:layout_below="@+id/tabHost"
+        android:layout_alignParentStart="true" />
 
     <Chronometer
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chronometer"
-        android:layout_marginTop="35dp"
-        android:layout_below="@+id/textView"
+        android:textSize="30sp"
+        android:layout_below="@+id/textRightdB"
         android:layout_centerHorizontal="true" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_alignBottom="@+id/leftLedView"
+        android:layout_alignEnd="@+id/textRightdB"
+        android:layout_toEndOf="@+id/leftLedView" />
+
 </RelativeLayout>
