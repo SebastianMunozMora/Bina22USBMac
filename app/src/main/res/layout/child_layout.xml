@@ -5,18 +5,12 @@
     android:background="#43b6f4"
     android:weightSum="1">
 
-    <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        android:id="@+id/radioButton" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="HelloWorld"
         android:layout_gravity="right"
         android:id="@+id/childItem"
-        android:layout_alignBottom="@+id/radioButton"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

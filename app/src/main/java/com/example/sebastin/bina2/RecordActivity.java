@@ -22,6 +22,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +55,7 @@ public class RecordActivity extends AppCompatActivity {
     int bitDepth = 16;
     int sampleRate = 44100;
     int sampleState = 0;
-    int bithState = 0;
+    int bithState = 1;
     double micLeftRms = 0;
     double micRightRms = 0;
     double micLeftMax = 0;
@@ -70,9 +71,10 @@ public class RecordActivity extends AppCompatActivity {
     ListView listView;
     Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"};
-    int listcontrol = 0;
+    SeekBar seekBar;
     String filetoplay = null;
     AudioRead aR;
+    long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -97,13 +99,13 @@ public class RecordActivity extends AppCompatActivity {
                 if (tabId.equals(tsRecord.getTag())) {
                     //destroy earth
                     boton.setText("Grabar");
-                    timer.stop();
+                    resetChrono();
                 }
                 if (tabId.equals(tsRecordings.getTag())) {
                     //destroy mars
                     stopRecording();
                     filevs.delete();
-                    timer.stop();
+                    resetChrono();
                     leftLedMeter.setLevel(0, 80);
                     rightLedMeter.setLevel(0, 80);
                     mP = new mPlayer();
@@ -163,7 +165,7 @@ public class RecordActivity extends AppCompatActivity {
         texto = (TextView) findViewById(R.id.textView);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
-        mRecorder = WavAudioRecorder.getInstance(0, 0);
+        mRecorder = WavAudioRecorder.getInstance(0, 1);
         filevs = new File(dir, filename+"vis"+format);
         dir = new File(root.getAbsolutePath() + directory);
         mVisualizerFilePath = filevs.toString();
@@ -172,30 +174,38 @@ public class RecordActivity extends AppCompatActivity {
     public void grabacionBoton(View view){
         if(boton.getText().equals("Grabar")){
             boton.setText("Grabando");
+            startChrono();
             startRecording();
-            timer.setBase(SystemClock.elapsedRealtime());
-            timer.start();
             texto.setText("" + mRecorder.getState());
         }else if(boton.getText().equals("Grabando")){
-            stopRecording();
+            pauseRecording();
             boton.setText("Grabar");
-            timer.stop();
+            stopChrono();
             texto.setText("" + mRecorder.getState());
         }
+    }
+    public void stopButton(View view){
+        stopRecording();
+        resetChrono();
+        boton.setText("Grabar");
+        texto.setText(""+mRecorder.getState());
     }
     public void startRecording () {
         dir = new File(root.getAbsolutePath() + directory);
         filename = editT.getText().toString();
         file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
-        if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
+        if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)  || mRecorder.getState().equals(WavAudioRecorder.State.STOPPED)) {
             bitDepth = SettingsClass.getInstance().getBitDepth();
             sampleRate = SettingsClass.getInstance().getSampleRate();
             switch (bitDepth){
                 case 8:
-                    bithState = 1;
+                    bithState = 2;
                     break;
                 case 16:
+                    bithState = 1;
+                    break;
+                case 24:
                     bithState = 0;
                     break;
             }
@@ -213,12 +223,21 @@ public class RecordActivity extends AppCompatActivity {
             mRecorder.start();
             new Thread(new RecTask()).start();
         }
+        if (mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)){
+            mRecorder.start();
+            new Thread(new RecTask()).start();
+        }
+    }
+    public void pauseRecording(){
+        if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+            mRecorder.pause();
+        }
+
     }
     public void stopRecording(){
-        if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR) || mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+        if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR) || mRecorder.getState().equals(WavAudioRecorder.State.RECORDING ) || mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)) {
+            mRecorder.stop();
             mRecorder.release();
-            mRecorder = WavAudioRecorder.getInstance(0,0);
-            mRecorder.setOutputFile(mRecordFilePath);
         }
     }
 
@@ -227,17 +246,21 @@ public class RecordActivity extends AppCompatActivity {
             case INITIALIZED:
                 try {
                     mP.startPlayBack();
+                    startChrono();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case PLAYING:
                 mP.pausePlayback();
+                stopChrono();
                 break;
             case STOPPED:
                     mP.setFilePath(filetoplay);
                 try {
                     mP.startPlayBack();
+                    resetChrono();
+                    startChrono();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -252,7 +275,22 @@ public class RecordActivity extends AppCompatActivity {
                 break;
         }
     }
-
+    public void startChrono (){
+        elapsedMillis = elapsedMillis+(clockStop-clockStart);
+        timer.setBase(SystemClock.elapsedRealtime()-(elapsedMillis));
+        clockStart = SystemClock.elapsedRealtime();
+        timer.start();
+    }
+    public void stopChrono(){
+        timer.stop();
+        clockStop = SystemClock.elapsedRealtime();
+    }
+    public void resetChrono(){
+        elapsedMillis = 0;
+        clockStart = 0;
+        clockStop = 0;
+        timer.stop();
+    }
     public class RecTask implements Runnable {
         @Override
         public void run() {
@@ -403,10 +441,7 @@ public class RecordActivity extends AppCompatActivity {
     public void recordingsActivity(MenuItem item) {
         Intent intent = new Intent(this,RecordingsActivity.class);
         intent.putExtra("RecordActivitydirectory", directory);
-        if (!mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)) {
-            mRecorder.stop();
-            mRecorder.release();
-        }
+        stopRecording();
         filevs.delete();
         startActivity(intent);
     }

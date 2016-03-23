@@ -23,6 +23,7 @@
         <item>44100</item>
     </string-array>
     <string-array name="bit_depth">
+        <item>24</item>
         <item>16</item>
         <item>8</item>
     </string-array>

@@ -54,6 +54,14 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="28dp" />
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parar"
+                        android:onClick="stopButton"
+                        android:id="@+id/button4"
+                        android:layout_gravity="center_horizontal" />
+
 
                 </LinearLayout>
 

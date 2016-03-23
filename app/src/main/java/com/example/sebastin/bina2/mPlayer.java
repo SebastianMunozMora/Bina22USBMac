@@ -23,7 +23,8 @@ public  class mPlayer {
     public void setFilePath(String filePath){
         try {
             Play = new MediaPlayer();
-            Play.reset();
+
+
             Play.setDataSource(filePath);
             Play.prepare();
         } catch (IOException e) {

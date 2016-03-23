@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 
+import android.media.AudioDeviceInfo;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder.AudioSource;
@@ -15,7 +16,7 @@ import android.util.Log;
 public class WavAudioRecorder{
 
     private final static int[] sampleRates = {48000,44100, 22050, 11025, 8000};
-    private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
+    private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_FLOAT,AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
     public String data;
     public static WavAudioRecorder getInstance(int sampleRate,int bithDepth) {
         WavAudioRecorder result = null;
@@ -38,7 +39,7 @@ public class WavAudioRecorder{
      * ERROR : reconstruction needed
      * STOPPED: reset needed
      */
-    public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED};
+    public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED,PAUSED};
 
     public static final boolean RECORDING_UNCOMPRESSED = true;
     public static final boolean RECORDING_COMPRESSED = false;
@@ -76,7 +77,7 @@ public class WavAudioRecorder{
     // Number of bytes written to file after header(only in uncompressed mode)
     // after stop() is called, this size is written to the header/data chunk in the wave file
     private int                      payloadSize;
-
+    long filePointer = 0;
     /**
      *
      * Returns the state of the recorder in a WavAudioRecorder.State typed object.
@@ -99,9 +100,13 @@ public class WavAudioRecorder{
             else {
                 int numOfBytes = audioRecorder.read(buffer, 0, buffer.length); // read audio data to buffer
                  data = buffer.toString();
-//			Log.d(WavAudioRecorder.this.getClass().getName(), state + ":" + numOfBytes);
+			Log.d(WavAudioRecorder.this.getClass().getName(), state + ":" + numOfBytes);
                 try {
-                    randomAccessWriter.write(buffer);          // write audio data to file
+                    if (State.PAUSED == state){
+                        randomAccessWriter.seek(filePointer);
+                    }
+                    randomAccessWriter.write(buffer); // write audio data to file
+                    filePointer = randomAccessWriter.getFilePointer();
                     payloadSize += buffer.length;
                 } catch (IOException e) {
                     Log.e(WavAudioRecorder.class.getName(), "");
@@ -124,10 +129,16 @@ public class WavAudioRecorder{
      */
     public WavAudioRecorder(int audioSource, int sampleRate, int channelConfig, int audioFormat) {
         try {
-            if (audioFormat == AudioFormat.ENCODING_PCM_16BIT) {
-                mBitsPersample = 16;
-            } else if (audioFormat == AudioFormat.ENCODING_PCM_FLOAT) {
-                mBitsPersample = 8;
+            switch(audioFormat){
+                case AudioFormat.ENCODING_PCM_FLOAT:
+                    mBitsPersample = 1;
+                    break;
+                case AudioFormat.ENCODING_PCM_16BIT:
+                    mBitsPersample = 16;
+                    break;
+                case AudioFormat.ENCODING_PCM_8BIT:
+                    mBitsPersample = 8;
+                    break;
             }
 
             if (channelConfig == AudioFormat.CHANNEL_IN_MONO) {
@@ -142,14 +153,13 @@ public class WavAudioRecorder{
 
             mPeriodInFrames = sampleRate * TIMER_INTERVAL / 1000;		//?
             mBufferSize = mPeriodInFrames * 2  * nChannels * mBitsPersample / 8;		//?
-            if (audioFormat == AudioFormat.ENCODING_PCM_16BIT && mBufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)) {
+            if (mBufferSize < AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat)) {
                 // Check to make sure buffer size is not smaller than the smallest allowed one
                 mBufferSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
                 // Set frame period and timer interval accordingly
                 mPeriodInFrames = mBufferSize / ( 2 * mBitsPersample * nChannels / 8 );
                 Log.w(WavAudioRecorder.class.getName(), "Increasing buffer size to " + Integer.toString(mBufferSize));
             }
-
             audioRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, mBufferSize);
 
             if (audioRecorder.getState() != AudioRecord.STATE_INITIALIZED) {
@@ -304,7 +314,12 @@ public class WavAudioRecorder{
             audioRecorder.startRecording();
             audioRecorder.read(buffer, 0, buffer.length);	//[TODO: is this necessary]read the existing data in audio hardware, but don't do anything
             state = State.RECORDING;
-        } else {
+        } else if(state == State.PAUSED){
+            audioRecorder.startRecording();
+            audioRecorder.read(buffer, 0, buffer.length);	//[TODO: is this necessary]read the existing data in audio hardware, but don't do anything
+            state = State.RECORDING;
+
+        }else{
             Log.e(WavAudioRecorder.class.getName(), "start() called on illegal state");
             state = State.ERROR;
         }
@@ -318,9 +333,17 @@ public class WavAudioRecorder{
      * Also finalizes the wave file in case of uncompressed recording.
      *
      */
-    public void stop() {
-        if (state == State.RECORDING) {
+    public void pause(){
+        if (state == State.RECORDING){
             audioRecorder.stop();
+            state = State.PAUSED;
+        }
+    }
+    public void stop() {
+        if (state == State.RECORDING || state == State.PAUSED) {
+            if (state == State.RECORDING) {
+                audioRecorder.stop();
+            }
             try {
                 randomAccessWriter.seek(4); // Write size to RIFF header
                 randomAccessWriter.writeInt(Integer.reverseBytes(36+payloadSize));
