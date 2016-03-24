@@ -98,7 +98,7 @@ public class RecordActivity extends AppCompatActivity {
             public void onTabChanged(String tabId) {
                 if (tabId.equals(tsRecord.getTag())) {
                     //destroy earth
-                    boton.setText("Grabar");
+//                    boton.setText("Grabar");
                     resetChrono();
                 }
                 if (tabId.equals(tsRecordings.getTag())) {
@@ -161,7 +161,7 @@ public class RecordActivity extends AppCompatActivity {
         File file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
         editT = (EditText) findViewById(R.id.editText);
-        boton = (Button) findViewById(R.id.button);
+//        boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
@@ -172,14 +172,14 @@ public class RecordActivity extends AppCompatActivity {
         timer = (Chronometer)findViewById(R.id.chronometer);
     }
     public void grabacionBoton(View view){
-        if(boton.getText().equals("Grabar")){
-            boton.setText("Grabando");
+        if(!mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)){
+//            boton.setText("Grabando");
             startChrono();
             startRecording();
             texto.setText("" + mRecorder.getState());
-        }else if(boton.getText().equals("Grabando")){
+        }else {
             pauseRecording();
-            boton.setText("Grabar");
+//            boton.setText("Grabar");
             stopChrono();
             texto.setText("" + mRecorder.getState());
         }
@@ -187,7 +187,7 @@ public class RecordActivity extends AppCompatActivity {
     public void stopButton(View view){
         stopRecording();
         resetChrono();
-        boton.setText("Grabar");
+//        boton.setText("Grabar");
         texto.setText(""+mRecorder.getState());
     }
     public void startRecording () {
@@ -268,6 +268,7 @@ public class RecordActivity extends AppCompatActivity {
                 break;
             case PAUSED:
                 try {
+                    startChrono();
                     mP.startPlayBack();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -290,6 +291,7 @@ public class RecordActivity extends AppCompatActivity {
         clockStart = 0;
         clockStop = 0;
         timer.stop();
+        timer.setText("00:00");
     }
     public class RecTask implements Runnable {
         @Override
@@ -346,13 +348,13 @@ public class RecordActivity extends AppCompatActivity {
                 leftLedMeter.post(new Runnable() {
                     @Override
                     public void run() {
-                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 120);
+                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 80);
                     }
                 });
                 rightLedMeter.post(new Runnable() {
                     @Override
                     public void run() {
-                        rightLedMeter.setLevel(Math.abs(-80 - rightDbfs), 120);
+                        rightLedMeter.setLevel(Math.abs(-80 - rightDbfs), 80);
                     }
                 });
                 textLeftdB.post(new Runnable() {
@@ -398,16 +400,16 @@ public class RecordActivity extends AppCompatActivity {
                      ir++;
                  }
              }
-         micRightRms = (int) Math.sqrt(micRightRms/(micRightBuffer.length));
-         micLeftRms = (int) Math.sqrt(micLeftRms/(micLeftBuffer.length));
+         micRightRms =  Math.sqrt(micRightRms/(micRightBuffer.length));
+         micLeftRms =  Math.sqrt(micLeftRms/(micLeftBuffer.length));
          if (micLeftRms >= 0.001) {
-             micLeftDbfs = Math.round(10 * Math.log10(micLeftRms / 32768));
+             micLeftDbfs = Math.round(20 * Math.log10(micLeftRms / 32768));
          }
          else{
              micLeftDbfs = -80;
          }
          if (micRightRms >= 0.001) {
-             micRightDbfs = Math.round(10 * Math.log10(micRightRms / 32768));
+             micRightDbfs = Math.round(20 * Math.log10(micRightRms / 32768));
          }
          else{
              micRightDbfs = -80;

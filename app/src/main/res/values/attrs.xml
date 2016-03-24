@@ -9,7 +9,6 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
     <declare-styleable name="LedMeter">
-        <attr name="ledColor" format="color" />
         <attr name="ledHeight" format="dimension"/>
         <attr name="ledWidth" format="dimension"/>
         <attr name="numLed" format="integer"/>

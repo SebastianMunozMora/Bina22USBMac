@@ -1,6 +1,7 @@
 package com.example.sebastin.bina2;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -31,6 +32,8 @@ public class LedMeter extends View {
     Rect rackRectangle,ledRectangle;
     int numLed = 8;
     boolean []levelState;
+    double level;
+    int rackColor;
     public LedMeter(Context context) {
         super(context);
 
@@ -46,8 +49,9 @@ public class LedMeter extends View {
                 0, 0
         );
         mRackWidth = a.getDimension(R.styleable.LedMeter_ledWidth, 0.0f);
-        mRackHeight = a.getDimension(R.styleable.LedMeter_ledHeight,0.0f);
+        mRackHeight = a.getDimension(R.styleable.LedMeter_ledHeight, 0.0f);
         numLed = a.getInt(R.styleable.LedMeter_numLed,8);
+        rackColor = getResources().getColor(R.color.rack_color);
         init(attrs, 0);
     }
 
@@ -58,7 +62,13 @@ public class LedMeter extends View {
         ledTop = top+blockHeight*(1f/3f);
         for (int i = 0;i < numLed;i++) {
             if (levelState[i]){
-                ledPaint.setColor(Color.GREEN);
+                if (i >= 7) {
+                    ledPaint.setColor(Color.RED);
+                }else if(i >= 4) {
+                    ledPaint.setColor(Color.YELLOW);
+                }else{
+                    ledPaint.setColor(Color.GREEN);
+                }
             }else{
                 ledPaint.setColor(Color.BLACK);
             }
@@ -70,7 +80,7 @@ public class LedMeter extends View {
     public void init(AttributeSet attributeSet, int defStyles){
 
         rackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        rackPaint.setColor(Color.GRAY);
+        rackPaint.setColor(rackColor);
         rackPaint.setStyle(Paint.Style.FILL);
         ledPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         ledPaint.setStyle(Paint.Style.STROKE);
@@ -93,6 +103,7 @@ public class LedMeter extends View {
         setLevel(10,80);
     }
     public void setLevel(double level,int max) {
+        this.level = level;
         for (int i = 0;i < numLed-1;i++) {
             if (level <= (max/numLed)*i) {
                 for (int k = 0;k < i;k++){

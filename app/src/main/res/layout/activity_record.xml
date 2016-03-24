@@ -5,7 +5,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".RecordActivity"
-    android:background="#77a8f5">
+    android:background="#ffffff">
 
     <TabHost
         android:layout_width="match_parent"
@@ -22,7 +22,8 @@
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#3ba3d4">
             </TabWidget>
 
             <FrameLayout
@@ -30,40 +31,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:weightSum="1">
 
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/editText"
                         android:text="Grabacion"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignStart="@+id/button"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Grabar"
+                    <ImageButton
+                        android:padding="2dp"
+                        android:scaleType="fitCenter"
+                        android:layout_width="60dp"
+                        android:layout_height="41dp"
+                        android:background="#00488e9b"
+                        android:src="@drawable/ic_fiber_smart_record"
                         android:id="@+id/button"
                         android:onClick="grabacionBoton"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="28dp" />
+                        android:adjustViewBounds="true"
+                        android:layout_below="@+id/editText"
+                        android:layout_centerHorizontal="true" />
 
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Parar"
+                    <ImageButton
+                        android:padding="1dp"
+                        android:scaleType="fitCenter"
+                        android:layout_width="51dp"
+                        android:layout_height="34dp"
+                        android:src="@drawable/ic_stop"
+                        android:background="#0041a6af"
+                        android:adjustViewBounds="true"
                         android:onClick="stopButton"
                         android:id="@+id/button4"
-                        android:layout_gravity="center_horizontal" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -101,7 +114,7 @@
         android:text="0 dB Fs"
         android:id="@+id/textLeftdB"
         android:layout_gravity="right"
-        android:layout_below="@+id/textView"
+        android:layout_alignTop="@+id/leftLedView"
         android:layout_toEndOf="@+id/leftLedView" />
 
     <TextView
@@ -110,49 +123,48 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0 dB Fs"
         android:id="@+id/textRightdB"
-
         android:layout_alignTop="@+id/textLeftdB"
         android:layout_toStartOf="@+id/rightLedView" />
     <com.example.sebastin.bina2.LedMeter
-
         android:layout_width="wrap_content"
-
-        android:layout_height="match_parent"
-        custom:ledHeight="300dp"
-        custom:ledWidth="40dp"
-        custom:numLed="20"
+        android:layout_height="wrap_content"
+        custom:ledHeight="140dp"
+        custom:ledWidth="50dp"
+        custom:numLed="10"
         android:id="@+id/rightLedView"
         android:layout_alignTop="@+id/textView"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/seekBar" />
 
-
-    <com.example.sebastin.bina2.LedMeter
-
-        android:layout_width="wrap_content"
-
-        android:layout_height="fill_parent"
-        custom:ledHeight="300dp"
-        custom:ledWidth="40dp"
-        custom:numLed="20"
-        android:id="@+id/leftLedView"
-
-        android:layout_below="@+id/tabHost"
-        android:layout_alignParentStart="true" />
 
     <Chronometer
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chronometer"
         android:textSize="30sp"
-        android:layout_below="@+id/textRightdB"
+        android:layout_alignBottom="@+id/rightLedView"
         android:layout_centerHorizontal="true" />
 
     <SeekBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/seekBar"
-        android:layout_alignBottom="@+id/leftLedView"
-        android:layout_alignEnd="@+id/textRightdB"
-        android:layout_toEndOf="@+id/leftLedView" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <com.example.sebastin.bina2.LedMeter
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        custom:ledHeight="140dp"
+        custom:ledWidth="50dp"
+        custom:numLed="10"
+        android:id="@+id/leftLedView"
+
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/rightLedView" />
 
 </RelativeLayout>
