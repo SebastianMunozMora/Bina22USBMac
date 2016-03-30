@@ -67,13 +67,14 @@ public class RecordActivity extends AppCompatActivity {
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
     TabHost th;
-    ArrayAdapter arrayAdapter;
+    ArrayAdapter titleAdapter,dataAdapter,imageAdapter;
     ListView listView;
     Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"};
     SeekBar seekBar;
     String filetoplay = null;
     AudioRead aR;
+    RecordingsAdapter recordingsAdapter;
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,30 +113,37 @@ public class RecordActivity extends AppCompatActivity {
                     filetoplay = null;
                     listView = (ListView) findViewById(R.id.listView);
                     listviewitems = dir.list();
-                    arrayAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
-                    listView.setAdapter(arrayAdapter);
+                    titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
+                    recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
+                    for (int i = 0;i < dir.list().length;i++){
+                        RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.cs_10em_angle_gal,listviewitems[i],"a");
+                        recordingsAdapter.add(recordingsDataProvider);
+                    }
+                    listView.setAdapter(recordingsAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView parent, View view, int position, long id) {
+                            TextView tv = (TextView)view.findViewById(R.id.list_item);
+                            String recordingTitle = tv.getText().toString();
                             view.setSelected(true);
                             if (filetoplay == null){
-                                filetoplay = dir.toString() + "/" + parent.getItemAtPosition(position).toString();
+                                filetoplay = dir.toString() + "/" + recordingTitle;
                                 mP.setFilePath(filetoplay);
                             }
-                            if (!filetoplay.equals(dir.toString() + "/" + parent.getItemAtPosition(position).toString()) && !mP.getState().equals(mPlayer.playerState.STOPPED)) {
+                            if (!filetoplay.equals(dir.toString() + "/" + recordingTitle) && !mP.getState().equals(mPlayer.playerState.STOPPED)) {
                                 //cambio de grabacion si playing
                                 mP.stopPlayback();
-                                filetoplay = dir.toString() + "/" + parent.getItemAtPosition(position).toString();
+                                filetoplay = dir.toString() + "/" + recordingTitle;
                                 mP.setFilePath(filetoplay);
                             }
-                            filetoplay = dir.toString() + "/" + parent.getItemAtPosition(position).toString();
+                            filetoplay = dir.toString() + "/" + recordingTitle;
                             reproduccion();
                             aR = new AudioRead();
                             aR.setAudioRead(filetoplay, 100);
                             if (mP.getState().equals(mPlayer.playerState.PLAYING)) {
-                                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " " + mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), recordingTitle + " " + mPlayer.playerState.PLAYING.toString(), Toast.LENGTH_SHORT).show();
                             } else if (mP.getState().equals(mPlayer.playerState.STOPPED)) {
-                                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " " + mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), recordingTitle + " " + mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                             }
                             texto.setText(mP.getState().toString());
                             new Thread(new PlayTask()).start();
