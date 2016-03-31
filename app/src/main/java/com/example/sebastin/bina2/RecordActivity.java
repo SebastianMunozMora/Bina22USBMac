@@ -72,7 +72,6 @@ public class RecordActivity extends AppCompatActivity {
     ListView listView;
     Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"};
-    SeekBar seekBar;
     String filetoplay = null;
     AudioRead aR;
     RecordingsAdapter recordingsAdapter;
