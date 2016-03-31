@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="80dp"
 
-    android:background="#62b0f5">
+    android:background="#c0c8ff">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#e41616"
-        android:layout_below="@+id/imageView"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="100dp"

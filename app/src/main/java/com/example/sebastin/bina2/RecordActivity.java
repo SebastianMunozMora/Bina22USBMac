@@ -56,6 +56,7 @@ public class RecordActivity extends AppCompatActivity {
     int sampleRate = 44100;
     int sampleState = 0;
     int bithState = 1;
+    int recCount = 0;
     double micLeftRms = 0;
     double micRightRms = 0;
     double micLeftMax = 0;
@@ -246,6 +247,10 @@ public class RecordActivity extends AppCompatActivity {
         if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR) || mRecorder.getState().equals(WavAudioRecorder.State.RECORDING ) || mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)) {
             mRecorder.stop();
             mRecorder.release();
+            recCount+=1;
+            filename = editT.getText().toString()+recCount;
+            editT.setText(filename);
+
         }
     }
 
