@@ -4,9 +4,9 @@
     <string name="hello_world">Bin2</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_set_up">SetUp</string>
-    <string name="title_activity_recordings">RecordingsActivity</string>
+    <string name="title_activity_recordings">Configuracion</string>
     <string name="title_activity_convolution">ConvolutionActivity</string>
-    <string name="title_activity_record">RecordActivity</string>
+    <string name="title_activity_record"></string>
 
 
     <string name="title_activity_start_up">StartUpActivity</string>
@@ -16,14 +16,11 @@
     
     <string-array name="header_titles">
         <item>Frecuencia de Muestreo</item>
-        <item>Profundidad de Bits</item>
+
     </string-array>
     <string-array name="sampling_rates">
         <item>48000</item>
         <item>44100</item>
     </string-array>
-    <string-array name="bit_depth">
-        <item>16</item>
-        <item>8</item>
-    </string-array>
+
 </resources>

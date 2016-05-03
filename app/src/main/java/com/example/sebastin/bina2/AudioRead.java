@@ -162,7 +162,11 @@ public class AudioRead extends Application {
         MediaMetadataRetriever mmdR = new MediaMetadataRetriever();
         mmdR.setDataSource(file);
         String emD = mmdR.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        return emD;
+        float emDint = Float.parseFloat(emD)/1000;
+        int min = Math.round(emDint/60);
+        int secs = Math.round(emDint-60*min);
+        String recTime = min+":"+secs;
+        return recTime;
     }
 
 }

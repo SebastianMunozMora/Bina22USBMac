@@ -79,18 +79,18 @@ public class RecordingsActivity extends AppCompatActivity {
         final HashMap<String,List<String>>childList = new HashMap<String,List<String>>();
         final String headingItems[] = getResources().getStringArray(R.array.header_titles);
         final String samplingRates[] = getResources().getStringArray(R.array.sampling_rates);
-        final String bitDepth[] = getResources().getStringArray(R.array.bit_depth);
+//        final String bitDepth[] = getResources().getStringArray(R.array.bit_depth);
         for (String title: headingItems){
             headings.add(title);
         }
         for (String title: samplingRates){
             sampleRates.add(title);
         }
-        for (String title: bitDepth){
-            bitDepths.add(title);
-        }
+//        for (String title: bitDepth){
+//            bitDepths.add(title);
+//        }
         childList.put(headings.get(0),sampleRates);
-        childList.put(headings.get(1),bitDepths);
+//        childList.put(headings.get(1),bitDepths);
         MyAdapter myAdapter = new MyAdapter(this,headings,childList);
         expandableListView.setAdapter(myAdapter);
         // Listview on child click listener
@@ -109,14 +109,14 @@ public class RecordingsActivity extends AppCompatActivity {
                         }
                     }
                 }
-                if (currentGroup.equals(headingItems[1])) {
-                    for (int i = 0; i < bitsPerSample.length; i++) {
-                        if (currentChild.equals(bitDepth[i])) {
-                            SettingsClass.getInstance().setBitDepth(bitsPerSample[i]);
-                            break;
-                        }
-                    }
-                }
+//                if (currentGroup.equals(headingItems[1])) {
+//                    for (int i = 0; i < bitsPerSample.length; i++) {
+//                        if (currentChild.equals(bitDepth[i])) {
+//                            SettingsClass.getInstance().setBitDepth(bitsPerSample[i]);
+//                            break;
+//                        }
+//                    }
+//                }
                 Toast.makeText(
                         getApplicationContext(),
                         currentGroup

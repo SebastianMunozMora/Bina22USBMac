@@ -1,5 +1,7 @@
 package com.example.sebastin.bina2;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,7 +34,7 @@ import android.widget.Toast;
 public class RecordActivity extends AppCompatActivity {
     EditText editT;
     Button boton;
-    public static TextView texto,textLeftdB, textRightdB;
+    public static TextView texto,textLeftdB, textRightdB,countText;
     public mPlayer mP;
     private WavAudioRecorder mRecorder;
     public String mRecordFilePath;
@@ -71,10 +73,10 @@ public class RecordActivity extends AppCompatActivity {
     ArrayAdapter titleAdapter,dataAdapter,imageAdapter;
     ListView listView;
     Chronometer timer;
-    String listviewitems[] = {"No hay Grabaciones"};
+    String listviewitems[] = {"No hay Grabaciones"},metadataitems[] = {"n"};
     SeekBar seekBar;
     String filetoplay = null;
-    AudioRead aR;
+    AudioRead aR = new AudioRead();
     RecordingsAdapter recordingsAdapter;
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     @Override
@@ -82,6 +84,8 @@ public class RecordActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        Bundle bundle = getIntent().getExtras();
+        setTitle(bundle.getString("ProjectActivitiyprojectName"));
         th = (TabHost)findViewById(R.id.tabHost);
         //Record Tab
         th.setup();
@@ -114,12 +118,21 @@ public class RecordActivity extends AppCompatActivity {
                     filetoplay = null;
                     listView = (ListView) findViewById(R.id.listView);
                     listviewitems = dir.list();
-                    titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
-                    recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
-                    for (int i = 0;i < dir.list().length;i++){
-                        RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.cs_10em_angle_gal,listviewitems[i],"a");
-                        recordingsAdapter.add(recordingsDataProvider);
+                    if (dir.list()!=null){
+                        metadataitems  = new String[listviewitems.length];
+                        for(int i = 0;i < listviewitems.length;i++) {
+                            aR.setAudioRead(dir.toString()+"/"+listviewitems[i],1);
+                            metadataitems[i] = aR.getAudioMetaData();
+                        }
+                        titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
+                        recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
+                        for (int i = 0;i < dir.list().length;i++){
+                            RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.cs_10em_angle_gal,listviewitems[i],metadataitems[i]);
+                            recordingsAdapter.add(recordingsDataProvider);
+                        }
                     }
+
+//                    new Thread(new dataitems()).start();
                     listView.setAdapter(recordingsAdapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -147,7 +160,7 @@ public class RecordActivity extends AppCompatActivity {
                                 Toast.makeText(getBaseContext(), recordingTitle + " " + mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                             }
                             texto.setText(mP.getState().toString());
-                            new Thread(new PlayTask()).start();
+//                            new Thread(new PlayTask()).start();
                         }
                     });
                 }
@@ -158,7 +171,7 @@ public class RecordActivity extends AppCompatActivity {
         leftLedMeter = (LedMeter)findViewById(R.id.leftLedView);
         rightLedMeter = (LedMeter)findViewById(R.id.rightLedView);
         directory = "/BinaRecordings";
-        Bundle bundle = getIntent().getExtras();
+//        Bundle bundle = getIntent().getExtras();
         directory = directory+"/"+bundle.getString("ProjectActivitiyprojectName");
         filename = "Grabacion";
         format = ".wav";
@@ -172,6 +185,7 @@ public class RecordActivity extends AppCompatActivity {
         editT = (EditText) findViewById(R.id.editText);
 //        boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
+        countText = (TextView) findViewById(R.id.textView3);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
         mRecorder = WavAudioRecorder.getInstance(0, 1);
@@ -202,7 +216,12 @@ public class RecordActivity extends AppCompatActivity {
     public void startRecording () {
         dir = new File(root.getAbsolutePath() + directory);
         filename = editT.getText().toString();
-        file = new File(dir, filename+format);
+        if (recCount!=0) {
+            file = new File(dir, filename + recCount + format);
+        }
+        else{
+            file = new File(dir, filename  + format);
+        }
         mRecordFilePath = file.toString();
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)  || mRecorder.getState().equals(WavAudioRecorder.State.STOPPED)) {
             bitDepth = SettingsClass.getInstance().getBitDepth();
@@ -249,7 +268,7 @@ public class RecordActivity extends AppCompatActivity {
             mRecorder.release();
             recCount+=1;
             filename = editT.getText().toString()+recCount;
-            editT.setText(filename);
+            countText.setText("" + recCount);
 
         }
     }
@@ -259,21 +278,23 @@ public class RecordActivity extends AppCompatActivity {
             case INITIALIZED:
                 try {
                     mP.startPlayBack();
-                    startChrono();
+//                    resetChrono();
+//                    startChrono();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case PLAYING:
                 mP.pausePlayback();
-                stopChrono();
+//                resetChrono();
+//                stopChrono();
                 break;
             case STOPPED:
                     mP.setFilePath(filetoplay);
                 try {
                     mP.startPlayBack();
-                    resetChrono();
-                    startChrono();
+//                    resetChrono();
+//                    startChrono();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -281,7 +302,7 @@ public class RecordActivity extends AppCompatActivity {
                 break;
             case PAUSED:
                 try {
-                    startChrono();
+//                    startChrono();
                     mP.startPlayBack();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -343,6 +364,21 @@ public class RecordActivity extends AppCompatActivity {
             }
         }
     }
+    public class dataitems implements Runnable {
+        @Override
+        public void run() {
+            for(int i = 0;i < listviewitems.length;i++) {
+                aR.setAudioRead(dir.toString()+"/"+listviewitems[i],1);
+                metadataitems[i] = aR.getAudioMetaData();
+            }
+//                leftLedMeter.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 80);
+//                    }
+//                });
+            }
+        }
     public class PlayTask implements Runnable {
         @Override
         public void run() {

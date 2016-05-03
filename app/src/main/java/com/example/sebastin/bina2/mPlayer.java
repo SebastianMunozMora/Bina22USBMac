@@ -15,7 +15,6 @@ public  class mPlayer {
     public enum playerState  {INITIALIZED,PLAYING,STOPPED,PAUSED}
     private playerState        playerState;
     MediaPlayer Play;
-
     public mPlayer (){
         Play = new MediaPlayer();
 

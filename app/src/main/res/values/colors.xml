@@ -2,5 +2,6 @@
     <color name="black_overlay">#66000000</color>
     <drawable name="red_color">#7c1e1e</drawable>
     <drawable name="blue_color">#162fea</drawable>
-    <color name="rack_color">#31758c</color>
+    <color name="rack_color">#3ba3d4</color>
+    <color name="theme_color">#3BA3D4</color>
 </resources>
