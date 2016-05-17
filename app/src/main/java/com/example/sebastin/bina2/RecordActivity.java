@@ -1,4 +1,5 @@
 package com.example.sebastin.bina2;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +25,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.MediaController;
+import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -32,9 +34,9 @@ import android.widget.Toast;
 
 
 public class RecordActivity extends AppCompatActivity {
-    EditText editT;
+    EditText editT,countText;
     Button boton;
-    public static TextView texto,textLeftdB, textRightdB,countText;
+    public static TextView texto,textLeftdB, textRightdB;
     public mPlayer mP;
     private WavAudioRecorder mRecorder;
     public String mRecordFilePath;
@@ -78,6 +80,7 @@ public class RecordActivity extends AppCompatActivity {
     String filetoplay = null;
     AudioRead aR = new AudioRead();
     RecordingsAdapter recordingsAdapter;
+    boolean overwrite = false;
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,12 @@ public class RecordActivity extends AppCompatActivity {
                     //destroy earth
 //                    boton.setText("Grabar");
                     resetChrono();
+                    if (mP.getState() != null) {
+                        if (mP.getState().equals(mPlayer.playerState.PLAYING)) {
+                            mP.stopPlayback();
+                        }
+                    }
+
                 }
                 if (tabId.equals(tsRecordings.getTag())) {
                     //destroy mars
@@ -185,7 +194,7 @@ public class RecordActivity extends AppCompatActivity {
         editT = (EditText) findViewById(R.id.editText);
 //        boton = (Button) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
-        countText = (TextView) findViewById(R.id.textView3);
+        countText = (EditText) findViewById(R.id.textView3);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
         mRecorder = WavAudioRecorder.getInstance(0, 1);
@@ -197,8 +206,25 @@ public class RecordActivity extends AppCompatActivity {
     public void grabacionBoton(View view){
         if(!mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)){
 //            boton.setText("Grabando");
-            startChrono();
-            startRecording();
+            dir = new File(root.getAbsolutePath() + directory);
+            filename = editT.getText().toString();
+            if (recCount!=0) {
+                file = new File(dir, filename + recCount + format);
+            }
+            else{
+                file = new File(dir, filename  + format);
+            }
+            if (file.exists()) {
+                PopupMenu popUpMenu = new PopupMenu(this, view);
+                MenuInflater menuInflater = popUpMenu.getMenuInflater();
+                menuInflater.inflate(R.menu.warningpopup, popUpMenu.getMenu());
+                WarningPopUp warningPopUp = new WarningPopUp(getApplicationContext());
+                popUpMenu.setOnMenuItemClickListener(warningPopUp);
+                popUpMenu.show();
+            }else{
+                startChrono();
+                startRecording();
+            }
             texto.setText("" + mRecorder.getState());
         }else {
             pauseRecording();
@@ -214,14 +240,6 @@ public class RecordActivity extends AppCompatActivity {
         texto.setText(""+mRecorder.getState());
     }
     public void startRecording () {
-        dir = new File(root.getAbsolutePath() + directory);
-        filename = editT.getText().toString();
-        if (recCount!=0) {
-            file = new File(dir, filename + recCount + format);
-        }
-        else{
-            file = new File(dir, filename  + format);
-        }
         mRecordFilePath = file.toString();
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)  || mRecorder.getState().equals(WavAudioRecorder.State.STOPPED)) {
             bitDepth = SettingsClass.getInstance().getBitDepth();
@@ -465,6 +483,27 @@ public class RecordActivity extends AppCompatActivity {
          }
      }
 
+    public class WarningPopUp implements PopupMenu.OnMenuItemClickListener{
+        Context context;
+        public  WarningPopUp (Context context){
+            this.context = context;
+        }
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            overwrite = false;
+            String selection = item.getTitle().toString();
+            if (selection.equals("Sobreesribir archivo")) {
+                overwrite = true;
+            }else if (selection.equals("no sobre escribir archivo")){
+                overwrite = false;
+            }
+            if (overwrite == true) {
+                startChrono();
+                startRecording();
+            }
+            return true;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater Inflater = getMenuInflater();

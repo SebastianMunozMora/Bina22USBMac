@@ -162,10 +162,24 @@ public class AudioRead extends Application {
         MediaMetadataRetriever mmdR = new MediaMetadataRetriever();
         mmdR.setDataSource(file);
         String emD = mmdR.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-        float emDint = Float.parseFloat(emD)/1000;
-        int min = Math.round(emDint/60);
-        int secs = Math.round(emDint-60*min);
-        String recTime = min+":"+secs;
+        long emDint = Long.parseLong(emD)/1000;
+        long min = emDint/60;
+        long secs = emDint-60*min;
+        min = Math.round(min);
+        secs = Math.round(secs);
+        String minString;
+        String secString;
+        if (min < 10){
+             minString = "0"+min;
+        }else {
+            minString = min+"";
+        }
+        if (secs <10){
+             secString = "0"+secs;
+        }else{
+            secString = secs+"";
+        }
+        String recTime = minString+":"+secString+"~"+samplingRateI+" "+"Hz";
         return recTime;
     }
 
