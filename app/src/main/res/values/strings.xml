@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">3DSound</string>
+    <string name="app_name">3D Sound</string>
 
     <string name="hello_world">Bin2</string>
     <string name="action_settings">Settings</string>
@@ -12,8 +12,8 @@
     <string name="title_activity_start_up">StartUpActivity</string>
     <string name="dummy_button">COMENZAR</string>
     <string name="dummy_content">GRABACIONES\n3D</string>
-    <string name="title_activity_project">Proyecto</string>
-    
+    <string name="title_activity_project">3D SOUND - BIENVENIDO</string>
+
     <string-array name="header_titles">
         <item>Frecuencia de Muestreo</item>
 
