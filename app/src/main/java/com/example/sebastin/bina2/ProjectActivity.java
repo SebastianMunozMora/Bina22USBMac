@@ -17,12 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 
 public class ProjectActivity extends AppCompatActivity {
     public String projectName;
     public EditText projectText;
+    public TextView actionTextView;
     public PopupMenu popupmenu;
     public String[] projectlist;
     public String projectSelected;
@@ -37,6 +42,8 @@ public class ProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_project);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
+        actionTextView = (TextView)findViewById(R.id.actionText);
+        actionTextView.setText("3D SOUND - BIENVENIDO");
         root = Environment.getExternalStorageDirectory();
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();
@@ -53,9 +60,13 @@ public class ProjectActivity extends AppCompatActivity {
     }
     public void recordActivity (View view){
         projectName = projectText.getText().toString();
-        Intent intent = new Intent(this,RecordActivity.class);
-        intent.putExtra("ProjectActivitiyprojectName", projectName);
-        startActivity(intent);
+        if (!projectName.equals("")) {
+            Intent intent = new Intent(this, RecordActivity.class);
+            intent.putExtra("ProjectActivitiyprojectName", projectName);
+            startActivity(intent);
+        }else{
+            Toast.makeText(getBaseContext(),"Escriba un Nombre de Proyecto", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public class Task implements Runnable {

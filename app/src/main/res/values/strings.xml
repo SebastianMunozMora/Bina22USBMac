@@ -22,5 +22,9 @@
         <item>48000</item>
         <item>44100</item>
     </string-array>
-
+    <string-array name="recording_states">
+        <item>Grabando</item>
+        <item>Pausa</item>
+        <item>Finalizada</item>
+    </string-array>
 </resources>

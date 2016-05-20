@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,14 +37,15 @@ import android.widget.Toast;
 public class RecordActivity extends AppCompatActivity {
     EditText editT,countText;
     Button boton;
-    public static TextView texto,textLeftdB, textRightdB;
+    public static TextView texto,textLeftdB, textRightdB,actionTextView;
     public mPlayer mP;
     private WavAudioRecorder mRecorder;
     public String mRecordFilePath;
     public String directory = "/BinaRecordings";
     public String filename = "Grabacion";
     public String format = ".wav";
-    String mVisualizerFilePath;
+//    String [] recStates  = getResources().getStringArray(R.array.recording_states);
+    String mVisualizerFilePath,recState;
     public File root = Environment.getExternalStorageDirectory();
     public File dir = new File(root.getAbsolutePath() + directory);
     public File file;
@@ -87,8 +89,11 @@ public class RecordActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
         Bundle bundle = getIntent().getExtras();
-        setTitle(bundle.getString("ProjectActivitiyprojectName"));
+        actionTextView = (TextView)findViewById(R.id.actionText);
+        actionTextView.setText(bundle.getString("ProjectActivitiyprojectName"));
         th = (TabHost)findViewById(R.id.tabHost);
         //Record Tab
         th.setup();
@@ -98,8 +103,8 @@ public class RecordActivity extends AppCompatActivity {
         th.addTab(tsRecord);
         //Recordings Tab
         th.setup();
-        final TabHost.TabSpec tsRecordings = th.newTabSpec("Grabaciones");
-        tsRecordings.setIndicator("Grabaciones");
+        final TabHost.TabSpec tsRecordings = th.newTabSpec("Biblioteca");
+        tsRecordings.setIndicator("Biblioteca");
         tsRecordings.setContent(R.id.linearLayout2);
         th.addTab(tsRecordings);
         th.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -204,40 +209,47 @@ public class RecordActivity extends AppCompatActivity {
         timer = (Chronometer)findViewById(R.id.chronometer);
     }
     public void grabacionBoton(View view){
-        if(!mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)){
+        filename = editT.getText().toString();
+        if (!filename.equals("")) {
+            if (!mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
 //            boton.setText("Grabando");
-            dir = new File(root.getAbsolutePath() + directory);
-            filename = editT.getText().toString();
-            if (recCount!=0) {
-                file = new File(dir, filename + recCount + format);
-            }
-            else{
-                file = new File(dir, filename  + format);
-            }
-            if (file.exists()) {
-                PopupMenu popUpMenu = new PopupMenu(this, view);
-                MenuInflater menuInflater = popUpMenu.getMenuInflater();
-                menuInflater.inflate(R.menu.warningpopup, popUpMenu.getMenu());
-                WarningPopUp warningPopUp = new WarningPopUp(getApplicationContext());
-                popUpMenu.setOnMenuItemClickListener(warningPopUp);
-                popUpMenu.show();
-            }else{
-                startChrono();
-                startRecording();
-            }
-            texto.setText("" + mRecorder.getState());
-        }else {
-            pauseRecording();
+                dir = new File(root.getAbsolutePath() + directory);
+                filename = editT.getText().toString();
+                if (recCount != 0) {
+                    file = new File(dir, filename + recCount + format);
+                } else {
+                    file = new File(dir, filename + format);
+                }
+                if (file.exists()) {
+                    PopupMenu popUpMenu = new PopupMenu(this, view);
+                    MenuInflater menuInflater = popUpMenu.getMenuInflater();
+                    menuInflater.inflate(R.menu.warningpopup, popUpMenu.getMenu());
+                    WarningPopUp warningPopUp = new WarningPopUp(getApplicationContext());
+                    popUpMenu.setOnMenuItemClickListener(warningPopUp);
+                    popUpMenu.show();
+                } else {
+                    startChrono();
+                    startRecording();
+                }
+                textState();
+                texto.setText(recState);
+            } else {
+                pauseRecording();
 //            boton.setText("Grabar");
-            stopChrono();
-            texto.setText("" + mRecorder.getState());
+                stopChrono();
+                textState();
+                texto.setText(recState);
+            }
+        }else{
+            Toast.makeText(getBaseContext(),"Seleccione un Nombre de Grabación", Toast.LENGTH_SHORT).show();
         }
     }
     public void stopButton(View view){
         stopRecording();
         resetChrono();
 //        boton.setText("Grabar");
-        texto.setText(""+mRecorder.getState());
+        textState();
+        texto.setText(recState);
     }
     public void startRecording () {
         mRecordFilePath = file.toString();
@@ -290,7 +302,30 @@ public class RecordActivity extends AppCompatActivity {
 
         }
     }
-
+    public void textState () {
+        switch (mRecorder.getState()) {
+            case INITIALIZING:
+//                recState = recStates[3];
+                recState = "";
+                break;
+            case RECORDING:
+//                recState = recStates[1];
+                recState = "Grabando";
+                break;
+            case READY:
+//                recState = recStates[3];
+                recState = "";
+                break;
+            case STOPPED:
+//                recState = recStates[3];
+                recState = "";
+                break;
+            case PAUSED:
+//                recState = recStates[2];
+                recState = "Pausa";
+                break;
+        }
+    }
     public void reproduccion () {
         switch (mP.getState()){
             case INITIALIZED:
