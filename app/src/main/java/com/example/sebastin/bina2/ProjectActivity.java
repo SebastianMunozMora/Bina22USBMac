@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +45,7 @@ public class ProjectActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(R.layout.abs_layout);
         actionTextView = (TextView)findViewById(R.id.actionText);
         actionTextView.setText("3D SOUND - BIENVENIDO");
+        actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
         root = Environment.getExternalStorageDirectory();
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();

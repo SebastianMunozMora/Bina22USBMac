@@ -5,8 +5,16 @@
     <item
     android:id = "@+id/SetUp"
     android:title = "Configuracion"
-
         android:onClick="recordingsActivity"
     />
-
+    <item
+        android:id = "@+id/Contacto"
+        android:title = "Contacto"
+        android:onClick="contactActivity"
+        />
+    <item
+        android:id = "@+id/About"
+        android:title = "Acerca de"
+        android:onClick="aboutActivity"
+        />
 </menu>

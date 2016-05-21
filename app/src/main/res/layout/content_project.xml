@@ -15,33 +15,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/projectEditText"
-        android:hint="Proyecto"
+        android:hint="Ingrese Nombre"
+        android:textSize="18sp"
         android:onClick="setDirectory"
+        android:layout_marginTop="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:typeface="serif"
-        android:text="SELECCIONAR"
+        android:text="Seleccionar\nProyecto"
         android:id="@+id/button2"
+        android:textColor="@color/windowbackground_color"
+        android:textSize="18sp"
         android:onClick="projectSelect"
-        android:layout_marginTop="50dp"
+        android:background="@color/theme_color"
+        android:layout_marginTop="81dp"
         android:layout_below="@+id/projectEditText"
-        android:layout_centerHorizontal="true"
-        android:background="@color/theme_color"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:typeface="serif"
         android:text="OK"
+        android:textSize="18sp"
+        android:textColor="@color/windowbackground_color"
         android:id="@+id/button3"
         android:onClick="recordActivity"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/theme_color"/>
+        android:background="@color/theme_color"
+        android:layout_marginTop="92dp"
+        android:layout_below="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
 
 </RelativeLayout>

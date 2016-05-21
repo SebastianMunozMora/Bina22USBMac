@@ -39,6 +39,11 @@ public class LaunchActivity extends Activity {
                         }
                     });
                 }
+                try {
+                    Thread.sleep(imageTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 imageState = imageState.STOPPED;
                 finish();
                 startActivity(new Intent(getApplicationContext(),ProjectActivity.class));

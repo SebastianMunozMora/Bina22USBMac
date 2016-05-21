@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import android.widget.MediaController;
 import android.widget.PopupMenu;
 import android.widget.SeekBar;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +72,8 @@ public class RecordActivity extends AppCompatActivity {
     double micLeftDbfs = 0;
     double micRightDbfs = 0;
     public byte [] bufar;
+    public enum Menus {CONTACT,ABOUT}
+    public Menus menus;
     File filevs;
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
@@ -78,7 +82,6 @@ public class RecordActivity extends AppCompatActivity {
     ListView listView;
     Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"},metadataitems[] = {"n"};
-    SeekBar seekBar;
     String filetoplay = null;
     AudioRead aR = new AudioRead();
     RecordingsAdapter recordingsAdapter;
@@ -94,6 +97,8 @@ public class RecordActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         actionTextView = (TextView)findViewById(R.id.actionText);
         actionTextView.setText(bundle.getString("ProjectActivitiyprojectName"));
+        actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
+        actionTextView.setTextSize(20);
         th = (TabHost)findViewById(R.id.tabHost);
         //Record Tab
         th.setup();
@@ -107,6 +112,12 @@ public class RecordActivity extends AppCompatActivity {
         tsRecordings.setIndicator("Biblioteca");
         tsRecordings.setContent(R.id.linearLayout2);
         th.addTab(tsRecordings);
+        for (int i = 0;i <=1;i++) {
+            TextView tv = (TextView) th.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
+            tv.setTextColor(Color.parseColor("#e0e0e0"));
+            tv.setTextSize(15);
+            tv.setAllCaps(false);
+        }
         th.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -141,7 +152,7 @@ public class RecordActivity extends AppCompatActivity {
                         titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
                         recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
                         for (int i = 0;i < dir.list().length;i++){
-                            RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.cs_10em_angle_gal,listviewitems[i],metadataitems[i]);
+                            RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.logo1,listviewitems[i],metadataitems[i]);
                             recordingsAdapter.add(recordingsDataProvider);
                         }
                     }
@@ -173,7 +184,7 @@ public class RecordActivity extends AppCompatActivity {
                             } else if (mP.getState().equals(mPlayer.playerState.STOPPED)) {
                                 Toast.makeText(getBaseContext(), recordingTitle + " " + mPlayer.playerState.STOPPED.toString(), Toast.LENGTH_SHORT).show();
                             }
-                            texto.setText(mP.getState().toString());
+//                            texto.setText(mP.getState().toString());
 //                            new Thread(new PlayTask()).start();
                         }
                     });
@@ -210,7 +221,7 @@ public class RecordActivity extends AppCompatActivity {
     }
     public void grabacionBoton(View view){
         filename = editT.getText().toString();
-        if (!filename.equals("")) {
+        if (!filename.equals("") || mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)) {
             if (!mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
 //            boton.setText("Grabando");
                 dir = new File(root.getAbsolutePath() + directory);
@@ -220,7 +231,7 @@ public class RecordActivity extends AppCompatActivity {
                 } else {
                     file = new File(dir, filename + format);
                 }
-                if (file.exists()) {
+                if (file.exists() && !mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)) {
                     PopupMenu popUpMenu = new PopupMenu(this, view);
                     MenuInflater menuInflater = popUpMenu.getMenuInflater();
                     menuInflater.inflate(R.menu.warningpopup, popUpMenu.getMenu());
@@ -532,7 +543,7 @@ public class RecordActivity extends AppCompatActivity {
             }else if (selection.equals("no sobre escribir archivo")){
                 overwrite = false;
             }
-            if (overwrite == true) {
+            if (overwrite) {
                 startChrono();
                 startRecording();
             }
@@ -568,6 +579,18 @@ public class RecordActivity extends AppCompatActivity {
         intent.putExtra("RecordActivitydirectory", directory);
         stopRecording();
         filevs.delete();
+        startActivity(intent);
+    }
+    public void contactActivity(MenuItem item){
+        int menus = 0;
+        Intent intent = new Intent(this,ContactActivity.class);
+        intent.putExtra("menuclick", menus);
+        startActivity(intent);
+    }
+    public void aboutActivity(MenuItem item){
+        int menus = 1;
+        Intent intent = new Intent(this,ContactActivity.class);
+        intent.putExtra("menuclick",menus);
         startActivity(intent);
     }
 
