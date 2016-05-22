@@ -1,15 +1,23 @@
 package com.example.sebastin.bina2;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.usb.UsbAccessory;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.media.MediaPlayer;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +25,8 @@ import android.view.MenuItem;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -87,6 +97,8 @@ public class RecordActivity extends AppCompatActivity {
     RecordingsAdapter recordingsAdapter;
     boolean overwrite = false;
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
+    UsbDevice device;
+    UsbManager mUsbManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -117,6 +129,25 @@ public class RecordActivity extends AppCompatActivity {
             tv.setTextColor(Color.parseColor("#e0e0e0"));
             tv.setTextSize(15);
             tv.setAllCaps(false);
+        }
+        PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+        IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
+        registerReceiver(mUsbReceiver, filter);
+        mUsbManager = (UsbManager)  getSystemService(Context.USB_SERVICE);
+        HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
+//        UsbAccessory[] accessoryList = mUsbManager.getAccessoryList();
+
+//        Log.i("RecordActivity device list",deviceList.toString());
+        Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
+        while (deviceIterator.hasNext()) {
+            device = deviceIterator.next();
+        }
+
+//        texto.setText(accessoryList.toString());
+        if (device != null ) {
+            int deviceprotocol = device.getDeviceProtocol();
+//            Log.i("RecordActivity device protocol",deviceprotocol+"");
+            mUsbManager.requestPermission(device, mPermissionIntent);
         }
         th.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
@@ -573,6 +604,27 @@ public class RecordActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+    private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
+
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (ACTION_USB_PERMISSION.equals(action)) {
+                synchronized (this) {
+                    device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+
+                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        if(device != null){
+                            //call method to set up device communication
+                        }
+                    }
+                    else {
+//                        Log.d(TAG, "permission denied for device " + device);
+                    }
+                }
+            }
+        }
+    };
 
     public void recordingsActivity(MenuItem item) {
         Intent intent = new Intent(this,RecordingsActivity.class);

@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#43b6f4">
+    android:background="#8bc34a">
 
     <TextView
         android:id="@+id/headingItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="HelloWorld"
-        android:textColor="#f9f7f7"
+        android:textColor="@color/windowbackground_color"
         android:textSize="25dp"
+        android:gravity="center"
         android:layout_marginLeft="10dp"/>
 
 </LinearLayout>

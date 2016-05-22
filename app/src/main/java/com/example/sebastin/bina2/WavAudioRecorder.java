@@ -22,7 +22,7 @@ public class WavAudioRecorder{
         WavAudioRecorder result = null;
         int i = 0;
         do {
-            result = new WavAudioRecorder(AudioSource.MIC,
+            result = new WavAudioRecorder(AudioSource.DEFAULT,
                     sampleRates[sampleRate],
                     AudioFormat.CHANNEL_IN_STEREO,
                     bitDepth[bithDepth]);
