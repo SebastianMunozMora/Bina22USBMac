@@ -43,7 +43,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ContactActivity"
-            android:label="@string/contactActionString"></activity>
+            android:label="@string/contactActionString"
+            android:theme="@style/AppTheme"></activity>
         <intent-filter>
             <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
         </intent-filter>

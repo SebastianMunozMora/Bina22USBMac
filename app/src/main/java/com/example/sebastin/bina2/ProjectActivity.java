@@ -2,6 +2,8 @@ package com.example.sebastin.bina2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.Locale;
 
 public class ProjectActivity extends AppCompatActivity {
     public String projectName;
@@ -36,6 +40,7 @@ public class ProjectActivity extends AppCompatActivity {
     public File dir;
     public File root;
     public int it = 0;
+    Button okButton,selectButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,9 +51,16 @@ public class ProjectActivity extends AppCompatActivity {
         actionTextView = (TextView)findViewById(R.id.actionText);
         actionTextView.setText("3D SOUND - BIENVENIDO");
         actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
+       Typeface  typeface = Typeface.createFromAsset(getAssets(),"fonts/OPTIMA.TTF");
         root = Environment.getExternalStorageDirectory();
         projectText = (EditText)findViewById(R.id.projectEditText);
         projectName = projectText.getText().toString();
+        okButton = (Button)findViewById(R.id.button2);
+        selectButton = (Button)findViewById(R.id.button3);
+        actionTextView.setTypeface(typeface,Typeface.BOLD);
+        projectText.setTypeface(typeface);
+        okButton.setTypeface(typeface,Typeface.BOLD);
+        selectButton.setTypeface(typeface,Typeface.BOLD);
     }
 
     public void projectSelect (View view ){

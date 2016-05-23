@@ -19,6 +19,8 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by Sebastian on 02/03/2016.
@@ -52,6 +54,7 @@ public class AudioRead extends Application {
     double leftDbfsValue = 0;
     double rightDbfsValue = 0;
     int nSamples = 0;
+    String recTime;
     DecimalFormat form = new DecimalFormat("00.000");
     ByteBuffer bbh;
     public AudioRead (){
@@ -181,7 +184,8 @@ public class AudioRead extends Application {
         }else{
             secString = secs+"";
         }
-        String recTime = minString+":"+secString+" s / "+bitDepthS+" Bits / "+form.format(samplingRateI/1000)+" Hz ";
+        recTime = minString+":"+secString+" s / "+bitDepthS+" Bits / "+ NumberFormat.getNumberInstance(Locale.US).format(samplingRateI)+" Hz ";
+
         return recTime;
     }
 

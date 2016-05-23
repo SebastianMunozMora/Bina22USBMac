@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbDevice;
@@ -49,7 +50,7 @@ import android.widget.Toast;
 public class RecordActivity extends AppCompatActivity {
     EditText editT,countText;
     Button boton;
-    public static TextView texto,textLeftdB, textRightdB,actionTextView;
+    public static TextView texto,textLeftdB, textRightdB,actionTextView,izquierdaTextView,derechaTextViewR,recordingsText,dataText;
     public mPlayer mP;
     private WavAudioRecorder mRecorder;
     public String mRecordFilePath;
@@ -99,6 +100,7 @@ public class RecordActivity extends AppCompatActivity {
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     UsbDevice device;
     UsbManager mUsbManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -107,7 +109,12 @@ public class RecordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
         Bundle bundle = getIntent().getExtras();
+        final Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/OPTIMA.TTF");
         actionTextView = (TextView)findViewById(R.id.actionText);
+        izquierdaTextView = (TextView)findViewById(R.id.textView5);
+        derechaTextViewR = (TextView)findViewById(R.id.textView6);
+        recordingsText = (TextView)findViewById(R.id.textView2);
+        dataText = (TextView)findViewById(R.id.list_item);
         actionTextView.setText(bundle.getString("ProjectActivitiyprojectName"));
         actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
         actionTextView.setTextSize(20);
@@ -129,6 +136,7 @@ public class RecordActivity extends AppCompatActivity {
             tv.setTextColor(Color.parseColor("#e0e0e0"));
             tv.setTextSize(15);
             tv.setAllCaps(false);
+            tv.setTypeface(typeface,Typeface.BOLD);
         }
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
         IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
@@ -136,7 +144,6 @@ public class RecordActivity extends AppCompatActivity {
         mUsbManager = (UsbManager)  getSystemService(Context.USB_SERVICE);
         HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
 //        UsbAccessory[] accessoryList = mUsbManager.getAccessoryList();
-
 //        Log.i("RecordActivity device list",deviceList.toString());
         Iterator<UsbDevice> deviceIterator = deviceList.values().iterator();
         while (deviceIterator.hasNext()) {
@@ -174,6 +181,7 @@ public class RecordActivity extends AppCompatActivity {
                     filetoplay = null;
                     listView = (ListView) findViewById(R.id.listView);
                     listviewitems = dir.list();
+
                     if (dir.list()!=null){
                         metadataitems  = new String[listviewitems.length];
                         for(int i = 0;i < listviewitems.length;i++) {
@@ -183,7 +191,7 @@ public class RecordActivity extends AppCompatActivity {
                         titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
                         recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
                         for (int i = 0;i < dir.list().length;i++){
-                            RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.drawable.logo1,listviewitems[i],metadataitems[i]);
+                            RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.mipmap.ic_launcher,listviewitems[i],metadataitems[i]);
                             recordingsAdapter.add(recordingsDataProvider);
                         }
                     }
@@ -249,6 +257,12 @@ public class RecordActivity extends AppCompatActivity {
         dir = new File(root.getAbsolutePath() + directory);
         mVisualizerFilePath = filevs.toString();
         timer = (Chronometer)findViewById(R.id.chronometer);
+        actionTextView.setTypeface(typeface,Typeface.BOLD);
+        editT.setTypeface(typeface);
+        izquierdaTextView.setTypeface(typeface);
+        derechaTextViewR.setTypeface(typeface);
+        textLeftdB.setTypeface(typeface);
+        textRightdB.setTypeface(typeface);
     }
     public void grabacionBoton(View view){
         filename = editT.getText().toString();

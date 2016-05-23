@@ -6,7 +6,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="15dp"
         android:background="@color/theme_color"
          />
 
@@ -19,6 +19,12 @@
         android:id="@+id/actionText"
         android:background="@color/theme_color"
         android:gravity="center"
-        android:layout_weight="0.05"
+        android:text="hola"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/theme_color"
         />
 </LinearLayout>

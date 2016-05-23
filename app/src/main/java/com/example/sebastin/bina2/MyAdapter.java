@@ -20,11 +20,13 @@ public class MyAdapter extends BaseExpandableListAdapter {
     private List<String>header_titles;
     private HashMap<String,List<String>>child_titles;
     private Context ctx;
+    Typeface typeface;
     RadioGroup radioGroup;
     MyAdapter (Context ctx,List<String>header_titles,HashMap<String,List<String>>child_titles){
         this.ctx = ctx;
         this.header_titles = header_titles;
         this.child_titles = child_titles;
+        typeface = Typeface.createFromAsset(ctx.getAssets(), "fonts/OPTIMA.TTF");
     }
     @Override
     public int getGroupCount() {
@@ -70,7 +72,8 @@ public class MyAdapter extends BaseExpandableListAdapter {
         }
 //        radioGroup = (RadioGroup)convertView.findViewById(R.id.childGroup);
         TextView textView= (TextView) convertView.findViewById(R.id.headingItem);
-        textView.setTypeface(null, Typeface.BOLD);
+
+        textView.setTypeface(typeface, Typeface.BOLD);
         textView.setText(title);
         return convertView;
     }
@@ -84,6 +87,7 @@ public class MyAdapter extends BaseExpandableListAdapter {
         }
         TextView textView = (TextView)convertView.findViewById(R.id.childItem);
         textView.setText(title);
+        textView.setTypeface(typeface, Typeface.BOLD);
 //        RadioButton radioButton = (RadioButton) convertView.findViewById(R.id.childItem);
 //        radioButton.setText(title);
 //        radioGroup.addView(radioButton);

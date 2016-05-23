@@ -6,6 +6,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.DashPathEffect;
+import android.graphics.Typeface;
 import android.media.AudioFormat;
 import android.media.MediaPlayer;
 import android.media.audiofx.BassBoost;
@@ -17,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,10 +69,17 @@ public class RecordingsActivity extends AppCompatActivity {
     int[] bitsPerSample ={16,8};
     int currentSampleRate = 44100;
     int currentBitsPerSample = 16;
+    TextView actionTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recordings);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/OPTIMA.TTF");
+        actionTextView = (TextView)findViewById(R.id.actionText);
+        actionTextView.setTypeface(typeface,Typeface.BOLD);
+        actionTextView.setText("Configuración");
         expandableListView = (ExpandableListView)findViewById(R.id.expandableListView);
         backButton = (Button)findViewById(R.id.home);
         final List<String>headings = new ArrayList<String>();

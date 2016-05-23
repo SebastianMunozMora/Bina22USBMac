@@ -1,6 +1,7 @@
 package com.example.sebastin.bina2;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.Image;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -21,8 +22,13 @@ public class RecordingsAdapter extends ArrayAdapter{
     List list = new ArrayList();
     String name;
     View layout;
+    Context context;
+    Typeface typeface;
     public RecordingsAdapter(Context context, int resource) {
+
         super(context, resource);
+        this.context = context;
+        typeface = Typeface.createFromAsset(context.getAssets(), "fonts/OPTIMA.TTF");
     }
     static class DataHandler{
         ImageView poster ;
@@ -58,6 +64,7 @@ public class RecordingsAdapter extends ArrayAdapter{
             handler.poster = (ImageView)row.findViewById(R.id.imageView);
             handler.title = (TextView)row.findViewById(R.id.list_item);
             handler.data = (TextView)row.findViewById(R.id.textView2);
+
 //            layout = row.findViewById(R.layout.list_view_custom_layout);
             row.setTag(handler);
         }
@@ -69,6 +76,8 @@ public class RecordingsAdapter extends ArrayAdapter{
         handler.poster.setImageResource(dataProvider.getRecording_image_resources());
         handler.title.setText(dataProvider.getRecording_title_resources());
         handler.data.setText(dataProvider.getRecording_data_resources());
+        handler.title.setTypeface(typeface);
+        handler.data.setTypeface(typeface);
         name = dataProvider.getRecording_title_resources();
         return row;
     }
