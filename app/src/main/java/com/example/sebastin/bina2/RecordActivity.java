@@ -10,7 +10,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.hardware.usb.UsbAccessory;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.media.AudioDeviceInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Environment;
@@ -85,6 +88,7 @@ public class RecordActivity extends AppCompatActivity {
     public byte [] bufar;
     public enum Menus {CONTACT,ABOUT}
     public Menus menus;
+
     File filevs;
     LedMeter leftLedMeter;
     LedMeter rightLedMeter;
@@ -93,9 +97,10 @@ public class RecordActivity extends AppCompatActivity {
     ListView listView;
     Chronometer timer;
     String listviewitems[] = {"No hay Grabaciones"},metadataitems[] = {"n"};
-    String filetoplay = null;
+    String filetoplay = null, fileToEdit = null;
     AudioRead aR = new AudioRead();
     RecordingsAdapter recordingsAdapter;
+    AudioManager audioManager;
     boolean overwrite = false;
     long elapsedMillis = 0,clockStart = 0,clockStop = 0;
     UsbDevice device;
@@ -118,6 +123,9 @@ public class RecordActivity extends AppCompatActivity {
         actionTextView.setText(bundle.getString("ProjectActivitiyprojectName"));
         actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
         actionTextView.setTextSize(20);
+
+
+
         th = (TabHost)findViewById(R.id.tabHost);
         //Record Tab
         th.setup();
@@ -201,10 +209,10 @@ public class RecordActivity extends AppCompatActivity {
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView parent, View view, int position, long id) {
-                            TextView tv = (TextView)view.findViewById(R.id.list_item);
+                            TextView tv = (TextView) view.findViewById(R.id.list_item);
                             String recordingTitle = tv.getText().toString();
                             view.setSelected(true);
-                            if (filetoplay == null){
+                            if (filetoplay == null) {
                                 filetoplay = dir.toString() + "/" + recordingTitle;
                                 mP.setFilePath(filetoplay);
                             }
@@ -225,6 +233,25 @@ public class RecordActivity extends AppCompatActivity {
                             }
 //                            texto.setText(mP.getState().toString());
 //                            new Thread(new PlayTask()).start();
+                        }
+                    });
+                    listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                        @Override
+                        public boolean onItemLongClick(AdapterView<?> arg0, View view,
+                                                       int pos, long id) {
+                            // TODO Auto-generated method stub
+                            TextView tv = (TextView) view.findViewById(R.id.list_item);
+                            String recordingTitle = tv.getText().toString();
+                            Log.e("long clicked", "pos: " + recordingTitle);
+                            fileToEdit = dir.toString() + "/" + recordingTitle;
+                            PopupMenu popUpMenu = new PopupMenu(listView.getContext(), view);
+                            MenuInflater menuInflater = popUpMenu.getMenuInflater();
+                            menuInflater.inflate(R.menu.editpopup, popUpMenu.getMenu());
+                            EditPopUp editPopUp = new EditPopUp(getApplicationContext());
+                            popUpMenu.setOnMenuItemClickListener(editPopUp);
+                            popUpMenu.show();
+
+                            return true;
                         }
                     });
                 }
@@ -287,6 +314,7 @@ public class RecordActivity extends AppCompatActivity {
                     startChrono();
                     startRecording();
                 }
+
                 textState();
                 texto.setText(recState);
             } else {
@@ -591,6 +619,44 @@ public class RecordActivity extends AppCompatActivity {
             if (overwrite) {
                 startChrono();
                 startRecording();
+            }
+            return true;
+        }
+    }
+    public class EditPopUp implements PopupMenu.OnMenuItemClickListener{
+        Context context;
+        public  EditPopUp (Context context){
+            this.context = context;
+        }
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            String selection = item.getTitle().toString();
+            if (selection.equals("Eliminar")) {
+                File fileToDelete = new File(fileToEdit);
+                fileToDelete.delete();
+                listviewitems = dir.list();
+                if (dir.list()!=null){
+                    metadataitems  = new String[listviewitems.length];
+                    for(int i = 0;i < listviewitems.length;i++) {
+                        aR.setAudioRead(dir.toString()+"/"+listviewitems[i],1);
+                        metadataitems[i] = aR.getAudioMetaData();
+                    }
+                    titleAdapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_view_custom_layout, R.id.list_item, listviewitems);
+                    recordingsAdapter = new RecordingsAdapter(getApplicationContext(),R.layout.list_view_custom_layout);
+                    for (int i = 0;i < dir.list().length;i++){
+                        RecordingsDataProvider recordingsDataProvider = new RecordingsDataProvider(R.mipmap.ic_launcher,listviewitems[i],metadataitems[i]);
+                        recordingsAdapter.add(recordingsDataProvider);
+                    }
+                }
+//                    new Thread(new dataitems()).start();
+                listView.setAdapter(recordingsAdapter);
+            }else if (selection.equals("Compartir")){
+                File filetoShare = new File(fileToEdit);
+                final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("audio/wav");
+                shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse(fileToEdit));
+//                shareIntent.setPackage("com.whatsapp");
+                startActivity(Intent.createChooser(shareIntent, "Compartir por:"));
             }
             return true;
         }

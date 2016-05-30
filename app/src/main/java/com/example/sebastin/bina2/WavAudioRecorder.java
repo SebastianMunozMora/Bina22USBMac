@@ -7,17 +7,23 @@ import java.util.Collection;
 import java.util.Collections;
 
 
+import android.content.Context;
+import android.hardware.usb.UsbAccessory;
 import android.media.AudioDeviceInfo;
 import android.media.AudioFormat;
+import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.MediaRecorder.AudioSource;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class WavAudioRecorder{
+public class WavAudioRecorder extends AppCompatActivity{
 
     private final static int[] sampleRates = {48000,44100, 22050, 11025, 8000};
     private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_FLOAT,AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
     public String data;
+
     public static WavAudioRecorder getInstance(int sampleRate,int bithDepth) {
         WavAudioRecorder result = null;
         int i = 0;
@@ -161,6 +167,8 @@ public class WavAudioRecorder{
                 Log.w(WavAudioRecorder.class.getName(), "Increasing buffer size to " + Integer.toString(mBufferSize));
             }
             audioRecorder = new AudioRecord(audioSource, sampleRate, channelConfig, audioFormat, mBufferSize);
+
+//            audioRecorder.setPreferredDevice(AudioDeviceInfo[] get)
 
             if (audioRecorder.getState() != AudioRecord.STATE_INITIALIZED) {
                 throw new Exception("AudioRecord initialization failed");

@@ -46,20 +46,6 @@
                         android:layout_centerHorizontal="true" />
 
                     <ImageButton
-                        android:padding="2dp"
-                        android:scaleType="fitCenter"
-                        android:layout_width="60dp"
-                        android:layout_height="41dp"
-                        android:background="#00488e9b"
-                        android:src="@drawable/ic_fiber_smart_record"
-                        android:id="@+id/button"
-                        android:onClick="grabacionBoton"
-                        android:layout_gravity="center_horizontal"
-                        android:adjustViewBounds="true"
-                        android:layout_alignTop="@+id/button4"
-                        android:layout_alignStart="@+id/leftLedView" />
-
-                    <ImageButton
                         android:padding="1dp"
                         android:scaleType="fitCenter"
                         android:layout_width="51dp"
@@ -70,9 +56,8 @@
                         android:onClick="stopButton"
                         android:id="@+id/button4"
                         android:layout_gravity="center_horizontal"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toEndOf="@+id/chronometer"
-                        android:layout_marginBottom="41dp" />
+                        android:layout_alignTop="@+id/textView3"
+                        android:layout_toEndOf="@+id/editText" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -106,8 +91,9 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/chronometer"
                         android:textSize="20sp"
-                        android:layout_above="@+id/button"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_above="@+id/button4"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="30dp" />
 
                     <com.example.sebastin.bina2.LedMeter
 
@@ -119,9 +105,11 @@
                         custom:numLed="10"
                         android:id="@+id/leftLedView"
 
-                        android:layout_above="@+id/chronometer"
-                        android:layout_toStartOf="@+id/chronometer"
-                        android:layout_below="@+id/textLeftdB" />
+                        android:layout_below="@+id/textLeftdB"
+                        android:layout_alignStart="@+id/textView5"
+                        android:layout_toStartOf="@+id/editText"
+                        android:layout_alignEnd="@+id/textView5"
+                        android:layout_above="@+id/textView5" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,8 +117,9 @@
                         android:id="@+id/textView"
                         android:onClick="grabacion"
                         android:textSize="15sp"
-                        android:layout_alignBottom="@+id/leftLedView"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_above="@+id/chronometer"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="42dp" />
 
                     <com.example.sebastin.bina2.LedMeter
                         android:layout_width="wrap_content"
@@ -139,9 +128,11 @@
                         custom:ledWidth="40dp"
                         custom:numLed="10"
                         android:id="@+id/rightLedView"
-                        android:layout_alignTop="@+id/leftLedView"
-                        android:layout_alignEnd="@+id/button4"
-                        android:layout_alignBottom="@+id/leftLedView" />
+                        android:layout_below="@+id/textRightdB"
+                        android:layout_alignStart="@+id/textRightdB"
+                        android:layout_alignBottom="@+id/leftLedView"
+                        android:layout_alignEnd="@+id/textRightdB" />
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,8 +140,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Izquierda"
                         android:id="@+id/textView5"
-                        android:layout_marginBottom="50dp"
-                        android:layout_above="@+id/textView"
+                        android:layout_alignTop="@+id/textView"
                         android:layout_toStartOf="@+id/chronometer" />
 
                     <TextView
@@ -162,6 +152,20 @@
                         android:layout_alignTop="@+id/textView5"
                         android:layout_alignEnd="@+id/rightLedView" />
 
+                    <ImageButton
+                        android:padding="2dp"
+                        android:scaleType="fitCenter"
+                        android:layout_width="60dp"
+                        android:layout_height="41dp"
+                        android:background="#00488e9b"
+                        android:src="@drawable/ic_fiber_smart_record"
+                        android:id="@+id/button"
+                        android:onClick="grabacionBoton"
+                        android:layout_gravity="center_horizontal"
+                        android:adjustViewBounds="true"
+                        android:layout_alignBottom="@+id/button4"
+                        android:layout_alignStart="@+id/textView5" />
+
 
                 </RelativeLayout>
                 <LinearLayout
@@ -172,7 +176,8 @@
                     <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listView" />
+                        android:id="@+id/listView"
+                        android:longClickable="true"/>
 
                 </LinearLayout>
 
