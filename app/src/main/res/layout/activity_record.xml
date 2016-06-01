@@ -41,6 +41,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/editText"
                         android:hint="Grabacion"
+                        android:gravity="center"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true" />
@@ -48,16 +49,19 @@
                     <ImageButton
                         android:padding="1dp"
                         android:scaleType="fitCenter"
-                        android:layout_width="51dp"
-                        android:layout_height="34dp"
-                        android:src="@drawable/ic_stop"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/stop"
                         android:background="#0041a6af"
+
                         android:adjustViewBounds="true"
                         android:onClick="stopButton"
                         android:id="@+id/button4"
                         android:layout_gravity="center_horizontal"
-                        android:layout_alignTop="@+id/textView3"
-                        android:layout_toEndOf="@+id/editText" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@+id/space2"
+                        android:layout_alignTop="@+id/button" />
 
                     <EditText
                         android:layout_width="wrap_content"
@@ -76,14 +80,14 @@
                         android:id="@+id/textLeftdB"
                         android:layout_gravity="right"
                         android:layout_below="@+id/editText"
-                        android:layout_alignStart="@+id/leftLedView" />
+                        android:layout_toStartOf="@+id/chronometer" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="0 dB Fs"
                         android:id="@+id/textRightdB"
-                        android:layout_below="@+id/editText"
+                        android:layout_alignTop="@+id/textLeftdB"
                         android:layout_toEndOf="@+id/chronometer" />
 
                     <Chronometer
@@ -92,8 +96,7 @@
                         android:id="@+id/chronometer"
                         android:textSize="20sp"
                         android:layout_above="@+id/button4"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="30dp" />
+                        android:layout_centerHorizontal="true" />
 
                     <com.example.sebastin.bina2.LedMeter
 
@@ -105,21 +108,21 @@
                         custom:numLed="10"
                         android:id="@+id/leftLedView"
 
+                        android:layout_alignStart="@+id/textLeftdB"
                         android:layout_below="@+id/textLeftdB"
-                        android:layout_alignStart="@+id/textView5"
-                        android:layout_toStartOf="@+id/editText"
-                        android:layout_alignEnd="@+id/textView5"
-                        android:layout_above="@+id/textView5" />
+                        android:layout_alignEnd="@+id/textLeftdB"
+                        android:layout_above="@+id/textView6" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/textView"
+                        android:text="GRABAR"
+                        android:gravity="center"
                         android:onClick="grabacion"
                         android:textSize="15sp"
-                        android:layout_above="@+id/chronometer"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="42dp" />
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true" />
 
                     <com.example.sebastin.bina2.LedMeter
                         android:layout_width="wrap_content"
@@ -130,8 +133,8 @@
                         android:id="@+id/rightLedView"
                         android:layout_below="@+id/textRightdB"
                         android:layout_alignStart="@+id/textRightdB"
-                        android:layout_alignBottom="@+id/leftLedView"
-                        android:layout_alignEnd="@+id/textRightdB" />
+                        android:layout_alignEnd="@+id/textRightdB"
+                        android:layout_alignBottom="@+id/leftLedView" />
 
 
                     <TextView
@@ -140,8 +143,8 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Izquierda"
                         android:id="@+id/textView5"
-                        android:layout_alignTop="@+id/textView"
-                        android:layout_toStartOf="@+id/chronometer" />
+                        android:layout_below="@+id/leftLedView"
+                        android:layout_alignStart="@+id/leftLedView" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,22 +152,32 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Derecha"
                         android:id="@+id/textView6"
-                        android:layout_alignTop="@+id/textView5"
-                        android:layout_alignEnd="@+id/rightLedView" />
+                        android:layout_above="@+id/chronometer"
+                        android:layout_toEndOf="@+id/chronometer" />
 
                     <ImageButton
                         android:padding="2dp"
                         android:scaleType="fitCenter"
-                        android:layout_width="60dp"
-                        android:layout_height="41dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:background="#00488e9b"
-                        android:src="@drawable/ic_fiber_smart_record"
+                        android:src="@drawable/record"
                         android:id="@+id/button"
                         android:onClick="grabacionBoton"
                         android:layout_gravity="center_horizontal"
                         android:adjustViewBounds="true"
-                        android:layout_alignBottom="@+id/button4"
-                        android:layout_alignStart="@+id/textView5" />
+                        android:layout_alignParentBottom="true"
+                        android:layout_toStartOf="@+id/space2"
+                        android:layout_alignEnd="@+id/leftLedView" />
+
+                    <Space
+                        android:layout_width="20px"
+                        android:layout_height="20px"
+                        android:id="@+id/space2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignStart="@+id/chronometer"
+                        android:layout_alignEnd="@+id/chronometer"
+                        android:layout_below="@+id/chronometer" />
 
 
                 </RelativeLayout>

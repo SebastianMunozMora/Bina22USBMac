@@ -39,6 +39,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.PopupMenu;
@@ -52,7 +53,7 @@ import android.widget.Toast;
 
 public class RecordActivity extends AppCompatActivity {
     EditText editT,countText;
-    Button boton;
+    ImageButton boton;
     public static TextView texto,textLeftdB, textRightdB,actionTextView,izquierdaTextView,derechaTextViewR,recordingsText,dataText;
     public mPlayer mP;
     private WavAudioRecorder mRecorder;
@@ -274,7 +275,7 @@ public class RecordActivity extends AppCompatActivity {
         File file = new File(dir, filename+format);
         mRecordFilePath = file.toString();
         editT = (EditText) findViewById(R.id.editText);
-//        boton = (Button) findViewById(R.id.button);
+        boton = (ImageButton) findViewById(R.id.button);
         texto = (TextView) findViewById(R.id.textView);
         countText = (EditText) findViewById(R.id.textView3);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
@@ -316,6 +317,7 @@ public class RecordActivity extends AppCompatActivity {
                 }
 
                 textState();
+                boton.setImageResource(R.drawable.recording_image);
                 texto.setText(recState);
             } else {
                 pauseRecording();
@@ -359,6 +361,7 @@ public class RecordActivity extends AppCompatActivity {
                     sampleState = 0;
                     break;
             }
+            boton.setImageResource(R.drawable.recording_image);
             mRecorder = WavAudioRecorder.getInstance(sampleState, bithState);
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
@@ -372,12 +375,14 @@ public class RecordActivity extends AppCompatActivity {
     }
     public void pauseRecording(){
         if (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+            boton.setImageResource(R.drawable.record);
             mRecorder.pause();
         }
 
     }
     public void stopRecording(){
         if (mRecorder.getState().equals(WavAudioRecorder.State.ERROR) || mRecorder.getState().equals(WavAudioRecorder.State.RECORDING ) || mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)) {
+            boton.setImageResource(R.drawable.record);
             mRecorder.stop();
             mRecorder.release();
             recCount+=1;
