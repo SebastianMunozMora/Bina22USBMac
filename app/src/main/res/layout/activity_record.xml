@@ -76,16 +76,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="0 dB Fs"
+                        android:text="00.00"
                         android:id="@+id/textLeftdB"
                         android:layout_gravity="right"
                         android:layout_below="@+id/editText"
-                        android:layout_toStartOf="@+id/chronometer" />
+                        android:layout_alignStart="@+id/leftLedView" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="0 dB Fs"
+                        android:text="00.00"
                         android:id="@+id/textRightdB"
                         android:layout_alignTop="@+id/textLeftdB"
                         android:layout_toEndOf="@+id/chronometer" />
@@ -107,11 +107,12 @@
                         custom:ledWidth="40dp"
                         custom:numLed="10"
                         android:id="@+id/leftLedView"
+                        android:layout_marginLeft="100dp"
 
-                        android:layout_alignStart="@+id/textLeftdB"
                         android:layout_below="@+id/textLeftdB"
-                        android:layout_alignEnd="@+id/textLeftdB"
-                        android:layout_above="@+id/textView6" />
+                        android:layout_above="@+id/textView6"
+
+                         />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -131,10 +132,11 @@
                         custom:ledWidth="40dp"
                         custom:numLed="10"
                         android:id="@+id/rightLedView"
+                        android:layout_marginRight="10dp"
+
+
                         android:layout_below="@+id/textRightdB"
-                        android:layout_alignStart="@+id/textRightdB"
-                        android:layout_alignEnd="@+id/textRightdB"
-                        android:layout_alignBottom="@+id/leftLedView" />
+                        android:layout_alignStart="@+id/textRightdB" />
 
 
                     <TextView
@@ -167,8 +169,7 @@
                         android:layout_gravity="center_horizontal"
                         android:adjustViewBounds="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_toStartOf="@+id/space2"
-                        android:layout_alignEnd="@+id/leftLedView" />
+                        android:layout_toStartOf="@+id/space2" />
 
                     <Space
                         android:layout_width="20px"

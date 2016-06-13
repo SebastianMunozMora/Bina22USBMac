@@ -34,6 +34,8 @@ import java.util.Iterator;
 
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -69,7 +71,7 @@ public class RecordActivity extends AppCompatActivity {
     double leftRms = 0,rightRms = 0,leftDbfs = 0,rightDbfs = 0;
     byte [] wavBuffer = new byte[10000];
     ByteBuffer bb;
-    short[] micData = new short[wavBuffer.length/2];
+    short[] micData = new short[wavBuffer.length/10];
     short [] micLeftBuffer = new short [micData.length/2];
     short[] micRightBuffer = new short [micData.length/2];
     int il = 0;
@@ -86,6 +88,10 @@ public class RecordActivity extends AppCompatActivity {
     double micRightMax = 0;
     double micLeftDbfs = 0;
     double micRightDbfs = 0;
+    double leftLedValue = 0;
+    double rightLedValue = 0;
+    String rightString = "";
+    String leftString = "";
     public byte [] bufar;
     public enum Menus {CONTACT,ABOUT}
     public Menus menus;
@@ -474,35 +480,51 @@ public class RecordActivity extends AppCompatActivity {
         public void run() {
             while(mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
                 micVisualizer();
+                leftLedValue = Math.abs(-80 - micLeftDbfs);
+                rightLedValue = Math.abs(-80 - micRightDbfs);
+                leftString = String.format("%.2f", micLeftDbfs);
+//                leftString = leftString+" dB Fs";
+                rightString = String.format("%.2f", micRightDbfs);
+//                rightString = rightString+" dB Fs";
                 textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
-                        textLeftdB.setText("" + Math.abs(-80 - micLeftDbfs) + "dB Fs ");
+                        textLeftdB.setText(leftString);
+                        textRightdB.setText(rightString);
+                        leftLedMeter.setLevel(leftLedValue, 80);
+                        rightLedMeter.setLevel(rightLedValue, 80);
                     }
                 });
-                textRightdB.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        textRightdB.setText("" + Math.abs(-80 - micRightDbfs) + "dB Fs ");
-                    }
-                });
-                leftLedMeter.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        leftLedMeter.setLevel(Math.abs(-80 - micLeftDbfs), 80);
-                    }
-                });
-                rightLedMeter.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        rightLedMeter.setLevel(Math.abs(-80 - micRightDbfs), 80);
-                    }
-                });
-                try {
-                    Thread.sleep(0);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                textRightdB.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        textRightdB.setText("" + Math.abs(-80 - micRightDbfs) + "dB Fs ");
+//                    }
+//        });
+//                if (Math.abs((Math.abs(-80 - micLeftDbfs)-leftLedValue))> 10){
+//                leftLedValue = Math.abs(-80 - micLeftDbfs);
+//                        leftLedMeter.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                leftLedMeter.setLevel(leftLedValue, 80);
+//                            }
+//                        });
+//                }
+//                if (Math.abs((Math.abs(-80 - micRightDbfs)-rightLedValue))> 10){
+//                    rightLedValue = Math.abs(-80 - micRightDbfs);
+//                    rightLedMeter.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            rightLedMeter.setLevel(rightLedValue, 80);
+//
+//                        }
+//                    });
+//                }
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         }
     }
@@ -536,18 +558,18 @@ public class RecordActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                leftLedMeter.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 80);
-                    }
-                });
-                rightLedMeter.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        rightLedMeter.setLevel(Math.abs(-80 - rightDbfs), 80);
-                    }
-                });
+//                leftLedMeter.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        leftLedMeter.setLevel(Math.abs(-80 - leftDbfs), 80);
+//                    }
+//                });
+//                rightLedMeter.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        rightLedMeter.setLevel(Math.abs(-80 - rightDbfs), 80);
+//                    }
+//                });
                 textLeftdB.post(new Runnable() {
                     @Override
                     public void run() {
