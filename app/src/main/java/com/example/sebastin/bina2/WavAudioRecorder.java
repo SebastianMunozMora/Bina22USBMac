@@ -1,7 +1,9 @@
 package com.example.sebastin.bina2;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,16 +26,17 @@ public class WavAudioRecorder extends AppCompatActivity{
     private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_FLOAT,AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
     public String data;
 
-    public static WavAudioRecorder getInstance(int sampleRate,int bithDepth) {
+    public static WavAudioRecorder getInstance(int sampleRate,int bithDepth,Context context) {
         WavAudioRecorder result = null;
         int i = 0;
         do {
             result = new WavAudioRecorder(AudioSource.DEFAULT,
                     sampleRates[sampleRate],
-                    AudioFormat.CHANNEL_IN_STEREO,
-                    bitDepth[bithDepth]);
+                    AudioFormat.CHANNEL_IN_MONO,
+                    bitDepth[bithDepth],context);
         } while((++i<sampleRates.length) & !(result.getState() == WavAudioRecorder.State.INITIALIZING));
         return result;
+
     }
 
 
@@ -46,7 +49,8 @@ public class WavAudioRecorder extends AppCompatActivity{
      * STOPPED: reset needed
      */
     public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED,PAUSED};
-
+    public int [] audioImpulse = {R.raw.dc,R.raw.i};
+    String currentImpulse;
     public static final boolean RECORDING_UNCOMPRESSED = true;
     public static final boolean RECORDING_COMPRESSED = false;
 
@@ -62,7 +66,7 @@ public class WavAudioRecorder extends AppCompatActivity{
 
     // Recorder state; see State
     private State          	state;
-
+    Context ctx;
     // File writer (only in uncompressed mode)
     private RandomAccessFile randomAccessWriter;
 
@@ -73,7 +77,7 @@ public class WavAudioRecorder extends AppCompatActivity{
     private int                      mBufferSize;
     private int                      mAudioSource;
     private int                      aFormat;
-
+    AudioRead audioRead = new AudioRead();
     // Number of frames/samples written to file on each output(only in uncompressed mode)
     private int                      mPeriodInFrames;
 
@@ -111,6 +115,10 @@ public class WavAudioRecorder extends AppCompatActivity{
                     if (State.PAUSED == state){
                         randomAccessWriter.seek(filePointer);
                     }
+//                    currentImpulse = String.valueOf(audioImpulse[0]);
+//                    InputStream inStream = ctx.getResources().openRawResource(R.raw.di);
+////                    audioRead.setImpulseResponse(inStream,ctx,R.raw.di);
+//                    audioRead.binaProcessing(buffer,inStream,ctx,R.raw.di);
                     randomAccessWriter.write(buffer); // write audio data to file
                     filePointer = randomAccessWriter.getFilePointer();
                     payloadSize += buffer.length;
@@ -133,8 +141,9 @@ public class WavAudioRecorder extends AppCompatActivity{
      * In case of errors, no exception is thrown, but the state is set to ERROR
      *
      */
-    public WavAudioRecorder(int audioSource, int sampleRate, int channelConfig, int audioFormat) {
+    public WavAudioRecorder(int audioSource, int sampleRate, int channelConfig, int audioFormat,Context ctx) {
         try {
+            this.ctx = ctx;
             switch(audioFormat){
                 case AudioFormat.ENCODING_PCM_FLOAT:
                     mBitsPersample = 1;
@@ -185,6 +194,7 @@ public class WavAudioRecorder extends AppCompatActivity{
             }
             state = State.ERROR;
         }
+
     }
 
     /**
