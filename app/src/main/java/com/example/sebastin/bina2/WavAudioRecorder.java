@@ -49,7 +49,7 @@ public class WavAudioRecorder extends AppCompatActivity{
      * STOPPED: reset needed
      */
     public enum State {INITIALIZING, READY, RECORDING, ERROR, STOPPED,PAUSED};
-    public int [] audioImpulse = {R.raw.dc,R.raw.i};
+//    public int [] audioImpulse = {R.raw.dc,R.raw.i};
     String currentImpulse;
     public static final boolean RECORDING_UNCOMPRESSED = true;
     public static final boolean RECORDING_COMPRESSED = false;
