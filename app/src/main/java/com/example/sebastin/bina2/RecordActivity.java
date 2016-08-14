@@ -796,12 +796,11 @@ public class RecordActivity extends AppCompatActivity {
                 byte[] audioSizeB = new byte[4];
                 int audioBufferSize;
                 byte[] audioBuffer,stConvbyte,recBuffer;
-                short[]audioSamples,audioLeft,audioRight,audioInverseLeft,audioInverseRight,
-                audioImpOpLeft,audioImpOpRight,audioImpOpLeftOut,audioImpOpRightOut
-                        ,recSamples,rConv,shorts,lConv,length,stConv;
+                short[]audioSamples,audioLeft,audioRight
+                        ,recSamples,rConv,lConv,stConv;
                 short numChanS,bitDepthS;
-                int samplingRateI,lCount,rCount;
-
+                int samplingRateI;
+                long L=0,M = 0,N = 0;
                 File cacheFile = createCacheFile( resourceId, "delete-me-please");
                 RandomAccessFile randomAccessFile = new RandomAccessFile(cacheFile, "r");
 //            numero de canales
@@ -829,73 +828,108 @@ public class RecordActivity extends AppCompatActivity {
 //            variable init
 //                        if (this.audioBufferSize != audioBufferSize) {
                 audioBuffer = new byte[audioBufferSize];
-                audioSamples = new short[audioBufferSize / 2];
-                audioLeft = new short[audioSamples.length-1];
-                audioRight = new short[audioSamples.length-1];
-                audioInverseLeft = new short[audioLeft.length];
-                audioInverseRight = new short[audioLeft.length];
 //                            this.audioBufferSize = audioBufferSize;
 //                        }
                 randomAccessFile.seek(78);
                 randomAccessFile.read(audioBuffer,0, audioBufferSize);
-                bb = ByteBuffer.wrap(audioBuffer);
-                il = 0;
-                ir = 0;
-                for (int i = 0; i < audioSamples.length; i++) {
-                    audioSamples[i] = Short.reverseBytes(bb.getShort());
-                    if ((i % 2) == 0) {
-                        // number is even
-                        audioLeft[il]=audioSamples[i];
-                        il++;
-                    }
-                    else {
-                        // number is odd
-                        audioRight[ir]=audioSamples[i];
-                        ir++;
-                    }
-                }
-                float lmax = 0, rmax = 0;
-                for (int i = 0; i < audioLeft.length; i++) {
-                    if (Math.abs(audioLeft[i]) > lmax) {
-                        lmax = Math.abs(audioLeft[i]);
-                    }
-                    if (Math.abs(audioRight[i]) > rmax) {
-                        rmax = Math.abs(audioRight[i]);
-                    }
-                }
-                for (int i = 0; i < audioLeft.length; i++) {
-                    audioLeft[i] =(short) ((double)audioLeft[i]*Short.MAX_VALUE/(double)lmax);
-                    audioRight[i] =(short) ((double)audioRight[i]*Short.MAX_VALUE/(double)rmax);
-                }
-                Arrays.fill(audioLeft, (audioLeft.length+1)/2, audioLeft.length, (short) 0);
-                Arrays.fill(audioRight, (audioRight.length+1)/2, audioRight.length, (short) 0);
+                audioSamples = getBBSamples(audioBuffer);
+                audioLeft = leftStSamples(audioSamples);
+                audioRight = rightStSamples(audioSamples);
+                float lmax,rmax;
+                lmax = maxSamples(audioLeft);
+                rmax = maxSamples(audioRight);
+                audioLeft = normShortSamples(audioLeft, (long) lmax);
+                audioRight = normShortSamples(audioRight,(long) rmax);
+//                Arrays.fill(audioLeft, (audioLeft.length+1)/2, audioLeft.length, (short) 0);
+//                Arrays.fill(audioRight, (audioRight.length+1)/2, audioRight.length, (short) 0);
                 Log.e("File", "wavWriter: imp samples ok");
-
                 int audioLength =(int) Math.round(((double)aR.getbufAudioRead(0).length)/(double)audioBufferSize)-1;
-                Log.e("al", "audioLengt"+audioLength);
+                Log.e("al", "audioLengt" + audioLength);
                 wavWriter(numChanS, bitDepthS, samplingRateI, dir.toString() + "/" + recordingTitle);
+                audioToProcess = aR.getbufAudioRead(0);
+                recSamples = getBBSamples(audioToProcess);
+                short[] audioLeftOp, audioRightOp;
+                audioLeftOp = samplesZeroPad(audioLeft,recSamples.length);
+                audioRightOp = samplesZeroPad(audioRight,recSamples.length);
+                lConv = convSamples(audioLeftOp,recSamples);
+                rConv = convSamples(audioRightOp,recSamples);
+                stConv = stereoWrap(lConv, rConv);
+                stConvbyte = ShortToByte_Twiddle_Method(stConv);
+                writeBuf(stConvbyte,0);
 //                audioLength = 8;
-                for (int ri = 0;ri < audioLength; ri++) {
-                    audioToProcess = aR.getbufAudioRead(ri * audioSamples.length / 2);
-                    recBuffer = audioToProcess;
-                    bb = ByteBuffer.wrap(recBuffer);
-                    recSamples = new short[recBuffer.length/2];
-                    for (int i = 0; i < recSamples.length; i++) {
-                        recSamples[i] = Short.reverseBytes(bb.getShort());
-                    }
-//                    Arrays.fill(recSamples, (recSamples.length + 1) / 2, recSamples.length, (short) 0);
-                    lConv = convSamples(audioLeft, recSamples);
-                    rConv = convSamples(audioRight, recSamples);
-                    stConv = stereoWrap(lConv,rConv);
-                    stConvbyte = ShortToByte_Twiddle_Method(stConv);
-                    writeBuf(stConvbyte, ri * stConvbyte.length);
-                }
+//                for (int ri = 0;ri < audioLength; ri++) {
+//                    audioToProcess = aR.getbufAudioRead(ri * audioSamples.length / 2);
+//                    recSamples = getBBSamples(audioToProcess);
+////                    Arrays.fill(recSamples, (recSamples.length + 1) / 2, recSamples.length, (short) 0);
+//
+////                    M = audioLeft.length;
+////                    L = M;
+////                    N = L+M-1;
+////
+////                    short [] hnl = new short[(int) N];
+////                    short [] hnr = new short[(int) N];
+////                    short [] xn = new short[(int) N];
+////
+////                    System.arraycopy(audioLeft, 0, hnl, 0, audioLeft.length-1);
+////                    Arrays.fill(hnl, audioLeft.length, hnl.length - 1, (short) 0);
+////
+////                    System.arraycopy(audioRight, 0, hnr, 0, audioRight.length - 1);
+////                    Arrays.fill(hnr, audioRight.length, hnr.length - 1, (short) 0);
+////
+////                    System.arraycopy(recSamples, 0, xn, 0, recSamples.length - 1);
+////                    Arrays.fill(xn, recSamples.length, xn.length-1, (short) 0);
+////
+////                    lConv = convSamples(hnl, xn);
+////                    rConv = convSamples(hnr, xn);
+//                    stConv = stereoWrap(lConv, rConv);
+//                    stConvbyte = ShortToByte_Twiddle_Method(stConv);
+//                    writeBuf(stConvbyte, ri * stConvbyte.length);
+//                }
                 closeWav();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+    short[] samplesZeroPad(short[] sArray,int lengthToPad){
+        short[] paddedSamples = new short[lengthToPad];
+        System.arraycopy(sArray, 0, paddedSamples, 0, sArray.length-1);
+        Arrays.fill(paddedSamples, sArray.length, paddedSamples.length - 1, (short) 0);
+        return paddedSamples;
+    }
+    short[] getBBSamples(byte[] bArray){
+        ByteBuffer bb;
+        short[] sSamples = new short[bArray.length/2];
+        bb = ByteBuffer.wrap(bArray);
+        for (int i = 0; i < sSamples.length; i++){
+            sSamples[i] = Short.reverseBytes(bb.getShort());
+        }
+        return sSamples;
+    }
+    short [] leftStSamples(short[] stereoSamples){
+        int il = 0;
+        short[] leftSamples = new short[stereoSamples.length/2];
+        for (int i = 0; i < stereoSamples.length; i++) {
+            if ((i % 2) == 0) {
+                // number is even
+                leftSamples[il]=stereoSamples[i];
+                il++;
+            }
+        }
+        return leftSamples;
+    }
+    short [] rightStSamples(short[] stereoSamples){
+        int il = 0;
+        short[] rightSamples = new short[stereoSamples.length/2];
+        for (int i = 0; i < stereoSamples.length; i++) {
+            if ((i % 2) != 0) {
+                // number is odd
+                rightSamples[il]=stereoSamples[i];
+                il++;
+            }
+        }
+        return rightSamples;
     }
     short[] stereoWrap (short[] left, short[] right){
         int iil = 0;
@@ -913,6 +947,21 @@ public class RecordActivity extends AppCompatActivity {
             }
         }
         return stWrap;
+    }
+    short[] normShortSamples(short[] sArray,long maxSample){
+        for (int i = 0; i < sArray.length; i++) {
+            sArray[i] =(short) ((double)sArray[i]*Short.MAX_VALUE/(double)maxSample);
+        }
+        return sArray;
+    }
+    float maxSamples(short[] sArray){
+        float maxSample = 0;
+        for (int i = 0; i < sArray.length; i++) {
+            if (Math.abs(sArray[i]) > maxSample) {
+                maxSample = Math.abs(sArray[i]);
+            }
+        }
+        return maxSample;
     }
     short[] convSamples (short[] x, short[] y){
         int convCount;
