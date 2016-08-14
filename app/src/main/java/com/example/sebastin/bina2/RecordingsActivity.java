@@ -163,9 +163,6 @@ public class RecordingsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void convolutionActivity(MenuItem item) {
-        Intent intent = new Intent(this,ConvolutionActivity.class);
-        startActivity(intent);
-    }
+
 
 }

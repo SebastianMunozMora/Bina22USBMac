@@ -705,8 +705,8 @@ public class RecordActivity extends AppCompatActivity {
                     startActivity(Intent.createChooser(shareIntent, "Compartir por:"));
                     break;
                 case "Procesar":
-                    new Thread(new audioProcessing()).start();
-
+//                    new Thread(new audioProcessing()).start();
+                      convolutionActivity();
 //                    new Thread(new dataitems()).start();
                     listView.setAdapter(recordingsAdapter);
                     break;
@@ -758,7 +758,12 @@ public class RecordActivity extends AppCompatActivity {
             }
         }
     };
-
+    public void convolutionActivity (){
+            Intent intent = new Intent(this, ConvolutionActivity.class);
+            intent.putExtra("dir", dir.toString());
+            intent.putExtra("recordingTitle", recordingTitle);
+            startActivity(intent);
+    }
     public void recordingsActivity(MenuItem item) {
         Intent intent = new Intent(this,RecordingsActivity.class);
         intent.putExtra("RecordActivitydirectory", directory);
@@ -840,8 +845,6 @@ public class RecordActivity extends AppCompatActivity {
                 rmax = maxSamples(audioRight);
                 audioLeft = normShortSamples(audioLeft, (long) lmax);
                 audioRight = normShortSamples(audioRight,(long) rmax);
-//                Arrays.fill(audioLeft, (audioLeft.length+1)/2, audioLeft.length, (short) 0);
-//                Arrays.fill(audioRight, (audioRight.length+1)/2, audioRight.length, (short) 0);
                 Log.e("File", "wavWriter: imp samples ok");
                 int audioLength =(int) Math.round(((double)aR.getbufAudioRead(0).length)/(double)audioBufferSize)-1;
                 Log.e("al", "audioLengt" + audioLength);
@@ -894,7 +897,7 @@ public class RecordActivity extends AppCompatActivity {
     }
     short[] samplesZeroPad(short[] sArray,int lengthToPad){
         short[] paddedSamples = new short[lengthToPad];
-        System.arraycopy(sArray, 0, paddedSamples, 0, sArray.length-1);
+        System.arraycopy(sArray, 0, paddedSamples, 0, sArray.length - 1);
         Arrays.fill(paddedSamples, sArray.length, paddedSamples.length - 1, (short) 0);
         return paddedSamples;
     }
@@ -942,7 +945,7 @@ public class RecordActivity extends AppCompatActivity {
                 iil += 1;
             } else {
                 // number is odd
-                stWrap[ir] = right[iir];
+                stWrap[i] = right[iir];
                 iir += 1;
             }
         }
