@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:text="HelloWorld"
         android:textColor="@color/windowbackground_color"
-        android:textSize="25dp"
+        android:textSize="40dp"
         android:gravity="center"
         android:layout_marginLeft="10dp"/>
 

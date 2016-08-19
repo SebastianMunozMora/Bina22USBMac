@@ -24,15 +24,16 @@ public class WavAudioRecorder extends AppCompatActivity{
 
     private final static int[] sampleRates = {48000,44100, 22050, 11025, 8000};
     private final static int[] bitDepth = {AudioFormat.ENCODING_PCM_FLOAT,AudioFormat.ENCODING_PCM_16BIT,AudioFormat.ENCODING_PCM_8BIT};
+    private final static int[] numChannels = {AudioFormat.CHANNEL_IN_STEREO,AudioFormat.CHANNEL_IN_MONO};
     public String data;
 
-    public static WavAudioRecorder getInstance(int sampleRate,int bithDepth,Context context) {
+    public static WavAudioRecorder getInstance(int sampleRate,int bithDepth,Context context,int numChan) {
         WavAudioRecorder result = null;
         int i = 0;
         do {
             result = new WavAudioRecorder(AudioSource.DEFAULT,
                     sampleRates[sampleRate],
-                    AudioFormat.CHANNEL_IN_MONO,
+                    numChannels[numChan],
                     bitDepth[bithDepth],context);
         } while((++i<sampleRates.length) & !(result.getState() == WavAudioRecorder.State.INITIALIZING));
         return result;

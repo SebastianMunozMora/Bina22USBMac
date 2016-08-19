@@ -66,7 +66,8 @@ public class RecordingsActivity extends AppCompatActivity {
     ExpandableListView expandableListView;
     Button backButton;
     int[] samplesRate ={48000,44100, 22050, 11025, 8000};
-    int[] bitsPerSample ={16,8};
+    int[] bitsPerSample ={24,16,8};
+    int[] numCh = {2,1};
     int currentSampleRate = 44100;
     int currentBitsPerSample = 16;
     TextView actionTextView;
@@ -85,9 +86,11 @@ public class RecordingsActivity extends AppCompatActivity {
         final List<String>headings = new ArrayList<String>();
         final List<String>sampleRates = new ArrayList<String>();
         List<String>bitDepths = new ArrayList<String>();
+        List<String>numChannel = new ArrayList<String>();
         final HashMap<String,List<String>>childList = new HashMap<String,List<String>>();
         final String headingItems[] = getResources().getStringArray(R.array.header_titles);
         final String samplingRates[] = getResources().getStringArray(R.array.sampling_rates);
+        final String numChannels[] = getResources().getStringArray(R.array.number_channels);
 //        final String bitDepth[] = getResources().getStringArray(R.array.bit_depth);
         for (String title: headingItems){
             headings.add(title);
@@ -95,11 +98,11 @@ public class RecordingsActivity extends AppCompatActivity {
         for (String title: samplingRates){
             sampleRates.add(title);
         }
-//        for (String title: bitDepth){
-//            bitDepths.add(title);
-//        }
+        for (String title: numChannels){
+            numChannel.add(title);
+        }
         childList.put(headings.get(0),sampleRates);
-//        childList.put(headings.get(1),bitDepths);
+        childList.put(headings.get(1),numChannel);
         MyAdapter myAdapter = new MyAdapter(this,headings,childList);
         expandableListView.setAdapter(myAdapter);
         // Listview on child click listener
@@ -114,6 +117,14 @@ public class RecordingsActivity extends AppCompatActivity {
                     for (int i = 0; i < sampleRates.size(); i++) {
                         if (currentChild.equals(samplingRates[i])) {
                             SettingsClass.getInstance().setSampleRate(samplesRate[i]);
+                            break;
+                        }
+                    }
+                }
+                if (currentGroup.equals(headingItems[1])) {
+                    for (int i = 0; i < numChannels.length; i++) {
+                        if (currentChild.equals(numChannels[i])) {
+                            SettingsClass.getInstance().setNumCh(numCh[i]);
                             break;
                         }
                     }

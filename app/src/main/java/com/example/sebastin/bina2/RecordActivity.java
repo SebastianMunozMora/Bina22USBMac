@@ -85,7 +85,9 @@ public class RecordActivity extends AppCompatActivity {
     int bitDepth = 16;
     int sampleRate = 44100;
     int sampleState = 0;
+    int numCh = 1;
     int bithState = 1;
+    int numChanState = 0;
     int recCount = 0;
     double micLeftRms = 0;
     double micRightRms = 0;
@@ -294,7 +296,7 @@ public class RecordActivity extends AppCompatActivity {
         countText = (EditText) findViewById(R.id.textView3);
         textLeftdB = (TextView)findViewById(R.id.textLeftdB);
         textRightdB = (TextView)findViewById(R.id.textRightdB);
-        mRecorder = WavAudioRecorder.getInstance(0, 1,this);
+        mRecorder = WavAudioRecorder.getInstance(0, 1,this,0);
         filevs = new File(dir, filename+"vis"+format);
         dir = new File(root.getAbsolutePath() + directory);
         mVisualizerFilePath = filevs.toString();
@@ -356,6 +358,7 @@ public class RecordActivity extends AppCompatActivity {
         if (mRecorder.getState().equals(WavAudioRecorder.State.INITIALIZING)  || mRecorder.getState().equals(WavAudioRecorder.State.STOPPED)) {
             bitDepth = SettingsClass.getInstance().getBitDepth();
             sampleRate = SettingsClass.getInstance().getSampleRate();
+            numCh = SettingsClass.getInstance().getNumCh();
             switch (bitDepth){
                 case 8:
                     bithState = 2;
@@ -365,6 +368,14 @@ public class RecordActivity extends AppCompatActivity {
                     break;
                 case 24:
                     bithState = 0;
+                    break;
+            }
+            switch (numCh){
+                case 2:
+                    numChanState = 0;
+                    break;
+                case 1:
+                    numChanState = 1;
                     break;
             }
             switch (sampleRate){
@@ -385,7 +396,7 @@ public class RecordActivity extends AppCompatActivity {
                     break;
             }
             boton.setImageResource(R.drawable.recording_image);
-            mRecorder = WavAudioRecorder.getInstance(sampleState, bithState,this);
+            mRecorder = WavAudioRecorder.getInstance(sampleState, bithState,this,numChanState);
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
             mRecorder.start();

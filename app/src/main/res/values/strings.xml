@@ -16,7 +16,7 @@
 
     <string-array name="header_titles">
         <item>Frecuencia de Muestreo</item>
-
+        <item>Número de Canales</item>
     </string-array>
     <string-array name="sampling_rates">
         <item>8000</item>
@@ -24,6 +24,10 @@
         <item>22050</item>
         <item>44100</item>
         <item>48000</item>
+    </string-array>
+    <string-array name="number_channels">
+        <item>2</item>
+        <item>1</item>
     </string-array>
     <string-array name="recording_states">
         <item>Grabando</item>
