@@ -9,6 +9,7 @@ public class SettingsClass extends Application{
     public int sampleRate ;
     public int bitDepth ;
     int numCh;
+    String visualizerState;
     private static SettingsClass instance;
     public static SettingsClass getInstance() {
         if (instance == null)
@@ -22,8 +23,10 @@ public class SettingsClass extends Application{
         this.numCh = numCh;
     }
     public void setBitDepth(int bitDepth){
-
         this.bitDepth = bitDepth;
+    }
+    public void setVisualizerState(String visualizerState){
+        this.visualizerState = visualizerState;
     }
     public int getSampleRate(){
 
@@ -35,5 +38,7 @@ public class SettingsClass extends Application{
     public int getNumCh(){
         return numCh;
     }
-
+    public String getvisualizerState(){
+        return visualizerState;
+    }
 }

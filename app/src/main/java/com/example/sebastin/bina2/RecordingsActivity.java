@@ -1,64 +1,24 @@
 package com.example.sebastin.bina2;
 
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.DashPathEffect;
 import android.graphics.Typeface;
-import android.media.AudioFormat;
-import android.media.MediaPlayer;
-import android.media.audiofx.BassBoost;
-import android.media.audiofx.Visualizer;
-import android.nfc.Tag;
-import android.os.Environment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.MediaController;
-import org.w3c.dom.Text;
-import android.widget.MediaController.MediaPlayerControl;
 
 
-import com.androidplot.util.PixelUtils;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.PointLabelFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.BarGraphSeries;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
-
-import java.io.File;
-import java.nio.channels.FileChannel;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 
 public class RecordingsActivity extends AppCompatActivity {
@@ -70,6 +30,7 @@ public class RecordingsActivity extends AppCompatActivity {
     int[] numCh = {2,1};
     int currentSampleRate = 44100;
     int currentBitsPerSample = 16;
+
     TextView actionTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +48,12 @@ public class RecordingsActivity extends AppCompatActivity {
         final List<String>sampleRates = new ArrayList<String>();
         List<String>bitDepths = new ArrayList<String>();
         List<String>numChannel = new ArrayList<String>();
+        List<String>visState = new ArrayList<String>();
         final HashMap<String,List<String>>childList = new HashMap<String,List<String>>();
         final String headingItems[] = getResources().getStringArray(R.array.header_titles);
         final String samplingRates[] = getResources().getStringArray(R.array.sampling_rates);
         final String numChannels[] = getResources().getStringArray(R.array.number_channels);
+        final String visualizerStates[] = getResources().getStringArray(R.array.visualizer_states);
 //        final String bitDepth[] = getResources().getStringArray(R.array.bit_depth);
         for (String title: headingItems){
             headings.add(title);
@@ -101,8 +64,12 @@ public class RecordingsActivity extends AppCompatActivity {
         for (String title: numChannels){
             numChannel.add(title);
         }
+        for (String title: visualizerStates){
+            visState.add(title);
+        }
         childList.put(headings.get(0),sampleRates);
         childList.put(headings.get(1),numChannel);
+        childList.put(headings.get(2),visState);
         MyAdapter myAdapter = new MyAdapter(this,headings,childList);
         expandableListView.setAdapter(myAdapter);
         // Listview on child click listener
@@ -125,6 +92,14 @@ public class RecordingsActivity extends AppCompatActivity {
                     for (int i = 0; i < numChannels.length; i++) {
                         if (currentChild.equals(numChannels[i])) {
                             SettingsClass.getInstance().setNumCh(numCh[i]);
+                            break;
+                        }
+                    }
+                }
+                if (currentGroup.equals(headingItems[2])) {
+                    for (int i = 0; i < visualizerStates.length; i++) {
+                        if (currentChild.equals(visualizerStates[i])) {
+                            SettingsClass.getInstance().setVisualizerState(visualizerStates[i]);
                             break;
                         }
                     }

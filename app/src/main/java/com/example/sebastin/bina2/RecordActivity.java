@@ -84,6 +84,7 @@ public class RecordActivity extends AppCompatActivity {
     int itc = 0;
     int bitDepth = 16;
     int sampleRate = 44100;
+    String visualizerState = "On";
     int sampleState = 0;
     int numCh = 1;
     int bithState = 1;
@@ -400,7 +401,7 @@ public class RecordActivity extends AppCompatActivity {
             mRecorder.setOutputFile(mRecordFilePath);
             mRecorder.prepare();
             mRecorder.start();
-//            new Thread(new RecTask()).start();
+            new Thread(new RecTask()).start();
         }
         if (mRecorder.getState().equals(WavAudioRecorder.State.PAUSED)){
             mRecorder.start();
@@ -506,23 +507,28 @@ public class RecordActivity extends AppCompatActivity {
     public class RecTask implements Runnable {
         @Override
         public void run() {
-            while(mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
-                micVisualizer();
-                leftLedValue = Math.abs(-80 - micLeftDbfs);
-                rightLedValue = Math.abs(-80 - micRightDbfs);
-                leftString = String.format("%.2f", micLeftDbfs);
+            if (SettingsClass.getInstance().getvisualizerState() != null) {
+                visualizerState = SettingsClass.getInstance().getvisualizerState();
+            }
+            if (visualizerState.equals("On")) {
+                while (mRecorder.getState().equals(WavAudioRecorder.State.RECORDING)) {
+
+                    micVisualizer();
+                    leftLedValue = Math.abs(-80 - micLeftDbfs);
+                    rightLedValue = Math.abs(-80 - micRightDbfs);
+                    leftString = String.format("%.2f", micLeftDbfs);
 //                leftString = leftString+" dB Fs";
-                rightString = String.format("%.2f", micRightDbfs);
+                    rightString = String.format("%.2f", micRightDbfs);
 //                rightString = rightString+" dB Fs";
-                textLeftdB.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        textLeftdB.setText(leftString);
-                        textRightdB.setText(rightString);
-                        leftLedMeter.setLevel(leftLedValue, 80);
-                        rightLedMeter.setLevel(rightLedValue, 80);
-                    }
-                });
+                    textLeftdB.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            textLeftdB.setText(leftString);
+                            textRightdB.setText(rightString);
+                            leftLedMeter.setLevel(leftLedValue, 80);
+                            rightLedMeter.setLevel(rightLedValue, 80);
+                        }
+                    });
 //                textRightdB.post(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -553,6 +559,7 @@ public class RecordActivity extends AppCompatActivity {
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
+                }
             }
         }
     }
@@ -619,6 +626,9 @@ public class RecordActivity extends AppCompatActivity {
          bb = ByteBuffer.wrap(wavBuffer);
              il = 0;
              ir = 0;
+         micData = new short[500];
+         micLeftBuffer = new short[250];
+         micRightBuffer = new short[250];
              for (int i = 0; i < micData.length; i++) {
                  micData[i] = Short.reverseBytes(bb.getShort());
                  //micData[i] = bb.getShort();

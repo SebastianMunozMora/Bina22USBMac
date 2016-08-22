@@ -136,7 +136,8 @@
 
 
                         android:layout_below="@+id/textRightdB"
-                        android:layout_alignStart="@+id/textRightdB" />
+                        android:layout_alignStart="@+id/textRightdB"
+                        android:layout_above="@+id/textView6" />
 
 
                     <TextView

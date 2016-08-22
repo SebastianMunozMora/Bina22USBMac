@@ -67,7 +67,9 @@ public class ProjectActivity extends AppCompatActivity {
         dir = new File(root.getAbsolutePath()+ directory);
         projectlist = dir.list();
         popupmenu = new PopupMenu(this,view);
-        new Thread(new Task()).start();
+        if (projectlist != null) {
+            new Thread(new Task()).start();
+        }
     }
     public void setDirectory (View view){
         projectName = projectText.getText().toString();
