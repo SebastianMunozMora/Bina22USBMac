@@ -149,7 +149,7 @@ public class RecordActivity extends AppCompatActivity {
 //        InputStream inStream =  getResources().openRawResource(R.raw.dc);
 
         th = (TabHost)findViewById(R.id.tabHost);
-        //Record Tabbbb
+        //Record Tabs
         th.setup();
         final TabHost.TabSpec tsRecord = th.newTabSpec(firstTabName);
         tsRecord.setIndicator(firstTabName);
