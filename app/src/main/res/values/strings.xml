@@ -13,7 +13,7 @@
     <string name="dummy_button">COMENZAR</string>
     <string name="dummy_content">GRABACIONES\n3D</string>
     <string name="title_activity_project">3D SOUND - BIENVENIDO</string>
-
+    <string name="first_tab_name">Grabadora</string>
     <string-array name="header_titles">
         <item>Frecuencia de Muestreo</item>
         <item>Número de Canales</item>

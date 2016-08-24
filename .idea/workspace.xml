@@ -78,54 +78,19 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="ERROR" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4f92477-a334-40d5-b115-81eda8a9eb3c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values/impResp/90.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-mdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-xhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-xxhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-xxxhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/values/impResp/anechoic_distcm_80_el_0_az_-90.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_call_made_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/ic_call_made_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/ic_call_made_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/ic_call_made_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/ic_call_made_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_hearing_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_keyboard_arrow_left_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_keyboard_arrow_right_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_pause_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_play_arrow_black_24dp.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/imp08000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/imp1358000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/imp1808000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/imp458000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/imp908000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/impm1358000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/impm458000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/raw/impm908000.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/logo1peq.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-hdpi/Thumbs.db" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/drawable-hdpi/Thumbs.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/Thumbs.db" afterPath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/SettingsClass.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/SettingsClass.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_project.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_project.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -165,31 +130,67 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="WavAudioRecorder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/WavAudioRecorder.java">
+      <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="23" selection-start-line="35" selection-start-column="23" selection-end-line="35" selection-end-column="23" />
+            <state vertical-scroll-proportion="1.108055">
+              <caret line="166" column="29" selection-start-line="166" selection-start-column="29" selection-end-line="166" selection-end-column="29" />
               <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#3734#3735#0" expanded="false" />
-                <element signature="e#3762#3763#0" expanded="false" />
-                <element signature="e#15784#15785#0" expanded="false" />
-                <element signature="e#15811#15812#0" expanded="false" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#5264#5298#0" expanded="true" />
+                <element signature="e#14496#15098#0" expanded="true" />
+                <element signature="e#15097#15098#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RecordActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.033398822">
-              <caret line="502" column="22" selection-start-line="502" selection-start-column="22" selection-end-line="502" selection-end-column="22" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="-7.5555553">
+              <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+              <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_record.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-22.275862">
+              <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_project.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="content_project.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_project.xml">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
@@ -197,8 +198,11 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
-              <folding />
+              <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="80" selection-end-column="11" />
+              <folding>
+                <element signature="e#2691#3286#0" expanded="true" />
+                <element signature="e#3285#3286#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -233,16 +237,8 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
               <folding>
-                <element signature="e#503#504#0" expanded="true" />
-                <element signature="e#547#548#0" expanded="true" />
-                <element signature="e#584#585#0" expanded="true" />
-                <element signature="e#618#619#0" expanded="true" />
-                <element signature="e#661#662#0" expanded="true" />
-                <element signature="e#701#702#0" expanded="true" />
-                <element signature="e#911#912#0" expanded="true" />
-                <element signature="e#942#943#0" expanded="true" />
-                <element signature="e#1037#1038#0" expanded="true" />
-                <element signature="e#1075#1076#0" expanded="true" />
+                <element signature="e#969#970#0" expanded="false" />
+                <element signature="e#997#998#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -254,11 +250,11 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
               <folding>
-                <element signature="e#1601#1609#0" expanded="true" />
-                <element signature="e#1666#1674#0" expanded="true" />
-                <element signature="e#1781#1789#0" expanded="true" />
-                <element signature="e#1837#1845#0" expanded="true" />
-                <element signature="e#1914#1935#0" expanded="true" />
+                <element signature="imports" expanded="false" />
+                <element signature="e#5436#5437#0" expanded="false" />
+                <element signature="e#5476#5477#0" expanded="false" />
+                <element signature="e#5519#5520#0" expanded="false" />
+                <element signature="e#5562#5563#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1892,7 +1888,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/xml/device_filter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_view_custom_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsDataProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_project.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_launch.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/MyAdapter.java" />
@@ -1910,11 +1905,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/child_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/WavAudioRecorder.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/parent_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/SettingsClass.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_project.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java" />
       </list>
     </option>
@@ -2076,6 +2072,42 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bina22USBMac" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bina22USBMac" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="drawable" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
@@ -2110,6 +2142,16 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="bina2" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Bina22USBMac" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2356,16 +2398,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="taskArtifacts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Bina22USBMac" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2677,7 +2709,13 @@
       <option name="project" value="LOCAL" />
       <updated>1471621738731</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="visualizer on off">
+      <created>1471909193276</created>
+      <option name="number" value="00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1471909193276</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -2694,29 +2732,30 @@
     <editor active="false" />
     <layout>
       <window_info id="PlantUML" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.4969743" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.47206476" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4970344" sideWeight="0.5408907" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4970344" sideWeight="0.4591093" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4792408" sideWeight="0.4526316" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42284417" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.4969743" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.47206476" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.4969743" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.48220065" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32858837" sideWeight="0.49394855" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253833" sideWeight="0.5121029" order="12" side_tool="true" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1854251" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32955465" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4792408" sideWeight="0.4526316" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Code Iris" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42284417" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2724,7 +2763,6 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" x="92" y="92" width="1096" height="800" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32858837" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -2740,7 +2778,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Inversion grafica" />
     <MESSAGE value="LedMeter" />
     <MESSAGE value="Tabbed grabar, grabaciones" />
     <MESSAGE value="Grabaciones--&gt;settings selectable sampling" />
@@ -2765,7 +2802,8 @@
     <MESSAGE value="conv circulo" />
     <MESSAGE value="stereo config" />
     <MESSAGE value="visualizer on off" />
-    <option name="LAST_COMMIT_MESSAGE" value="visualizer on off" />
+    <MESSAGE value="keyboard Ok" />
+    <option name="LAST_COMMIT_MESSAGE" value="keyboard Ok" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2784,61 +2822,61 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>584</line>
+          <line>601</line>
           <properties />
           <option name="timeStamp" value="244" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>585</line>
+          <line>602</line>
           <properties />
           <option name="timeStamp" value="245" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>569</line>
+          <line>586</line>
           <properties />
           <option name="timeStamp" value="248" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>570</line>
+          <line>587</line>
           <properties />
           <option name="timeStamp" value="249" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>171</line>
+          <line>175</line>
           <properties />
           <option name="timeStamp" value="283" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>172</line>
+          <line>176</line>
           <properties />
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>849</line>
+          <line>866</line>
           <properties />
           <option name="timeStamp" value="490" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>868</line>
+          <line>885</line>
           <properties />
           <option name="timeStamp" value="492" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>871</line>
+          <line>888</line>
           <properties />
           <option name="timeStamp" value="512" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java</url>
-          <line>1069</line>
+          <line>1086</line>
           <properties />
           <option name="timeStamp" value="515" />
         </line-breakpoint>
@@ -2874,13 +2912,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_recordings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2924,24 +2955,14 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_project.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39555556">
-          <caret line="44" column="34" selection-start-line="44" selection-start-column="34" selection-end-line="44" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_launch.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.2413793">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/logo1.png">
@@ -2950,23 +2971,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_view_custom_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.82758623">
           <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml">
-      <provider selected="true" editor-type-id="android-designer">
+      <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_contact.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ContactActivity.java">
@@ -2999,23 +3020,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/abs_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="28" selection-end-column="10" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/am.xml">
-      <provider selected="true" editor-type-id="android-designer">
+      <provider editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/am.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/StartUpActivity.java">
@@ -3127,7 +3148,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3139,14 +3159,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_convolution.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="49" column="42" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
           <folding />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ConvolutionActivity.java">
@@ -3170,14 +3190,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/child_layout.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-6.448276">
           <caret line="11" column="27" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordingsAdapter.java">
@@ -3192,34 +3212,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="13" column="14" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1495#1496#0" expanded="false" />
-            <element signature="e#1529#1530#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_recordings.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/parent_layout.xml">
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/parent_layout.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
           <folding />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/MyAdapter.java">
@@ -3262,34 +3277,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20858896">
           <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.5185184">
-          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="134" column="56" selection-start-line="134" selection-start-column="56" selection-end-line="134" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="9" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3298,16 +3285,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
           <folding>
-            <element signature="e#503#504#0" expanded="true" />
-            <element signature="e#547#548#0" expanded="true" />
-            <element signature="e#584#585#0" expanded="true" />
-            <element signature="e#618#619#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#701#702#0" expanded="true" />
-            <element signature="e#911#912#0" expanded="true" />
-            <element signature="e#942#943#0" expanded="true" />
-            <element signature="e#1037#1038#0" expanded="true" />
-            <element signature="e#1075#1076#0" expanded="true" />
+            <element signature="e#969#970#0" expanded="false" />
+            <element signature="e#997#998#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3317,21 +3296,76 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
           <folding>
-            <element signature="e#1601#1609#0" expanded="true" />
-            <element signature="e#1666#1674#0" expanded="true" />
-            <element signature="e#1781#1789#0" expanded="true" />
-            <element signature="e#1837#1845#0" expanded="true" />
-            <element signature="e#1914#1935#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#5436#5437#0" expanded="false" />
+            <element signature="e#5476#5477#0" expanded="false" />
+            <element signature="e#5519#5520#0" expanded="false" />
+            <element signature="e#5562#5563#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/ProjectActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="8" selection-start-line="68" selection-start-column="8" selection-end-line="80" selection-end-column="11" />
+          <folding>
+            <element signature="e#2691#3286#0" expanded="true" />
+            <element signature="e#3285#3286#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_project.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.5555553">
+          <caret line="15" column="43" selection-start-line="15" selection-start-column="43" selection-end-line="15" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_project.xml">
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="32" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_record.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-22.275862">
+          <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sebastin/bina2/RecordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.033398822">
-          <caret line="502" column="22" selection-start-line="502" selection-start-column="22" selection-end-line="502" selection-end-column="22" />
+        <state vertical-scroll-proportion="1.108055">
+          <caret line="166" column="29" selection-start-line="166" selection-start-column="29" selection-end-line="166" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#5264#5298#0" expanded="true" />
+            <element signature="e#14496#15098#0" expanded="true" />
+            <element signature="e#15097#15098#0" expanded="true" />
           </folding>
         </state>
       </provider>

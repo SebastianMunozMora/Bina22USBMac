@@ -41,6 +41,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/editText"
                         android:hint="Grabacion"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:gravity="center"
                         android:layout_gravity="center_horizontal"
                         android:layout_alignParentTop="true"

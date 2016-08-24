@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,6 +40,7 @@ import java.util.Iterator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -98,6 +100,7 @@ public class RecordActivity extends AppCompatActivity {
     double micRightDbfs = 0;
     double leftLedValue = 0;
     double rightLedValue = 0;
+    String firstTabName;
     String rightString = "";
     String leftString = "";
     RandomAccessFile randomAccessWriter;
@@ -121,6 +124,7 @@ public class RecordActivity extends AppCompatActivity {
     UsbDevice device;
     UsbManager mUsbManager;
     int payloadSize = 0;
+    View view;
 
 
     @Override
@@ -140,15 +144,15 @@ public class RecordActivity extends AppCompatActivity {
         actionTextView.setText(bundle.getString("ProjectActivitiyprojectName"));
         actionTextView.setTextColor(ContextCompat.getColor(this, R.color.windowbackground_color));
         actionTextView.setTextSize(20);
-
+        firstTabName = getString(R.string.first_tab_name);
 
 //        InputStream inStream =  getResources().openRawResource(R.raw.dc);
 
         th = (TabHost)findViewById(R.id.tabHost);
         //Record Tab
         th.setup();
-        final TabHost.TabSpec tsRecord = th.newTabSpec("Grabar");
-        tsRecord.setIndicator("Grabar");
+        final TabHost.TabSpec tsRecord = th.newTabSpec(firstTabName);
+        tsRecord.setIndicator(firstTabName);
         tsRecord.setContent(R.id.linearLayout);
         th.addTab(tsRecord);
         //Recordings Tab
@@ -160,7 +164,7 @@ public class RecordActivity extends AppCompatActivity {
         for (int i = 0;i <=1;i++) {
             TextView tv = (TextView) th.getTabWidget().getChildAt(i).findViewById(android.R.id.title); //Unselected Tabs
             tv.setTextColor(Color.parseColor("#e0e0e0"));
-            tv.setTextSize(15);
+            tv.setTextSize(20);
             tv.setAllCaps(false);
             tv.setTypeface(typeface,Typeface.BOLD);
         }
@@ -308,6 +312,19 @@ public class RecordActivity extends AppCompatActivity {
         derechaTextViewR.setTypeface(typeface);
         textLeftdB.setTypeface(typeface);
         textRightdB.setTypeface(typeface);
+        editT.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (view != null) {
+                        InputMethodManager inputMethodManager =
+                                (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+                return false;
+            }
+        });
     }
     public void grabacionBoton(View view){
         filename = editT.getText().toString();
